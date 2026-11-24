@@ -1,0 +1,57 @@
+# KHV-NFR-019, NFR-020, NFR-041, NFR-042: biçim, statik analiz ve testler
+# geçmeden ana dala birleştirme yapılmaz.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/kahve_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: dart analyze --fatal-infos
+      - run: dart pub global activate coverage
+      - run: dart pub global run coverage:test_with_coverage
+      - name: Satır kapsamı en az %90 (KHV-NFR-041)
+        run: |
+          python3 - <<'PY'
+          hit = total = 0
+          for line in open('coverage/lcov.info'):
+              if line.startswith('DA:'):
+                  total += 1
+                  hit += int(line.split(',')[1]) > 0
+          pct = 100 * hit / total
+          print(f'Kapsam: {pct:.1f}%')
+          raise SystemExit(0 if pct >= 90 else 1)
+          PY
+
+  app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - name: Üretilen kod güncel mi
+        run: git diff --exit-code -- lib/data/database.g.dart
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
