@@ -1,0 +1,1397 @@
+{
+ "version": 1,
+ "methods": [
+  {
+   "id": "v60",
+   "name": "V60 / Pour over",
+   "summary": "Konik filtreden elle döküşle temiz ve berrak fincan.",
+   "requiredEquipment": "Kağıt filtre; gooseneck kettle önerilir",
+   "checklist": [
+    "Suyu ısıt",
+    "Kağıt filtreyi sıcak suyla durula, suyu dök",
+    "Kahveyi tart",
+    "Orta-ince öğüt",
+    "Teraziyi sıfırla"
+   ],
+   "tips": [
+    "Bloom: kahve ağırlığının yaklaşık 2 katı su ile 30-45 saniye.",
+    "Suyu merkezden dışa doğru spiral dök, kağıdın kenarlarına doğrudan dökme.",
+    "Döküşü birkaç aşamaya böl, su seviyesini sabit tut.",
+    "Son aşamada yatak düz kalmalı. Kenarlarda yüksek kalan kahve düzensiz extraction göstergesidir.",
+    "Süre 4 dakikayı aşıyorsa öğütmeyi kalınlaştır, 2 dakikanın altındaysa incelt."
+   ]
+  },
+  {
+   "id": "chemex",
+   "name": "Chemex",
+   "summary": "Kalın filtreyle çok temiz, hafif gövdeli fincan.",
+   "requiredEquipment": "Chemex kalın filtresi",
+   "checklist": [
+    "Suyu ısıt",
+    "Kalın filtreyi bol sıcak suyla durula, suyu dök",
+    "Üç katlı tarafı akıtıcıya (spout) yerleştir",
+    "Kahveyi tart ve orta-kalın öğüt"
+   ],
+   "tips": [
+    "Kalın filtreyi bol sıcak suyla durula; kağıt tadı bu yöntemde daha belirgindir.",
+    "Üç katlı filtre tarafı akıtıcı tarafına gelmeli, yoksa filtre spout'u kapatır ve akış durur.",
+    "Kalın filtre akışı yavaşlattığından V60'a göre daha kalın öğüt."
+   ]
+  },
+  {
+   "id": "french_press",
+   "name": "French Press",
+   "summary": "Daldırma yöntemiyle gövdeli, yağlı fincan.",
+   "requiredEquipment": "Yok",
+   "checklist": [
+    "Suyu ısıt",
+    "Press'i sıcak suyla ısıt, suyu dök",
+    "Kahveyi tart ve kalın öğüt"
+   ],
+   "tips": [
+    "4. dakikada üstteki kabuğu kaşıkla kır, yüzeydeki köpüğü ve partikülleri al.",
+    "Pistonu yavaşça ve yalnız yüzeye kadar indir; dibe bastırmak tortuyu kaldırır.",
+    "Kahveyi press içinde bırakma; tamamını fincana veya sürahiye aktar.",
+    "Bulanıklığı azaltmak için demleme sonrası 2-3 dakika ek bekleme yapılabilir."
+   ]
+  },
+  {
+   "id": "aeropress",
+   "name": "AeroPress",
+   "summary": "Kısa sürede temiz ve yoğun fincan; çok yönlü.",
+   "requiredEquipment": "AeroPress filtresi",
+   "checklist": [
+    "Suyu ısıt",
+    "Filtreyi kapağa yerleştir ve durula",
+    "Kahveyi tart ve orta-ince öğüt",
+    "AeroPress'i ters (inverted) kur"
+   ],
+   "tips": [
+    "Ters (inverted) yöntem erken damlamayı önler.",
+    "Basış yaklaşık 20-30 saniye sürmeli, yavaş ve dengeli olmalı.",
+    "Tıslama sesi duyulunca basışı durdur; son kısım acılık taşır.",
+    "Konsantre demleyip sıcak suyla seyreltmek sık kullanılan bir varyanttır."
+   ]
+  },
+  {
+   "id": "drip_machine",
+   "name": "Filtre kahve makinesi",
+   "summary": "Makineyle kolay ve tekrarlanabilir filtre kahve.",
+   "requiredEquipment": "Kağıt veya kalıcı filtre",
+   "checklist": [
+    "Hazneye su koy",
+    "Kağıt filtreyi yerleştir ve durula",
+    "Kahveyi tart ve orta incelikte öğüt"
+   ],
+   "tips": [
+    "Ucuz makinelerin çoğu 93 °C hedefine ulaşamaz; SCA sertifikalı ev tipi makineler tercih edilir.",
+    "Kahveyi ısıtıcı plakada bekletme; tat yanık ve acılaşır. Termos sürahi tercih et.",
+    "Makineyi düzenli olarak kireçten arındır."
+   ]
+  },
+  {
+   "id": "moka_pot",
+   "name": "Moka pot",
+   "summary": "Ocak üstünde yoğun, espressoya yakın kahve.",
+   "requiredEquipment": "Ocak",
+   "checklist": [
+    "Suyu ısıt",
+    "Kahveyi tart; filtreden ince, espressodan kalın öğüt"
+   ],
+   "tips": [
+    "Hazneyi güvenlik valfinin altına kadar doldur, valfi su ile kapatma.",
+    "Hazneye önceden ısıtılmış su koy; soğuk su yanık tada yol açar.",
+    "Sepeti silme doldur ama bastırma.",
+    "Orta-düşük ateş kullan. Akış açık renge dönüp fışırtı başlayınca ocaktan al ve alt gövdeyi soğuk suyla soğut."
+   ]
+  },
+  {
+   "id": "espresso",
+   "name": "Espresso",
+   "summary": "Basınçla kısa sürede yoğun shot; dial-in gerektirir.",
+   "requiredEquipment": "Espresso makinesi, espresso grinder, terazi",
+   "checklist": [
+    "Makineyi ısıt; portafilter ve fincanı ısıt",
+    "Gruptan kısa bir su akışı (flush) yap",
+    "Dozu tart",
+    "Topakları WDT ile dağıt",
+    "Düz ve tutarlı tamp yap"
+   ],
+   "tips": [
+    "Çıktı ağırlığını terazide ölç; hacim veya krema yüksekliği güvenilir değildir.",
+    "Tamp'ta basınç miktarından çok düzlük önemlidir.",
+    "Shot hızlı ve ekşi ise öğütmeyi incelt, yavaş ve acı ise kalınlaştır.",
+    "Dipsiz portafilter'da erken açılan açık renkli akışlar veya fışkırmalar channeling işaretidir."
+   ]
+  },
+  {
+   "id": "turkish",
+   "name": "Türk kahvesi",
+   "summary": "Cezvede köpüklü, telvesiyle servis edilen kahve.",
+   "requiredEquipment": "Cezve veya Türk kahve makinesi",
+   "checklist": [
+    "Suyu içilecek fincanla ölç",
+    "Kahveyi tart (fincan başına 6-7 g)",
+    "Fincan sayısına uygun cezve seç"
+   ],
+   "tips": [
+    "Her zaman soğuk suyla başla; su ölçüsünü içilecek fincanla al.",
+    "Kahve ve şekeri başta soğuk suda karıştır; ısınmaya başlayınca karıştırma.",
+    "Düşük-orta ateş kullan; yüksek ateş köpük oluşmadan taşmaya neden olur.",
+    "Kenarlardan köpük kabarınca ocaktan al; kahve kaynatılmaz.",
+    "Birden fazla fincanda köpüğü önce fincanlara paylaştır, kalan kahveyi kısa ısıtıp ekle.",
+    "Geniş cezvede az kahve yapıldığında köpük oluşmaz."
+   ]
+  },
+  {
+   "id": "cold_brew",
+   "name": "Cold brew",
+   "summary": "Saatlerce soğuk demlenen, yumuşak konsantre.",
+   "requiredEquipment": "Kavanoz, filtre",
+   "checklist": [
+    "Kahveyi tart ve kalın öğüt",
+    "Temiz bir kavanoz hazırla",
+    "Soğuk veya oda sıcaklığında su hazırla"
+   ],
+   "tips": [
+    "Kalın öğütme zorunludur; ince öğütme bulanık ve acı sonuç verir.",
+    "Demleme sonrası çift filtreleme (metal + kağıt) tortuyu alır.",
+    "Konsantreyi buzdolabında kapalı kapta sakla, servis anında su veya sütle seyrelt."
+   ]
+  }
+ ],
+ "recipes": [
+  {
+   "id": "sys-v60",
+   "method": "v60",
+   "name": "V60 başlangıç",
+   "coffeeG": 15,
+   "waterG": 250,
+   "grind": {
+    "label": "Orta-ince"
+   },
+   "temperatureC": 94,
+   "targetTimeS": 150,
+   "targetTimeMaxS": 210,
+   "source": "SCA Protocols & Best Practices; genel uygulama",
+   "steps": [
+    {
+     "title": "Bloom: 30 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Kahveyi tamamen ıslat.",
+     "targetWaterG": 30,
+     "durationS": 10,
+     "safety": "hotWater"
+    },
+    {
+     "title": "Bekle (bloom)",
+     "trigger": "time",
+     "description": "Gazın çıkmasını bekle.",
+     "targetWaterG": 30,
+     "durationS": 35
+    },
+    {
+     "title": "150 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Merkezden dışa spiral dök.",
+     "targetWaterG": 150,
+     "durationS": 30
+    },
+    {
+     "title": "Bekle",
+     "trigger": "time",
+     "description": "Su seviyesinin inmesini bekle.",
+     "targetWaterG": 150,
+     "durationS": 15
+    },
+    {
+     "title": "250 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Kenarlara doğrudan dökme.",
+     "targetWaterG": 250,
+     "durationS": 30
+    },
+    {
+     "title": "Süzülmeyi bekle",
+     "trigger": "confirm",
+     "description": "Yatak düz kalmalı.",
+     "targetWaterG": 250,
+     "observation": "Su tamamen süzülünce"
+    }
+   ]
+  },
+  {
+   "id": "sys-chemex",
+   "method": "chemex",
+   "name": "Chemex başlangıç",
+   "coffeeG": 30,
+   "waterG": 500,
+   "grind": {
+    "label": "Orta-kalın"
+   },
+   "temperatureC": 95,
+   "targetTimeS": 240,
+   "targetTimeMaxS": 300,
+   "source": "SCA Protocols & Best Practices; genel uygulama",
+   "steps": [
+    {
+     "title": "Bloom: 60 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Kahveyi tamamen ıslat.",
+     "targetWaterG": 60,
+     "durationS": 15,
+     "safety": "hotWater"
+    },
+    {
+     "title": "Bekle (bloom)",
+     "trigger": "time",
+     "description": "Gazın çıkmasını bekle.",
+     "targetWaterG": 60,
+     "durationS": 30
+    },
+    {
+     "title": "300 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Yavaş spiral döküş.",
+     "targetWaterG": 300,
+     "durationS": 45
+    },
+    {
+     "title": "Bekle",
+     "trigger": "time",
+     "targetWaterG": 300,
+     "durationS": 20
+    },
+    {
+     "title": "500 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Kenarlara doğrudan dökme.",
+     "targetWaterG": 500,
+     "durationS": 40
+    },
+    {
+     "title": "Süzülmeyi bekle",
+     "trigger": "confirm",
+     "targetWaterG": 500,
+     "observation": "Su tamamen süzülünce"
+    }
+   ]
+  },
+  {
+   "id": "sys-french-press",
+   "method": "french_press",
+   "name": "French Press başlangıç",
+   "coffeeG": 30,
+   "waterG": 420,
+   "grind": {
+    "label": "Kalın"
+   },
+   "temperatureC": 95,
+   "targetTimeS": 240,
+   "targetTimeMaxS": 240,
+   "source": "Genel uygulama",
+   "steps": [
+    {
+     "title": "420 g suyun tamamını dök",
+     "trigger": "weight",
+     "description": "Tüm kahveyi ıslat.",
+     "targetWaterG": 420,
+     "durationS": 20,
+     "safety": "hotWater"
+    },
+    {
+     "title": "Demlen",
+     "trigger": "time",
+     "description": "Kapağı kapat, pistonu indirme.",
+     "targetWaterG": 420,
+     "durationS": 220
+    },
+    {
+     "title": "Kabuğu kır, köpüğü al",
+     "trigger": "confirm",
+     "description": "Kaşıkla kabuğu kır, yüzeydeki köpük ve partikülleri al.",
+     "observation": "Yüzey temizlenince"
+    },
+    {
+     "title": "Pistonu yüzeye indir ve aktar",
+     "trigger": "confirm",
+     "description": "Dibe bastırma. Tamamını fincana veya sürahiye aktar.",
+     "observation": "Aktarım bitince"
+    }
+   ]
+  },
+  {
+   "id": "sys-aeropress",
+   "method": "aeropress",
+   "name": "AeroPress (ters yöntem)",
+   "coffeeG": 15,
+   "waterG": 225,
+   "grind": {
+    "label": "Orta-ince"
+   },
+   "temperatureC": 85,
+   "targetTimeS": 90,
+   "targetTimeMaxS": 150,
+   "source": "Genel uygulama",
+   "steps": [
+    {
+     "title": "225 g'a kadar dök",
+     "trigger": "weight",
+     "description": "Ters kurulmuş AeroPress'e dök.",
+     "targetWaterG": 225,
+     "durationS": 15,
+     "safety": "hotWater"
+    },
+    {
+     "title": "Karıştır, kapağı tak ve demlen",
+     "trigger": "time",
+     "description": "3 kez karıştır.",
+     "targetWaterG": 225,
+     "durationS": 60
+    },
+    {
+     "title": "Çevir ve yavaşça bas",
+     "trigger": "time",
+     "description": "Basış 20-30 sn sürmeli.",
+     "targetWaterG": 225,
+     "durationS": 25
+    },
+    {
+     "title": "Tıslama duyulunca dur",
+     "trigger": "confirm",
+     "description": "Son kısım acılık taşır.",
+     "observation": "Tıslama sesi gelince"
+    }
+   ]
+  },
+  {
+   "id": "sys-drip",
+   "method": "drip_machine",
+   "name": "Filtre makinesi 1 litre",
+   "coffeeG": 60,
+   "waterG": 1000,
+   "grind": {
+    "label": "Orta"
+   },
+   "targetTimeS": 240,
+   "targetTimeMaxS": 360,
+   "source": "SCA (55-60 g/L)",
+   "steps": [
+    {
+     "title": "Makineyi çalıştır",
+     "trigger": "confirm",
+     "description": "Su ve filtreli kahve yerinde olmalı.",
+     "observation": "Makine çalışınca"
+    },
+    {
+     "title": "Demlenmesini bekle",
+     "trigger": "time",
+     "durationS": 300
+    },
+    {
+     "title": "Sürahiyi ısıtıcıdan al",
+     "trigger": "confirm",
+     "description": "Isıtıcı plakada bekletmek tadı acılaştırır.",
+     "observation": "Demleme bitince"
+    }
+   ]
+  },
+  {
+   "id": "sys-moka",
+   "method": "moka_pot",
+   "name": "Moka pot başlangıç",
+   "coffeeG": 17,
+   "waterG": 150,
+   "grind": {
+    "label": "Filtreden ince, espressodan kalın"
+   },
+   "targetTimeS": 240,
+   "targetTimeMaxS": 360,
+   "source": "Genel uygulama",
+   "steps": [
+    {
+     "title": "Hazneye sıcak su koy",
+     "trigger": "confirm",
+     "description": "Güvenlik valfinin altına kadar doldur, valfi kapatma.",
+     "observation": "Hazne dolunca",
+     "safety": "pressureValve"
+    },
+    {
+     "title": "Sepeti doldur, bastırma",
+     "trigger": "confirm",
+     "description": "Silme doldur, tamp yapma. Gövdeyi bezle tutarak kapat.",
+     "observation": "Pot kapatılınca",
+     "safety": "hotWater"
+    },
+    {
+     "title": "Orta-düşük ateşe koy",
+     "trigger": "confirm",
+     "description": "Kapağı açık tutup akışı izle.",
+     "observation": "Akış başlayınca",
+     "safety": "stove"
+    },
+    {
+     "title": "Fışırtı başlayınca ocaktan al",
+     "trigger": "confirm",
+     "description": "Akış açık renge dönünce ocaktan al.",
+     "observation": "Fışırtı başlayınca"
+    },
+    {
+     "title": "Alt gövdeyi soğut",
+     "trigger": "confirm",
+     "description": "Soğuk su altında soğutarak extraction'ı durdur.",
+     "observation": "Soğutunca"
+    }
+   ]
+  },
+  {
+   "id": "sys-espresso",
+   "method": "espresso",
+   "name": "Espresso 1:2",
+   "coffeeG": 18,
+   "waterG": 36,
+   "grind": {
+    "label": "İnce"
+   },
+   "temperatureC": 93,
+   "targetTimeS": 25,
+   "targetTimeMaxS": 30,
+   "source": "Genel uygulama",
+   "steps": [
+    {
+     "title": "Shot'ı başlat",
+     "trigger": "confirm",
+     "description": "Portafilter'ı tak, fincanı teraziye koy.",
+     "observation": "Pompa çalışınca"
+    },
+    {
+     "title": "36 g çıkışta durdur",
+     "trigger": "weight",
+     "description": "Hedef 25-30 sn.",
+     "targetWaterG": 36,
+     "observation": "Terazide 36 g görünce"
+    }
+   ]
+  },
+  {
+   "id": "sys-turkish",
+   "method": "turkish",
+   "name": "Türk kahvesi 2 fincan",
+   "coffeeG": 13,
+   "waterG": 135,
+   "cups": 2,
+   "grind": {
+    "label": "Çok ince (toz)"
+   },
+   "targetTimeS": 120,
+   "targetTimeMaxS": 240,
+   "source": "Genel uygulama",
+   "steps": [
+    {
+     "title": "Soğuk su, kahve ve şekeri karıştır",
+     "trigger": "confirm",
+     "description": "Ölçüyü fincanla al.",
+     "observation": "Karıştırınca"
+    },
+    {
+     "title": "Düşük-orta ateşe koy",
+     "trigger": "confirm",
+     "description": "Isınırken karıştırma.",
+     "observation": "Kenarlarda köpük kabarınca",
+     "safety": "stove"
+    },
+    {
+     "title": "Köpüğü fincanlara paylaştır",
+     "trigger": "confirm",
+     "observation": "Paylaştırınca"
+    },
+    {
+     "title": "Kısa ısıt ve fincanlara ekle",
+     "trigger": "confirm",
+     "description": "Kaynatma.",
+     "observation": "Yeniden kabarınca"
+    }
+   ]
+  },
+  {
+   "id": "sys-cold-brew",
+   "method": "cold_brew",
+   "name": "Cold brew konsantre",
+   "coffeeG": 100,
+   "waterG": 800,
+   "grind": {
+    "label": "Kalın"
+   },
+   "targetTimeS": 50400,
+   "targetTimeMaxS": 64800,
+   "source": "Genel uygulama",
+   "notes": "Servis: 1 ölçü konsantreye 1 ölçü su veya süt.",
+   "steps": [
+    {
+     "title": "Kahve ve suyu karıştır",
+     "trigger": "weight",
+     "description": "Tüm kahve ıslanmalı.",
+     "targetWaterG": 800,
+     "observation": "Karıştırınca"
+    },
+    {
+     "title": "Demlen (14 saat)",
+     "trigger": "time",
+     "description": "Kapalı kapta, oda sıcaklığında veya buzdolabında.",
+     "targetWaterG": 800,
+     "durationS": 50400
+    },
+    {
+     "title": "Çift filtrele",
+     "trigger": "confirm",
+     "description": "Önce metal, sonra kağıt filtre.",
+     "observation": "Filtreleyince"
+    },
+    {
+     "title": "Buzdolabına kaldır",
+     "trigger": "confirm",
+     "description": "Kapalı kapta sakla.",
+     "observation": "Kaldırınca"
+    }
+   ]
+  }
+ ],
+ "rules": [
+  {
+   "id": "under-1",
+   "symptom": "underExtraction",
+   "tier": 1,
+   "variable": "grind",
+   "direction": "finer",
+   "amount": 1,
+   "text": "Öğütmeyi bir kademe incelt",
+   "reason": "Ekşi ve kısa biten tat, çözünebilir maddelerin yeterince suya geçmediğini (under-extraction) gösterir. İnce öğütme extraction'ı hızlandırır."
+  },
+  {
+   "id": "under-2",
+   "symptom": "underExtraction",
+   "tier": 2,
+   "variable": "temperature",
+   "direction": "increase",
+   "amount": 2,
+   "text": "Su sıcaklığını 2-3 °C artır",
+   "reason": "Ekşi ve kısa biten tat, çözünebilir maddelerin yeterince suya geçmediğini (under-extraction) gösterir. Sıcak su daha hızlı çözer."
+  },
+  {
+   "id": "under-2-imm",
+   "symptom": "underExtraction",
+   "tier": 2,
+   "variable": "time",
+   "direction": "increase",
+   "amount": 30,
+   "text": "Demleme süresini 30 sn uzat",
+   "reason": "Ekşi ve kısa biten tat, çözünebilir maddelerin yeterince suya geçmediğini (under-extraction) gösterir. Uzun temas daha fazla çözer.",
+   "methods": [
+    "french_press",
+    "aeropress"
+   ]
+  },
+  {
+   "id": "under-2-cold",
+   "symptom": "underExtraction",
+   "tier": 2,
+   "variable": "time",
+   "direction": "increase",
+   "amount": 7200,
+   "text": "Demleme süresini 2 saat uzat",
+   "reason": "Ekşi ve kısa biten tat, çözünebilir maddelerin yeterince suya geçmediğini (under-extraction) gösterir. Soğuk suda extraction yavaştır.",
+   "methods": [
+    "cold_brew"
+   ]
+  },
+  {
+   "id": "under-2-drip",
+   "symptom": "underExtraction",
+   "tier": 2,
+   "variable": "equipment",
+   "direction": "none",
+   "amount": 0,
+   "text": "Makinenin 93 °C'ye ulaştığını kontrol et",
+   "reason": "Ekşi ve kısa biten tat, çözünebilir maddelerin yeterince suya geçmediğini (under-extraction) gösterir. Pek çok makine yeterli sıcaklığa ulaşamaz.",
+   "methods": [
+    "drip_machine"
+   ]
+  },
+  {
+   "id": "over-1",
+   "symptom": "overExtraction",
+   "tier": 1,
+   "variable": "grind",
+   "direction": "coarser",
+   "amount": 1,
+   "text": "Öğütmeyi bir kademe kalınlaştır",
+   "reason": "Acı ve kurutan tat, fazla maddenin suya geçtiğini (over-extraction) gösterir. Kalın öğütme extraction'ı yavaşlatır."
+  },
+  {
+   "id": "over-2",
+   "symptom": "overExtraction",
+   "tier": 2,
+   "variable": "temperature",
+   "direction": "decrease",
+   "amount": 2,
+   "text": "Su sıcaklığını 2-3 °C düşür",
+   "reason": "Acı ve kurutan tat, fazla maddenin suya geçtiğini (over-extraction) gösterir. Daha düşük sıcaklık daha yavaş çözer."
+  },
+  {
+   "id": "over-2-imm",
+   "symptom": "overExtraction",
+   "tier": 2,
+   "variable": "time",
+   "direction": "decrease",
+   "amount": 30,
+   "text": "Demleme süresini 30 sn kısalt",
+   "reason": "Acı ve kurutan tat, fazla maddenin suya geçtiğini (over-extraction) gösterir. Kısa temas daha az çözer.",
+   "methods": [
+    "french_press",
+    "aeropress"
+   ]
+  },
+  {
+   "id": "over-2-cold",
+   "symptom": "overExtraction",
+   "tier": 2,
+   "variable": "time",
+   "direction": "decrease",
+   "amount": 7200,
+   "text": "Demleme süresini 2 saat kısalt",
+   "reason": "Acı ve kurutan tat, fazla maddenin suya geçtiğini (over-extraction) gösterir.",
+   "methods": [
+    "cold_brew"
+   ]
+  },
+  {
+   "id": "over-2-drip",
+   "symptom": "overExtraction",
+   "tier": 2,
+   "variable": "equipment",
+   "direction": "none",
+   "amount": 0,
+   "text": "Kahveyi ısıtıcı plakada bekletme",
+   "reason": "Acı ve kurutan tat, fazla maddenin suya geçtiğini (over-extraction) gösterir. Plakada bekleyen kahve acılaşır.",
+   "methods": [
+    "drip_machine"
+   ]
+  },
+  {
+   "id": "uneven-1-pour",
+   "symptom": "unevenExtraction",
+   "tier": 1,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Döküş tekniğini düzelt: merkezden spiral, sabit su seviyesi",
+   "reason": "Hem ekşi hem acı tat, kahvenin bir kısmının az, bir kısmının fazla demlendiğini gösterir.",
+   "methods": [
+    "v60",
+    "chemex"
+   ]
+  },
+  {
+   "id": "uneven-1-esp",
+   "symptom": "unevenExtraction",
+   "tier": 1,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Dağıtımı (WDT) ve tampı düzelt",
+   "reason": "Hem ekşi hem acı tat channeling ile düzensiz extraction'a işaret eder.",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "uneven-1",
+   "symptom": "unevenExtraction",
+   "tier": 1,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Karıştırmayı ve döküşü tutarlı yap",
+   "reason": "Hem ekşi hem acı tat düzensiz extraction'a işaret eder."
+  },
+  {
+   "id": "uneven-2",
+   "symptom": "unevenExtraction",
+   "tier": 2,
+   "variable": "equipment",
+   "direction": "none",
+   "amount": 0,
+   "text": "Öğütücünü sorgula; blade grinder ise burr grinder'a geç",
+   "reason": "Homojen olmayan öğütme aynı fincanda ekşi ve acıyı birlikte üretir."
+  },
+  {
+   "id": "weak-1",
+   "symptom": "weak",
+   "tier": 1,
+   "variable": "ratio",
+   "direction": "decrease",
+   "amount": 1,
+   "text": "Kahve miktarını artır (oranı bir birim daralt, ör. 1:17 → 1:16)",
+   "reason": "Tat dengeli ama sulu: sorun extraction değil strength. Yalnız oran değiştirilir."
+  },
+  {
+   "id": "strong-1",
+   "symptom": "strong",
+   "tier": 1,
+   "variable": "ratio",
+   "direction": "increase",
+   "amount": 1,
+   "text": "Su miktarını artır (oranı bir birim genişlet, ör. 1:15 → 1:16)",
+   "reason": "Tat dengeli ama ağır: sorun extraction değil strength. Yalnız oran değiştirilir."
+  },
+  {
+   "id": "stale-1",
+   "symptom": "stale",
+   "tier": 1,
+   "variable": "beans",
+   "direction": "none",
+   "amount": 0,
+   "text": "Kavurma tarihi yakın çekirdek kullan",
+   "reason": "Düz ve kartonsu tat bayat çekirdeğin tipik belirtisidir."
+  },
+  {
+   "id": "stale-2",
+   "symptom": "stale",
+   "tier": 2,
+   "variable": "beans",
+   "direction": "none",
+   "amount": 0,
+   "text": "Kahveyi demlemeden hemen önce öğüt",
+   "reason": "Öğütülmüş kahve aromasını dakikalar içinde kaybetmeye başlar."
+  },
+  {
+   "id": "water-1",
+   "symptom": "waterQuality",
+   "tier": 1,
+   "variable": "water",
+   "direction": "none",
+   "amount": 0,
+   "text": "Filtrelenmiş veya düşük-orta mineralli şişe suyu kullan",
+   "reason": "Fincanın %90'dan fazlası sudur; klor ve koku doğrudan tada geçer."
+  },
+  {
+   "id": "water-2",
+   "symptom": "waterQuality",
+   "tier": 2,
+   "variable": "equipment",
+   "direction": "none",
+   "amount": 0,
+   "text": "Makineyi kireçten arındır",
+   "reason": "Kireç metalik ve düz tat bırakır."
+  },
+  {
+   "id": "drawdown-1",
+   "symptom": "slowDrawdown",
+   "tier": 1,
+   "variable": "grind",
+   "direction": "coarser",
+   "amount": 1,
+   "text": "Öğütmeyi bir kademe kalınlaştır",
+   "reason": "Çok ince öğütme veya fazla fines akışı yavaşlatır ve filtreyi tıkar."
+  },
+  {
+   "id": "drawdown-2",
+   "symptom": "slowDrawdown",
+   "tier": 2,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Döküşte karıştırmayı azalt",
+   "reason": "Fazla karıştırma fines'ı filtrenin dibine taşır."
+  },
+  {
+   "id": "shotfast-1",
+   "symptom": "shotFast",
+   "tier": 1,
+   "variable": "grind",
+   "direction": "finer",
+   "amount": 1,
+   "text": "Öğütmeyi incelt",
+   "reason": "Shot 20 sn'den kısa aktı; su kahveden çok hızlı geçiyor.",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "shotfast-2",
+   "symptom": "shotFast",
+   "tier": 2,
+   "variable": "dose",
+   "direction": "increase",
+   "amount": 0.5,
+   "text": "Dozu 0,5 g artır",
+   "reason": "Daha yüksek doz direnci artırır.",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "shotslow-1",
+   "symptom": "shotSlow",
+   "tier": 1,
+   "variable": "grind",
+   "direction": "coarser",
+   "amount": 1,
+   "text": "Öğütmeyi kalınlaştır",
+   "reason": "Shot 35 sn'den uzun aktı; su kahveden çok yavaş geçiyor.",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "shotslow-2",
+   "symptom": "shotSlow",
+   "tier": 2,
+   "variable": "dose",
+   "direction": "decrease",
+   "amount": 0.5,
+   "text": "Dozu 0,5 g azalt",
+   "reason": "Daha düşük doz direnci azaltır.",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "nofoam-1",
+   "symptom": "turkishNoFoam",
+   "tier": 1,
+   "variable": "heat",
+   "direction": "none",
+   "amount": 0,
+   "text": "Ateşi kıs, ısınırken karıştırma",
+   "reason": "Yüksek ateş ve karıştırma köpüğü dağıtır.",
+   "methods": [
+    "turkish"
+   ]
+  },
+  {
+   "id": "nofoam-2",
+   "symptom": "turkishNoFoam",
+   "tier": 2,
+   "variable": "beans",
+   "direction": "none",
+   "amount": 0,
+   "text": "Taze, toz incelikte kahve ve uygun boy cezve kullan",
+   "reason": "Bayat veya iri öğütülmüş kahve ve büyük cezve köpük tutmaz.",
+   "methods": [
+    "turkish"
+   ]
+  },
+  {
+   "id": "overflow-1",
+   "symptom": "turkishOverflow",
+   "tier": 1,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Köpük kabarmaya başlayınca ocaktan al",
+   "reason": "Kahve kaynama noktasına ulaşınca taşar.",
+   "methods": [
+    "turkish"
+   ]
+  },
+  {
+   "id": "overflow-2",
+   "symptom": "turkishOverflow",
+   "tier": 2,
+   "variable": "heat",
+   "direction": "none",
+   "amount": 0,
+   "text": "Ateşi kıs",
+   "reason": "Düşük ateş köpüğün yükselişini izlemeye zaman tanır.",
+   "methods": [
+    "turkish"
+   ]
+  },
+  {
+   "id": "burnt-1",
+   "symptom": "mokaBurnt",
+   "tier": 1,
+   "variable": "heat",
+   "direction": "none",
+   "amount": 0,
+   "text": "Hazneye sıcak su koy ve orta-düşük ateş kullan",
+   "reason": "Soğuk suyla başlamak ve yüksek ateş kahveyi üst gövdede yakar.",
+   "methods": [
+    "moka_pot"
+   ]
+  },
+  {
+   "id": "burnt-2",
+   "symptom": "mokaBurnt",
+   "tier": 2,
+   "variable": "technique",
+   "direction": "none",
+   "amount": 0,
+   "text": "Fışırtı başlayınca ocaktan al, alt gövdeyi soğut",
+   "reason": "Fışırtıdan sonra gelen akış yanık ve metalik tat taşır.",
+   "methods": [
+    "moka_pot"
+   ]
+  }
+ ],
+ "glossary": [
+  {
+   "term": "Brew ratio",
+   "definition": "Kahve ağırlığının su ağırlığına oranı, 1:16 gibi gösterilir (1 g kahveye 16 g su)."
+  },
+  {
+   "term": "Grind size",
+   "definition": "Öğütme inceliği. Yönteme göre çok inceden (Türk kahvesi) kalına (French Press, cold brew) değişir."
+  },
+  {
+   "term": "Extraction",
+   "definition": "Kahvedeki çözünebilir maddelerin suya geçme oranı. Az ise ekşi/sulu, fazla ise acı/buruk tat oluşur."
+  },
+  {
+   "term": "TDS",
+   "definition": "Total Dissolved Solids. Fincandaki çözünmüş madde yoğunluğu (strength)."
+  },
+  {
+   "term": "Bloom",
+   "definition": "Pour over başlangıcında az su ile kahvenin ıslatılıp gazının (CO₂) çıkmasının beklendiği ön adım."
+  },
+  {
+   "term": "Dial-in",
+   "definition": "Tat sonucuna göre öğütme, oran, sıcaklık veya süreyi tek tek ayarlayarak hedef tada yaklaşma süreci."
+  },
+  {
+   "term": "Channeling",
+   "definition": "Espresso'da suyun kahve yatağında tercihli kanallar açarak düzensiz extraction oluşturması."
+  },
+  {
+   "term": "Burr grinder",
+   "definition": "İki öğütme yüzeyi arasında kahveyi kıran öğütücü. Blade grinder'a göre homojen sonuç verir."
+  },
+  {
+   "term": "Blade grinder",
+   "definition": "Bıçaklı öğütücü. Parçacık boyutu homojen olmadığından aynı fincanda ekşi ve acı tat üretir."
+  },
+  {
+   "term": "Fines",
+   "definition": "Öğütme sırasında oluşan çok ince parçacıklar. Fazlası akışı yavaşlatır ve acılık üretir."
+  },
+  {
+   "term": "WDT",
+   "definition": "Weiss Distribution Technique. Espresso dozundaki topakları ince iğneyle karıştırarak dağıtma."
+  },
+  {
+   "term": "Tamp",
+   "definition": "Espresso'da öğütülmüş kahveyi portafilter içinde düz ve tutarlı biçimde sıkıştırma."
+  },
+  {
+   "term": "Portafilter",
+   "definition": "Espresso makinesinde kahvenin konduğu saplı sepet tutucu."
+  },
+  {
+   "term": "Gooseneck kettle",
+   "definition": "İnce, kıvrık ağızlı kettle. Pour over'da akışı kontrol etmeyi sağlar."
+  },
+  {
+   "term": "Immersion",
+   "definition": "Kahvenin demleme süresince suyun içinde bekletildiği yöntem (French Press, AeroPress, cold brew)."
+  },
+  {
+   "term": "Pour over",
+   "definition": "Suyun öğütülmüş kahvenin üzerine elle döküldüğü ve filtreden süzüldüğü yöntem."
+  },
+  {
+   "term": "Crust",
+   "definition": "French Press'te yüzeyde toplanan kahve tabakası (kabuk)."
+  },
+  {
+   "term": "Inverted",
+   "definition": "AeroPress'in ters çevrilerek kurulduğu, erken damlamayı önleyen yöntem."
+  },
+  {
+   "term": "Retention",
+   "definition": "Öğütücünün içinde kalan kahve miktarı."
+  },
+  {
+   "term": "PID",
+   "definition": "Espresso makinesinde su sıcaklığını sabit tutan elektronik kontrol."
+  },
+  {
+   "term": "Pre-infusion",
+   "definition": "Espresso'da tam basınç öncesi kahvenin düşük basınçla ıslatılması."
+  },
+  {
+   "term": "Rehber mod",
+   "definition": "Uygulamanın demleme adımlarını zamanlayıcıyla birlikte tek tek yönettiği ekran."
+  },
+  {
+   "term": "Demleme kaydı",
+   "definition": "Bir demlemenin parametreleri, sonucu ve tat değerlendirmesinden oluşan günlük kaydı."
+  }
+ ],
+ "guides": [
+  {
+   "id": "brewer",
+   "name": "Demleme aracı",
+   "lookFor": [
+    "Yönteminize uygun boyut (fincan sayısı)",
+    "Kolay temizlenen malzeme",
+    "Yaygın bulunan filtre"
+   ],
+   "avoid": [
+    "Filtresi zor bulunan modeller"
+   ]
+  },
+  {
+   "id": "hand_grinder",
+   "name": "El grinder'ı",
+   "lookFor": [
+    "Çelik burr",
+    "İki noktalı rulman (yatak) ile sabit eksen",
+    "Kademe hassasiyeti",
+    "Sökülüp temizlenebilirlik"
+   ],
+   "avoid": [
+    "Seramik burr ve ucuz plastik gövde",
+    "Sallantılı mil"
+   ]
+  },
+  {
+   "id": "electric_grinder",
+   "name": "Elektrikli filtre grinder'ı",
+   "lookFor": [
+    "Flat veya conical burr",
+    "Düşük retention",
+    "Statik kontrolü",
+    "Yöntem aralığını kapsayan kademe sayısı"
+   ],
+   "avoid": [
+    "Blade (bıçaklı) öğütücüler: homojen olmayan parçacık ekşi ve acıyı aynı fincanda üretir"
+   ]
+  },
+  {
+   "id": "espresso_grinder",
+   "name": "Espresso grinder'ı",
+   "lookFor": [
+    "Kademesiz (stepless) veya çok ince kademeli ayar",
+    "Tek doz kullanımı",
+    "Düşük retention"
+   ],
+   "avoid": [
+    "Yalnız filtre için tasarlanmış grinder ile espresso denemek"
+   ],
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "scale",
+   "name": "Terazi",
+   "lookFor": [
+    "0,1 g çözünürlük",
+    "Hızlı tepki",
+    "Dahili zamanlayıcı",
+    "Şarjlı batarya",
+    "Espresso için damlama tablasına sığan boyut"
+   ],
+   "avoid": [
+    "1 g çözünürlüklü mutfak terazisi (espresso ve küçük dozlarda yetersiz)"
+   ]
+  },
+  {
+   "id": "kettle",
+   "name": "Kettle",
+   "lookFor": [
+    "Gooseneck ince akışlı ağız",
+    "Derece bazlı sıcaklık ayarı",
+    "Sıcak tutma"
+   ],
+   "avoid": [
+    "Geniş ağızlı standart kettle ile pour over (akış kontrol edilemez)"
+   ],
+   "methods": [
+    "v60",
+    "chemex"
+   ]
+  },
+  {
+   "id": "espresso_machine",
+   "name": "Espresso makinesi",
+   "lookFor": [
+    "PID sıcaklık kontrolü",
+    "Pre-infusion",
+    "Hızlı ısınma",
+    "Standart portafilter çapı (54 mm veya 58 mm)",
+    "Süt için yeterli buhar gücü"
+   ],
+   "avoid": [
+    "Basınçlandırılmış (pressurized) sepetle sınırlı modeller: dial-in imkanı vermez"
+   ],
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "drip_machine",
+   "name": "Filtre kahve makinesi",
+   "lookFor": [
+    "SCA sertifikası (93 °C hedefine ulaşma)",
+    "Düzgün dağıtımlı duş başlığı",
+    "Termos sürahi"
+   ],
+   "avoid": [
+    "Isıtıcı plakalı, düşük sıcaklıkta demleyen ucuz modeller"
+   ],
+   "methods": [
+    "drip_machine"
+   ]
+  },
+  {
+   "id": "turkish",
+   "name": "Türk kahve makinesi / cezve",
+   "lookFor": [
+    "Makinede köpük sensörü ve taşma koruması",
+    "Kolay temizlenen hazne",
+    "Cezvede ince boyun ve kalın taban",
+    "Fincan sayısına uygun hacim"
+   ],
+   "avoid": [
+    "İhtiyacın çok üzerinde hacimli cezve (köpük oluşmaz)"
+   ],
+   "methods": [
+    "turkish"
+   ]
+  }
+ ],
+ "catalog": [
+  {
+   "id": "hario-v60-02",
+   "category": "brewer",
+   "brand": "Hario",
+   "model": "V60 02",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": true,
+   "budget": "low",
+   "methods": [
+    "v60"
+   ]
+  },
+  {
+   "id": "chemex-6",
+   "category": "brewer",
+   "brand": "Chemex",
+   "model": "Classic 6 fincan",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": true,
+   "budget": "mid",
+   "methods": [
+    "chemex"
+   ]
+  },
+  {
+   "id": "aeropress-original",
+   "category": "brewer",
+   "brand": "AeroPress",
+   "model": "Original",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": true,
+   "budget": "low",
+   "methods": [
+    "aeropress"
+   ]
+  },
+  {
+   "id": "bodum-chambord",
+   "category": "brewer",
+   "brand": "Bodum",
+   "model": "Chambord",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "low",
+   "methods": [
+    "french_press"
+   ]
+  },
+  {
+   "id": "bialetti-moka-express",
+   "category": "brewer",
+   "brand": "Bialetti",
+   "model": "Moka Express",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "low",
+   "methods": [
+    "moka_pot"
+   ]
+  },
+  {
+   "id": "1zpresso-j",
+   "category": "hand_grinder",
+   "brand": "1Zpresso",
+   "model": "J",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "mid"
+  },
+  {
+   "id": "1zpresso-k-ultra",
+   "category": "hand_grinder",
+   "brand": "1Zpresso",
+   "model": "K-Ultra",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high"
+  },
+  {
+   "id": "fellow-ode-2",
+   "category": "electric_grinder",
+   "brand": "Fellow",
+   "model": "Ode Gen 2",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high"
+  },
+  {
+   "id": "baratza-encore-esp",
+   "category": "electric_grinder",
+   "brand": "Baratza",
+   "model": "Encore ESP",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "mid"
+  },
+  {
+   "id": "oxo-brew-conical",
+   "category": "electric_grinder",
+   "brand": "OXO",
+   "model": "Brew Conical",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "low"
+  },
+  {
+   "id": "eureka-mignon-specialita",
+   "category": "espresso_grinder",
+   "brand": "Eureka",
+   "model": "Mignon Specialita",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "baratza-encore-esp-espresso",
+   "category": "espresso_grinder",
+   "brand": "Baratza",
+   "model": "Encore ESP",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "mid",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "fellow-tally-pro",
+   "category": "scale",
+   "brand": "Fellow",
+   "model": "Tally Pro",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high"
+  },
+  {
+   "id": "acaia-lunar",
+   "category": "scale",
+   "brand": "Acaia",
+   "model": "Lunar",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high"
+  },
+  {
+   "id": "wacaco-exagram",
+   "category": "scale",
+   "brand": "Wacaco",
+   "model": "Exagram",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "low"
+  },
+  {
+   "id": "fellow-stagg-ekg-pro",
+   "category": "kettle",
+   "brand": "Fellow",
+   "model": "Stagg EKG Pro",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high",
+   "methods": [
+    "v60",
+    "chemex"
+   ]
+  },
+  {
+   "id": "breville-bambino",
+   "category": "espresso_machine",
+   "brand": "Breville/Sage",
+   "model": "Bambino",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "low",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "breville-bambino-plus",
+   "category": "espresso_machine",
+   "brand": "Breville/Sage",
+   "model": "Bambino Plus",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "mid",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "gaggia-classic-pro",
+   "category": "espresso_machine",
+   "brand": "Gaggia",
+   "model": "Classic Pro",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "mid",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "rancilio-silvia",
+   "category": "espresso_machine",
+   "brand": "Rancilio",
+   "model": "Silvia",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high",
+   "methods": [
+    "espresso"
+   ]
+  },
+  {
+   "id": "lelit-mara-x",
+   "category": "espresso_machine",
+   "brand": "Lelit",
+   "model": "Mara X",
+   "verifiedAt": "2026-11-24",
+   "usesFilter": false,
+   "budget": "high",
+   "methods": [
+    "espresso"
+   ]
+  }
+ ]
+}
