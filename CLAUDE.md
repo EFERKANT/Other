@@ -13,6 +13,7 @@ Bu dosya hem bu depoda çalışan Claude oturumları hem de PR'lardaki otomatik 
 ## Kurallar
 
 - Her davranış değişikliği testle gelir; test adında gereksinim kimliği yazılır: `'... (KHV-FR-BRW-005, HMI-022)'`. `python3 tool/trace.py --check` temiz kalmalı.
+- Test ekleyen veya değiştiren her commit'ten önce `python3 tool/trace.py` çalıştırılır; üretilen `docs/kalite/izlenebilirlik.md` ve `manuel-senaryolar.md` aynı commit'e girer (CI güncel olmayan raporu reddeder).
 - Zaman için `DateTime.now()` doğrudan kullanılmaz: `clockProvider` (duvar saati) ve `monotonicMsProvider` (zamanlayıcı).
 - Platform servisleri (`lib/services/platform.dart`) arayüz arkasındadır; testte sahteleriyle değiştirilir.
 - Renkler yalnız `ColorScheme` rolleriyle; `Color(0x...)` yalnız `theme.dart` içinde (test ile denetlenir).
