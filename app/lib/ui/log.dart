@@ -286,6 +286,13 @@ class BrewDetailScreen extends ConsumerWidget {
             _row('Sıcaklık', '${formatNumber(r.temperatureC!)} °C'),
           if (b.actualTimeS != null)
             _row('Gerçekleşen süre', formatDuration(b.actualTimeS!)),
+          if (b.actualCoffeeG != null)
+            _row('Tartılan kahve', '${formatNumber(b.actualCoffeeG!)} g'),
+          if (b.actualWaterG != null)
+            _row(
+              r.method.isEspresso ? 'Ölçülen çıktı' : 'Ölçülen su',
+              '${formatNumber(b.actualWaterG!)} g',
+            ),
           if (bean != null) _row('Çekirdek', bean.name),
           if (b.manual) _row('Kayıt', 'Elle girildi'),
           const SectionTitle('Tat'),

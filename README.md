@@ -60,6 +60,8 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 | SOC Sosyal | Uygulandı (MVP) | SOC-001..004, 009, 010. SOC-005/006 S2 |
 | ARC Altyapı | Uygulandı | ARC-001..006; özellik bayrakları içerik paketinde (`flags`) |
 | HMI | Uygulandı | iOS Live Activity (HMI-022) hariç; Android'de kalıcı bildirim ve geri sayım |
+| ARC-007 Terazi arayüzü | Uygulandı (MVP) | Ortak `Scale` arayüzü; MVP gerçekleştirimi elle giriş (`ManualScale`). Tartılan doz ve ölçülen su demleme kaydına yalnız sonuç olarak yazılır (SCL-009, şema v2) |
+| SCL Bluetooth terazi (S2) | Çekirdek kurallar hazır | SCL-001 destek listesi doğrulaması, SCL-002 parmak izi eşleme, SCL-003 dinleme modu teyidi, SCL-004 ağırlıkla ilerleme, SCL-005 tutarlılık koruması, SCL-010 yazma yasağı. Bluetooth sürücüsü, izin akışı (SCL-007/008) ve destek talebi (SCL-006) için desteklenecek terazinin seçilmesi ve lisansının doğrulanması (NFR-045) bekleniyor |
 
 ### Mac'te kurulum
 
@@ -82,4 +84,5 @@ Betik Xcode, Homebrew, CocoaPods ve Flutter'ı denetler, eksikleri kurar, `pod i
 1. **Tat girişi (DIA-001 / HMI-013):** İki boyutlu alan kullanılır. Alanda gösterilemeyen "hem ekşi hem acı" ve "düz/aromasız" ayrı onay kutularıyla alınır. Ekran okuyucu için alanın yanında seçim düğmeleri vardır.
 2. **Uyarı kanalları (BRW-003 / HMI-005):** Kanallar ayrı ayrı kapatılabilir, ancak açık kanal sayısı ikinin altına inemez.
 3. **Token (NFR-015):** MVP'de hesap olmadığından kimlik doğrulama S2'ye bırakıldı.
-4. **Bölüm 6, kural 4:** Aynı yönde iki ardışık düzeltmeden sonra tat ters yöne dönerse uygulama bir önceki ayara dönmeyi önerir.
+4. **Terazi (Bölüm 15):** Desteklenen terazi listesi (`scales`) boş bırakıldı. SCL-001'e göre bir model ancak resmi SDK, açık yayımlanmış protokol veya üreticinin yazılı izniyle ve lisans referansı kaydedilerek eklenebilir; referansı veya parmak izi olmayan kayıt içerik doğrulamasından geçmez.
+5. **Bölüm 6, kural 4:** Aynı yönde iki ardışık düzeltmeden sonra tat ters yöne dönerse uygulama bir önceki ayara dönmeyi önerir.

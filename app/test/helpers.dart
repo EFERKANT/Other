@@ -122,6 +122,9 @@ class TestEnv {
   final sharer = FakeSharer();
   final filePick = FakeFilePick();
   final links = FakeLinks();
+
+  /// Terazi (KHV-ARC-007); verilmezse elle giriş kullanılır.
+  Scale Function()? scaleFactory;
   var _id = 0;
 
   Future<void> seedSettings(AppSettings s) =>
@@ -140,6 +143,8 @@ class TestEnv {
       filePickProvider.overrideWithValue(filePick),
       deviceInfoProvider.overrideWithValue(FakeDeviceInfo()),
       incomingLinksProvider.overrideWithValue(links),
+      if (scaleFactory != null)
+        scaleFactoryProvider.overrideWithValue(scaleFactory!),
     ],
     child: const EvKahvesiApp(),
   );

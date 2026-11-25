@@ -17,3 +17,5 @@ export 'src/rules/profile_rules.dart';
 export 'src/rules/recipe_share.dart';
 export 'src/rules/taste_questions.dart';
 export 'src/rules/text.dart';
+export 'src/scale/registry.dart';
+export 'src/scale/scale.dart';

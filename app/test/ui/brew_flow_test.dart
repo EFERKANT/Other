@@ -52,7 +52,7 @@ void main() {
     await advance(tester, env, 30);
     expect(find.text('Adım 6/6'), findsOneWidget);
     // KHV-HMI-006: ekranın herhangi bir yerine dokunarak ilerle.
-    await tester.tapAt(const Offset(200, 500));
+    await tester.tap(find.textContaining('Adım '));
     await settle(tester);
 
     // KHV-FR-BRW-007: tat ekranı açılır, aktif demleme temizlenir.
@@ -154,11 +154,11 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Demlemeyi başlat'));
     await settle(tester, 4);
-    await tester.tapAt(const Offset(200, 500));
+    await tester.tap(find.textContaining('Adım '));
     await settle(tester, 2);
     expect(find.text('36 g'), findsOneWidget);
     await advance(tester, env, 18);
-    await tester.tapAt(const Offset(200, 500));
+    await tester.tap(find.textContaining('Adım '));
     await settle(tester);
     expect(find.text('Tadı nasıldı?'), findsOneWidget);
     expect(find.textContaining('sn hızlı'), findsOneWidget);

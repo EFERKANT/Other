@@ -56,7 +56,7 @@ class _TasteScreenState extends ConsumerState<TasteScreen> {
       _brew = b;
       _recipe = r;
       _notes.text = b.notes;
-      _yieldG = r.method.isEspresso ? r.waterG : null;
+      _yieldG = r.method.isEspresso ? (b.actualWaterG ?? r.waterG) : null;
       final auto = b.actualTimeS == null
           ? null
           : observeDuration(r, b.actualTimeS!);

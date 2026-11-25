@@ -97,8 +97,8 @@ void main() {
     expect(await db.watchUserRecipes().first, isEmpty);
   });
 
-  test('şema sürümü 1 sıfırdan oluşturulur (KHV-NFR-028)', () async {
-    expect(db.schemaVersion, 1);
+  test('güncel şema sıfırdan oluşturulur (KHV-NFR-028)', () async {
+    expect(db.schemaVersion, 2);
     final tables = await db
         .customSelect("SELECT name FROM sqlite_master WHERE type='table'")
         .get();

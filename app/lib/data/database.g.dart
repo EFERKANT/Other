@@ -1453,6 +1453,28 @@ class $BrewsTable extends Brews with TableInfo<$BrewsTable, Brew> {
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _actualCoffeeGMeta = const VerificationMeta(
+    'actualCoffeeG',
+  );
+  @override
+  late final GeneratedColumn<double> actualCoffeeG = GeneratedColumn<double>(
+    'actual_coffee_g',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _actualWaterGMeta = const VerificationMeta(
+    'actualWaterG',
+  );
+  @override
+  late final GeneratedColumn<double> actualWaterG = GeneratedColumn<double>(
+    'actual_water_g',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1470,6 +1492,8 @@ class $BrewsTable extends Brews with TableInfo<$BrewsTable, Brew> {
     correctionAccepted,
     notes,
     manual,
+    actualCoffeeG,
+    actualWaterG,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1597,6 +1621,24 @@ class $BrewsTable extends Brews with TableInfo<$BrewsTable, Brew> {
         manual.isAcceptableOrUnknown(data['manual']!, _manualMeta),
       );
     }
+    if (data.containsKey('actual_coffee_g')) {
+      context.handle(
+        _actualCoffeeGMeta,
+        actualCoffeeG.isAcceptableOrUnknown(
+          data['actual_coffee_g']!,
+          _actualCoffeeGMeta,
+        ),
+      );
+    }
+    if (data.containsKey('actual_water_g')) {
+      context.handle(
+        _actualWaterGMeta,
+        actualWaterG.isAcceptableOrUnknown(
+          data['actual_water_g']!,
+          _actualWaterGMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1666,6 +1708,14 @@ class $BrewsTable extends Brews with TableInfo<$BrewsTable, Brew> {
         DriftSqlType.bool,
         data['${effectivePrefix}manual'],
       )!,
+      actualCoffeeG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}actual_coffee_g'],
+      ),
+      actualWaterG: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}actual_water_g'],
+      ),
     );
   }
 
@@ -1693,6 +1743,13 @@ class Brew extends DataClass implements Insertable<Brew> {
   final bool correctionAccepted;
   final String notes;
   final bool manual;
+
+  /// Terazide tartılan kahve (g); yalnız sonuç değeri saklanır
+  /// (KHV-FR-SCL-009). Şema v2.
+  final double? actualCoffeeG;
+
+  /// Terazide ölçülen toplam su veya espresso çıktısı (g). Şema v2.
+  final double? actualWaterG;
   const Brew({
     required this.id,
     required this.brewedAt,
@@ -1709,6 +1766,8 @@ class Brew extends DataClass implements Insertable<Brew> {
     required this.correctionAccepted,
     required this.notes,
     required this.manual,
+    this.actualCoffeeG,
+    this.actualWaterG,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1738,6 +1797,12 @@ class Brew extends DataClass implements Insertable<Brew> {
     map['correction_accepted'] = Variable<bool>(correctionAccepted);
     map['notes'] = Variable<String>(notes);
     map['manual'] = Variable<bool>(manual);
+    if (!nullToAbsent || actualCoffeeG != null) {
+      map['actual_coffee_g'] = Variable<double>(actualCoffeeG);
+    }
+    if (!nullToAbsent || actualWaterG != null) {
+      map['actual_water_g'] = Variable<double>(actualWaterG);
+    }
     return map;
   }
 
@@ -1768,6 +1833,12 @@ class Brew extends DataClass implements Insertable<Brew> {
       correctionAccepted: Value(correctionAccepted),
       notes: Value(notes),
       manual: Value(manual),
+      actualCoffeeG: actualCoffeeG == null && nullToAbsent
+          ? const Value.absent()
+          : Value(actualCoffeeG),
+      actualWaterG: actualWaterG == null && nullToAbsent
+          ? const Value.absent()
+          : Value(actualWaterG),
     );
   }
 
@@ -1792,6 +1863,8 @@ class Brew extends DataClass implements Insertable<Brew> {
       correctionAccepted: serializer.fromJson<bool>(json['correctionAccepted']),
       notes: serializer.fromJson<String>(json['notes']),
       manual: serializer.fromJson<bool>(json['manual']),
+      actualCoffeeG: serializer.fromJson<double?>(json['actualCoffeeG']),
+      actualWaterG: serializer.fromJson<double?>(json['actualWaterG']),
     );
   }
   @override
@@ -1813,6 +1886,8 @@ class Brew extends DataClass implements Insertable<Brew> {
       'correctionAccepted': serializer.toJson<bool>(correctionAccepted),
       'notes': serializer.toJson<String>(notes),
       'manual': serializer.toJson<bool>(manual),
+      'actualCoffeeG': serializer.toJson<double?>(actualCoffeeG),
+      'actualWaterG': serializer.toJson<double?>(actualWaterG),
     };
   }
 
@@ -1832,6 +1907,8 @@ class Brew extends DataClass implements Insertable<Brew> {
     bool? correctionAccepted,
     String? notes,
     bool? manual,
+    Value<double?> actualCoffeeG = const Value.absent(),
+    Value<double?> actualWaterG = const Value.absent(),
   }) => Brew(
     id: id ?? this.id,
     brewedAt: brewedAt ?? this.brewedAt,
@@ -1852,6 +1929,10 @@ class Brew extends DataClass implements Insertable<Brew> {
     correctionAccepted: correctionAccepted ?? this.correctionAccepted,
     notes: notes ?? this.notes,
     manual: manual ?? this.manual,
+    actualCoffeeG: actualCoffeeG.present
+        ? actualCoffeeG.value
+        : this.actualCoffeeG,
+    actualWaterG: actualWaterG.present ? actualWaterG.value : this.actualWaterG,
   );
   Brew copyWithCompanion(BrewsCompanion data) {
     return Brew(
@@ -1882,6 +1963,12 @@ class Brew extends DataClass implements Insertable<Brew> {
           : this.correctionAccepted,
       notes: data.notes.present ? data.notes.value : this.notes,
       manual: data.manual.present ? data.manual.value : this.manual,
+      actualCoffeeG: data.actualCoffeeG.present
+          ? data.actualCoffeeG.value
+          : this.actualCoffeeG,
+      actualWaterG: data.actualWaterG.present
+          ? data.actualWaterG.value
+          : this.actualWaterG,
     );
   }
 
@@ -1902,7 +1989,9 @@ class Brew extends DataClass implements Insertable<Brew> {
           ..write('correctionJson: $correctionJson, ')
           ..write('correctionAccepted: $correctionAccepted, ')
           ..write('notes: $notes, ')
-          ..write('manual: $manual')
+          ..write('manual: $manual, ')
+          ..write('actualCoffeeG: $actualCoffeeG, ')
+          ..write('actualWaterG: $actualWaterG')
           ..write(')'))
         .toString();
   }
@@ -1924,6 +2013,8 @@ class Brew extends DataClass implements Insertable<Brew> {
     correctionAccepted,
     notes,
     manual,
+    actualCoffeeG,
+    actualWaterG,
   );
   @override
   bool operator ==(Object other) =>
@@ -1943,7 +2034,9 @@ class Brew extends DataClass implements Insertable<Brew> {
           other.correctionJson == this.correctionJson &&
           other.correctionAccepted == this.correctionAccepted &&
           other.notes == this.notes &&
-          other.manual == this.manual);
+          other.manual == this.manual &&
+          other.actualCoffeeG == this.actualCoffeeG &&
+          other.actualWaterG == this.actualWaterG);
 }
 
 class BrewsCompanion extends UpdateCompanion<Brew> {
@@ -1962,6 +2055,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
   final Value<bool> correctionAccepted;
   final Value<String> notes;
   final Value<bool> manual;
+  final Value<double?> actualCoffeeG;
+  final Value<double?> actualWaterG;
   final Value<int> rowid;
   const BrewsCompanion({
     this.id = const Value.absent(),
@@ -1979,6 +2074,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
     this.correctionAccepted = const Value.absent(),
     this.notes = const Value.absent(),
     this.manual = const Value.absent(),
+    this.actualCoffeeG = const Value.absent(),
+    this.actualWaterG = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   BrewsCompanion.insert({
@@ -1997,6 +2094,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
     this.correctionAccepted = const Value.absent(),
     this.notes = const Value.absent(),
     this.manual = const Value.absent(),
+    this.actualCoffeeG = const Value.absent(),
+    this.actualWaterG = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        brewedAt = Value(brewedAt),
@@ -2020,6 +2119,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
     Expression<bool>? correctionAccepted,
     Expression<String>? notes,
     Expression<bool>? manual,
+    Expression<double>? actualCoffeeG,
+    Expression<double>? actualWaterG,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -2038,6 +2139,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
       if (correctionAccepted != null) 'correction_accepted': correctionAccepted,
       if (notes != null) 'notes': notes,
       if (manual != null) 'manual': manual,
+      if (actualCoffeeG != null) 'actual_coffee_g': actualCoffeeG,
+      if (actualWaterG != null) 'actual_water_g': actualWaterG,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2058,6 +2161,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
     Value<bool>? correctionAccepted,
     Value<String>? notes,
     Value<bool>? manual,
+    Value<double?>? actualCoffeeG,
+    Value<double?>? actualWaterG,
     Value<int>? rowid,
   }) {
     return BrewsCompanion(
@@ -2076,6 +2181,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
       correctionAccepted: correctionAccepted ?? this.correctionAccepted,
       notes: notes ?? this.notes,
       manual: manual ?? this.manual,
+      actualCoffeeG: actualCoffeeG ?? this.actualCoffeeG,
+      actualWaterG: actualWaterG ?? this.actualWaterG,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2128,6 +2235,12 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
     if (manual.present) {
       map['manual'] = Variable<bool>(manual.value);
     }
+    if (actualCoffeeG.present) {
+      map['actual_coffee_g'] = Variable<double>(actualCoffeeG.value);
+    }
+    if (actualWaterG.present) {
+      map['actual_water_g'] = Variable<double>(actualWaterG.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2152,6 +2265,8 @@ class BrewsCompanion extends UpdateCompanion<Brew> {
           ..write('correctionAccepted: $correctionAccepted, ')
           ..write('notes: $notes, ')
           ..write('manual: $manual, ')
+          ..write('actualCoffeeG: $actualCoffeeG, ')
+          ..write('actualWaterG: $actualWaterG, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -3228,6 +3343,8 @@ typedef $$BrewsTableCreateCompanionBuilder = BrewsCompanion Function({
   Value<bool> correctionAccepted,
   Value<String> notes,
   Value<bool> manual,
+  Value<double?> actualCoffeeG,
+  Value<double?> actualWaterG,
   Value<int> rowid,
 });
 typedef $$BrewsTableUpdateCompanionBuilder = BrewsCompanion Function({
@@ -3246,6 +3363,8 @@ typedef $$BrewsTableUpdateCompanionBuilder = BrewsCompanion Function({
   Value<bool> correctionAccepted,
   Value<String> notes,
   Value<bool> manual,
+  Value<double?> actualCoffeeG,
+  Value<double?> actualWaterG,
   Value<int> rowid,
 });
 
@@ -3329,6 +3448,16 @@ class $$BrewsTableFilterComposer extends Composer<_$AppDatabase, $BrewsTable> {
 
   ColumnFilters<bool> get manual => $composableBuilder(
     column: $table.manual,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get actualCoffeeG => $composableBuilder(
+    column: $table.actualCoffeeG,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get actualWaterG => $composableBuilder(
+    column: $table.actualWaterG,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -3416,6 +3545,16 @@ class $$BrewsTableOrderingComposer
     column: $table.manual,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<double> get actualCoffeeG => $composableBuilder(
+    column: $table.actualCoffeeG,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get actualWaterG => $composableBuilder(
+    column: $table.actualWaterG,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$BrewsTableAnnotationComposer
@@ -3483,6 +3622,16 @@ class $$BrewsTableAnnotationComposer
 
   GeneratedColumn<bool> get manual =>
       $composableBuilder(column: $table.manual, builder: (column) => column);
+
+  GeneratedColumn<double> get actualCoffeeG => $composableBuilder(
+    column: $table.actualCoffeeG,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get actualWaterG => $composableBuilder(
+    column: $table.actualWaterG,
+    builder: (column) => column,
+  );
 }
 
 class $$BrewsTableTableManager
@@ -3528,6 +3677,8 @@ class $$BrewsTableTableManager
                 Value<bool> correctionAccepted = const Value.absent(),
                 Value<String> notes = const Value.absent(),
                 Value<bool> manual = const Value.absent(),
+                Value<double?> actualCoffeeG = const Value.absent(),
+                Value<double?> actualWaterG = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => BrewsCompanion(
                 id: id,
@@ -3545,6 +3696,8 @@ class $$BrewsTableTableManager
                 correctionAccepted: correctionAccepted,
                 notes: notes,
                 manual: manual,
+                actualCoffeeG: actualCoffeeG,
+                actualWaterG: actualWaterG,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3564,6 +3717,8 @@ class $$BrewsTableTableManager
                 Value<bool> correctionAccepted = const Value.absent(),
                 Value<String> notes = const Value.absent(),
                 Value<bool> manual = const Value.absent(),
+                Value<double?> actualCoffeeG = const Value.absent(),
+                Value<double?> actualWaterG = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => BrewsCompanion.insert(
                 id: id,
@@ -3581,6 +3736,8 @@ class $$BrewsTableTableManager
                 correctionAccepted: correctionAccepted,
                 notes: notes,
                 manual: manual,
+                actualCoffeeG: actualCoffeeG,
+                actualWaterG: actualWaterG,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

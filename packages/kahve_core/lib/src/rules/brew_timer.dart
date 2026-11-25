@@ -2,6 +2,20 @@ import 'package:meta/meta.dart';
 
 import '../model/recipe.dart';
 
+/// Ağırlık tetikleyicili adımların ilerleme biçimi.
+enum WeightMode {
+  /// Bağlı terazi yok: süre verilmişse süreyle, yoksa onayla.
+  none,
+
+  /// Bağlı terazi sağlıklı veri gönderiyor: hedef ağırlığa ulaşınca geçer
+  /// (KHV-FR-SCL-004).
+  live,
+
+  /// Bağlantı koptu veya veri tutarsız: otomatik ilerleme durur, adım
+  /// kullanıcı onayına döner (KHV-FR-SCL-005).
+  degraded,
+}
+
 /// Zamanlayıcının ürettiği olaylar.
 sealed class TimerEvent {
   const TimerEvent();
@@ -60,6 +74,7 @@ class TimerView {
     required this.finished,
     required this.waitingForConfirm,
     required this.canUndoSkip,
+    this.waitingForWeight = false,
   });
 
   /// Aktif adım indeksi.
@@ -88,6 +103,9 @@ class TimerView {
 
   /// Son adım atlama 5 sn içinde geri alınabilir mi (KHV-HMI-009).
   final bool canUndoSkip;
+
+  /// Adım bağlı teraziden hedef ağırlığı bekliyor mu (KHV-FR-SCL-004).
+  final bool waitingForWeight;
 
   /// Kalan süre tam saniye olarak (yukarı yuvarlanmış).
   int? get stepRemainingS =>
@@ -151,8 +169,32 @@ class BrewTimer {
   int _lastCountdown = 0;
   _Skip? _lastSkip;
 
+  /// Ağırlık tetikleyicili adımların nasıl ilerleyeceği
+  /// (KHV-FR-SCL-004, SCL-005).
+  WeightMode weightMode = WeightMode.none;
+
   /// Başlatıldı mı.
   bool get started => _started;
+
+  static bool _isWeightStep(BrewStep s) =>
+      s.trigger == StepTrigger.weight && s.targetWaterG != null;
+
+  bool _byTime(BrewStep s) =>
+      s.advancesByTime && !(_isWeightStep(s) && weightMode != WeightMode.none);
+
+  /// Bağlı terazinin ağırlığını işler (KHV-FR-SCL-004). Canlı ağırlık
+  /// modunda ağırlık tetikleyicili adım hedefe ulaşınca geçer.
+  List<TimerEvent> feedWeight(int nowMs, double grams) {
+    if (!_started || _finished || _paused) return const [];
+    if (weightMode != WeightMode.live) return const [];
+    final step = steps[_index];
+    if (!_isWeightStep(step)) return const [];
+    if (grams + weightToleranceG < step.targetWaterG!) return const [];
+    return _advance(nowMs, _total(nowMs));
+  }
+
+  /// Hedefe bu kadar yaklaşınca adım tamamlanmış sayılır (g).
+  static const weightToleranceG = 1.0;
 
   /// Aktif adım.
   BrewStep get currentStep => steps[_index];
@@ -221,7 +263,7 @@ class BrewTimer {
     // Uzun kesintiden sonra birden çok adım geçebilir.
     while (!_finished) {
       final step = steps[_index];
-      if (!step.advancesByTime) break;
+      if (!_byTime(step)) break;
       final end = _stepStartTotalMs + step.durationS! * 1000;
       if (total >= end) {
         events.addAll(_advance(nowMs, end));
@@ -258,7 +300,16 @@ class BrewTimer {
           : (duration - stepElapsed).clamp(0, duration),
       paused: _paused,
       finished: _finished,
-      waitingForConfirm: _started && !_finished && !step.advancesByTime,
+      waitingForConfirm:
+          _started &&
+          !_finished &&
+          !_byTime(step) &&
+          !(_isWeightStep(step) && weightMode == WeightMode.live),
+      waitingForWeight:
+          _started &&
+          !_finished &&
+          _isWeightStep(step) &&
+          weightMode == WeightMode.live,
       canUndoSkip: _lastSkip != null && nowMs - _lastSkip!.atMs <= undoWindowMs,
     );
   }
@@ -285,7 +336,7 @@ class BrewTimer {
     var offset = 0;
     for (var i = _index; i < steps.length; i++) {
       final s = steps[i];
-      if (!s.advancesByTime) break;
+      if (!_byTime(s)) break;
       final remaining = i == _index
           ? (v.stepRemainingMs ?? 0)
           : s.durationS! * 1000;

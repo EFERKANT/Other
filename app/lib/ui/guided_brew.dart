@@ -55,6 +55,15 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
   Recipe? _recipe;
   BrewTimer? _timer;
   String? _beanId;
+
+  /// Ortak terazi arayüzü (KHV-ARC-007); MVP'de elle giriş.
+  late final Scale _scale;
+  final _guard = WeightGuard();
+  StreamSubscription<WeightReading>? _weightSub;
+  StreamSubscription<ScaleConnection>? _connSub;
+
+  /// Hazırlıkta tartılan kahve (g); yalnız terazisi olana sorulur.
+  double? _actualCoffeeG;
   LongBrew? _longBrew;
   final _checked = <int>{};
   Timer? _ticker;
@@ -72,6 +81,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _scale = ref.read(scaleFactoryProvider)();
     unawaited(WakelockPlus.enable().catchError((Object _) {}));
     unawaited(_init());
   }
@@ -80,6 +90,9 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _ticker?.cancel();
+    unawaited(_weightSub?.cancel());
+    unawaited(_connSub?.cancel());
+    unawaited(_scale.dispose());
     unawaited(WakelockPlus.disable().catchError((Object _) {}));
     super.dispose();
   }
@@ -107,6 +120,76 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       return '${formatNumber(w)} grama kadar dök';
     }
     return s.title;
+  }
+
+  /// Terazi akışını zamanlayıcıya bağlar (KHV-ARC-007). Canlı terazide
+  /// ağırlık adımları ağırlıkla ilerler (KHV-FR-SCL-004); veri tutarsızsa
+  /// otomatik ilerleme durur ve adım onaya döner (KHV-FR-SCL-005). Elle
+  /// girişte adımlar mevcut tetikleyicileriyle ilerler.
+  void _attachScale() {
+    final t = _timer!;
+    t.weightMode = _scale.isManual ? WeightMode.none : WeightMode.live;
+    _weightSub ??= _scale.weights.listen((r) {
+      if (!mounted) return;
+      if (!_scale.isManual) {
+        final before = _guard.autoAdvanceAllowed;
+        _guard.feed(r);
+        _applyGuard(before);
+        _handle(t.feedWeight(_now, r.grams));
+      }
+      setState(() {});
+    });
+    _connSub ??= _scale.connection.listen((c) {
+      if (!mounted || _scale.isManual) return;
+      final before = _guard.autoAdvanceAllowed;
+      _guard.onConnection(c);
+      _applyGuard(before);
+    });
+  }
+
+  void _applyGuard(bool wasAllowed) {
+    final t = _timer;
+    if (t == null || !wasAllowed || _guard.autoAdvanceAllowed) return;
+    t.weightMode = WeightMode.degraded;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _guard.health == WeightHealth.disconnected
+              ? 'Terazi bağlantısı koptu. Adımları dokunarak ilerletin.'
+              : 'Terazi verisi tutarsız. Adımları dokunarak ilerletin.',
+        ),
+      ),
+    );
+    setState(() {});
+  }
+
+  Future<void> _enterWeight() async {
+    final c = TextEditingController();
+    final value = await showDialog<double>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Terazide kaç gram görünüyor?'),
+        content: TextField(
+          controller: c,
+          autofocus: true,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: const InputDecoration(suffixText: 'g'),
+          onSubmitted: (v) => Navigator.pop(ctx, parseNumber(v)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, parseNumber(c.text)),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    final s = _scale;
+    if (value != null && value >= 0 && s is ManualScale) s.enter(value);
   }
 
   /// Uygulama arka plana alınınca adım geçişlerini bildirim olarak planlar
@@ -307,6 +390,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
         nowMs: _now,
         elapsedSinceSnapshotMs: gap.inMilliseconds,
       );
+      _attachScale();
       if (!active.snapshot.started) {
         _timer = null;
         setState(() => _phase = _Phase.checklist);
@@ -347,6 +431,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
     if (!mounted) return;
     final t = BrewTimer(steps);
     _timer = t;
+    _attachScale();
     _handle(t.start(_now));
     _beginTicking();
     setState(() => _phase = _Phase.running);
@@ -463,8 +548,11 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
         beanId: Value(_beanId),
         equipmentJson: Value(jsonEncode(settings.equipment.toJson())),
         actualTimeS: Value(actualS),
+        // Yalnız sonuç değerleri kaydedilir (KHV-FR-SCL-009).
+        actualCoffeeG: Value(_actualCoffeeG),
+        actualWaterG: Value(_scale.latest?.grams),
       ),
-      doseG: r.coffeeG,
+      doseG: _actualCoffeeG ?? r.coffeeG,
     );
     await db.deleteKey(activeBrewKey);
     await _cancelBackground();
@@ -561,6 +649,17 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
               onChanged: (v) => setState(
                 () => v == true ? _checked.add(i) : _checked.remove(i),
               ),
+            ),
+          if ((ref.watch(settingsProvider).value?.equipment.hasScale ?? false))
+            NumberStepper(
+              label: 'Tartılan kahve',
+              value: _actualCoffeeG ?? r.coffeeG,
+              unit: 'g',
+              step: 0.1,
+              min: 1,
+              max: 500,
+              showSlider: false,
+              onChanged: (v) => setState(() => _actualCoffeeG = v),
             ),
           const SectionTitle('Çekirdek'),
           DropdownButtonFormField<String?>(
@@ -678,6 +777,30 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(step.description, textAlign: TextAlign.center),
               ),
+            if (step.targetWaterG != null) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                children: [
+                  ActionChip(
+                    avatar: const Icon(Icons.scale, size: 18),
+                    label: Text(
+                      _scale.latest == null
+                          ? 'Terazideki değeri gir'
+                          : 'Terazi: ${formatNumber(_scale.latest!.grams)} g',
+                    ),
+                    onPressed: _enterWeight,
+                  ),
+                  if (_scale.supportsTare)
+                    ActionChip(
+                      avatar: const Icon(Icons.exposure_zero, size: 18),
+                      label: const Text('Dara'),
+                      onPressed: () => unawaited(_scale.tare()),
+                    ),
+                ],
+              ),
+            ],
             const SizedBox(height: 16),
             if (next != null)
               Text(

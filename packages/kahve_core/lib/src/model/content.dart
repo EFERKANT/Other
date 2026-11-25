@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../rules/dial_in.dart';
 import '../rules/maintenance.dart';
+import '../scale/registry.dart';
 import 'brew_method.dart';
 import 'recipe.dart';
 
@@ -198,6 +199,7 @@ class ContentBundle {
     required this.catalog,
     this.maintenance = const [],
     this.flags = const {},
+    this.scales = const [],
   });
 
   /// JSON'dan okur ve tutarlılığı doğrular.
@@ -217,6 +219,7 @@ class ContentBundle {
       maintenance: list('maintenance')
           .map(MaintenanceTemplate.fromJson)
           .toList(),
+      scales: list('scales').map(SupportedScale.fromJson).toList(),
       flags: {
         for (final e
             in ((j['flags'] as Map?)?.cast<String, Object?>() ?? const {})
@@ -255,6 +258,9 @@ class ContentBundle {
   /// Bakım şablonları (KHV-FR-ENG-001).
   final List<MaintenanceTemplate> maintenance;
 
+  /// Desteklenen Bluetooth teraziler (KHV-FR-SCL-001).
+  final List<SupportedScale> scales;
+
   /// Uzaktan açılıp kapatılabilen özellik bayrakları (KHV-ARC-006).
   final Map<String, bool> flags;
 
@@ -288,6 +294,9 @@ class ContentBundle {
       if (!rules.any((r) => r.symptom == s && r.tier == 1)) {
         errors.add('İlk düzeltme kuralı eksik: ${s.name}');
       }
+    }
+    for (final s in scales) {
+      errors.addAll(ScaleRegistry.validate(s));
     }
     final guideIds = {for (final g in guides) g.id};
     for (final c in catalog) {

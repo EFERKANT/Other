@@ -76,6 +76,13 @@ class Brews extends Table {
   TextColumn get notes => text().withDefault(const Constant(''))();
   BoolColumn get manual => boolean().withDefault(const Constant(false))();
 
+  /// Terazide tartılan kahve (g); yalnız sonuç değeri saklanır
+  /// (KHV-FR-SCL-009). Şema v2.
+  RealColumn get actualCoffeeG => real().nullable()();
+
+  /// Terazide ölçülen toplam su veya espresso çıktısı (g). Şema v2.
+  RealColumn get actualWaterG => real().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
@@ -98,11 +105,18 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) => m.createAll(),
+    onUpgrade: (m, from, to) async {
+      // v1 → v2: gerçekleşen doz ve su (KHV-FR-SCL-009, KHV-ARC-007).
+      if (from < 2) {
+        await m.addColumn(brews, brews.actualCoffeeG);
+        await m.addColumn(brews, brews.actualWaterG);
+      }
+    },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },

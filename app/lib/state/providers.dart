@@ -33,6 +33,13 @@ final monotonicMsProvider = Provider<int Function()>(
       () => _monotonic.elapsedMilliseconds,
 );
 
+/// Rehber modda kullanılacak terazi (KHV-ARC-007). MVP'de elle giriş;
+/// ikinci sürümde eşleştirilmiş Bluetooth terazi aynı arayüzle döner.
+final scaleFactoryProvider = Provider<Scale Function()>(
+  (ref) =>
+      () => ManualScale(clock: ref.read(clockProvider)),
+);
+
 /// Kimlik üretici.
 final idProvider = Provider<String Function()>(
   (ref) =>
