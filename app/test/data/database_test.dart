@@ -190,4 +190,14 @@ void main() {
     expect(jsonDecode(events.last.payload), {'brewId': 'e1', 'score': 4});
     expect(events.every((e) => e.at.year == DateTime.now().year), isTrue);
   });
+
+  test('kayıt zamanları enjekte edilen saatten gelir (KB-023, '
+      'KHV-FR-BRW-011)', () async {
+    final fixed = DateTime(2030, 1, 2, 3, 4);
+    final clocked = AppDatabase(NativeDatabase.memory(), clock: () => fixed);
+    addTearDown(clocked.close);
+    await clocked.logEvent('test', const {});
+    final events = await clocked.select(clocked.eventLog).get();
+    expect(events.single.at, fixed);
+  });
 }

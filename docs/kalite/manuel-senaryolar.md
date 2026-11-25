@@ -39,7 +39,7 @@ Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.
 | TC-SOC-003 | KHV-FR-SOC-003 | Test | Cihaz + Entegrasyon | `platform_features_test.dart`, `misc_test.dart` |  |
 | TC-ARC-003 | KHV-ARC-003 | Test | Cihaz | `platform_features_test.dart` |  |
 | TC-BRW-009 | KHV-FR-BRW-009 | Test | Entegrasyon + Cihaz | `platform_features_test.dart`, `brew_timer_test.dart`, `timer_stres_test.dart` |  |
-| TC-BRW-011 | KHV-FR-BRW-011 | Test | Birim + Cihaz | `brew_timer_test.dart`, `timer_stres_test.dart` |  |
+| TC-BRW-011 | KHV-FR-BRW-011 | Test | Birim + Cihaz | `database_test.dart`, `brew_timer_test.dart`, `timer_stres_test.dart` |  |
 | TC-BRW-012 | KHV-FR-BRW-012 | Test | Cihaz | - |  |
 | TC-BRW-013 | KHV-FR-BRW-013 | Test | Cihaz | `platform_features_test.dart` |  |
 | TC-NFR-026 | KHV-NFR-026 | Test | Entegrasyon + Cihaz | `misc_test.dart` |  |

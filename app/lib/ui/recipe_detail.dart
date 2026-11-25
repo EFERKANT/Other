@@ -81,7 +81,7 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
             onSelected: (v) => switch (v) {
               'copy' => _saveAsMine(r),
               'share' => _share(r),
-              'rename' => _rename(r),
+              'rename' => _rename(base),
               'delete' => _delete(r),
               _ => null,
             },
@@ -464,10 +464,15 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
     setState(() => _work = null);
   }
 
-  Future<void> _rename(Recipe r) async {
-    final name = await _askName(r.name);
+  /// Yalnız adı değiştirir; kaydedilmemiş miktar düzenlemesi yazılmaz, yeni
+  /// ad düzenlenen kopyaya da işlenir (KB-019, KHV-FR-RCP-006).
+  Future<void> _rename(Recipe base) async {
+    final name = await _askName(base.name);
     if (name == null || name.isEmpty) return;
-    await ref.read(databaseProvider).saveUserRecipe(r.copyWith(name: name));
+    await ref.read(databaseProvider).saveUserRecipe(base.copyWith(name: name));
+    if (mounted && _work != null) {
+      setState(() => _work = _work!.copyWith(name: name));
+    }
   }
 
   /// Silme; demleme kayıtları korunur (KHV-FR-RCP-014).

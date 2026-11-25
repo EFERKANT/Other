@@ -113,10 +113,11 @@ class FakeLinks implements IncomingLinks {
 }
 
 class TestEnv {
-  TestEnv() : db = AppDatabase(NativeDatabase.memory());
-
-  final AppDatabase db;
   final clock = FakeClock();
+  late final AppDatabase db = AppDatabase(
+    NativeDatabase.memory(),
+    clock: () => clock.wall,
+  );
   final notifications = FakeNotifications();
   final speaker = FakeSpeaker();
   final sharer = FakeSharer();

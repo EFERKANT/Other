@@ -631,7 +631,7 @@ class LegalScreen extends StatelessWidget {
         Text(
           'Tarif ve öneriler genel bilgilendirme amaçlıdır. Değerler yaygın '
           'kabul gören başlangıç noktalarıdır, kesin kural değildir. '
-          'Ekipman örnekleri tavsiye niteliğindedir; uygulama fiyat ve satın '
+          'Ekipman rehberi marka veya model önermez; uygulama fiyat ve satın '
           'alma bağlantısı göstermez.',
         ),
         SectionTitle('Kişisel veriler'),

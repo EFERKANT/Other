@@ -121,6 +121,45 @@ void main() {
     expect(n.$3.difference(env.clock.wall).inHours, 14);
   });
 
+  testWidgets('uzun demleme bitmeden açılınca kalan süre gösterilir, erken '
+      'kayıt olmaz; geri dönülebilir (KB-024, KHV-FR-BRW-009)', (tester) async {
+    final env = await setUpEnv(
+      tester,
+      settings: v60User.copyWith(
+        equipment: const EquipmentProfile(brewers: {BrewMethod.coldBrew}),
+      ),
+    );
+    await tester.tap(find.text('Cold brew konsantre'));
+    await settle(tester);
+    await tester.tap(find.text('Rehberle demle'));
+    await settle(tester);
+    await tester.tap(find.text('Demlemeyi başlat'));
+    await settle(tester, 6);
+    await tester.tap(find.textContaining('Adım '));
+    await settle(tester, 4);
+    await tester.tap(find.text('Arka planda takip et'));
+    await settle(tester);
+    await tester.tap(find.text('Demle'));
+    await settle(tester);
+    await tester.tap(find.text('Aç'));
+    await settle(tester, 6);
+    expect(find.text('Demleniyor'), findsOneWidget);
+    expect(find.text('Çift filtrele'), findsNothing);
+    // İki dokunuşla erken kayıt olmaz.
+    await tester.tap(find.textContaining('Adım '));
+    await settle(tester, 4);
+    await tester.tap(find.textContaining('Adım '));
+    await settle(tester, 4);
+    expect(find.text('Tadı nasıldı?'), findsNothing);
+    final brews = (await tester.runAsync(() => env.db.watchBrews().first))!;
+    expect(brews, isEmpty);
+    // Geri dönülür; uzun demleme ve bildirimi sürer.
+    await tester.binding.handlePopRoute();
+    await settle(tester);
+    expect(find.textContaining('Bitiş:'), findsOneWidget);
+    expect(env.notifications.scheduled, hasLength(1));
+  });
+
   testWidgets('paylaşım kartı: görsel + bağlantı, kişisel veri yok '
       '(KHV-FR-SOC-001, SOC-002, SOC-010)', (tester) async {
     final env = await setUpEnv(tester, settings: v60User);

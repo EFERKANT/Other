@@ -102,7 +102,12 @@ class EventLog extends Table {
   tables: [KvEntries, UserRecipes, Favorites, Beans, Brews, EventLog],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(super.e);
+  /// [clock] kayıt zamanları için duvar saatidir; testte sahtesi verilir
+  /// (CLAUDE.md zaman kuralı, KB-023).
+  AppDatabase(super.e, {this.clock = DateTime.now});
+
+  /// Kayıt zamanı kaynağı.
+  final DateTime Function() clock;
 
   @override
   int get schemaVersion => 2;
@@ -160,7 +165,7 @@ class AppDatabase extends _$AppDatabase {
           id: r.id,
           methodId: r.method.id,
           json: jsonEncode(r.toJson()),
-          updatedAt: DateTime.now(),
+          updatedAt: clock(),
         ),
       );
 
@@ -263,7 +268,7 @@ class AppDatabase extends _$AppDatabase {
   Future<void> logEvent(String type, Map<String, Object?> payload) =>
       into(eventLog).insert(
         EventLogCompanion.insert(
-          at: DateTime.now(),
+          at: clock(),
           type: type,
           payload: Value(jsonEncode(payload)),
         ),

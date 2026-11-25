@@ -16,6 +16,8 @@ Sütunlar: **Dokunma**: "Düğme" dokunulabilir, "Gösterge" yalnız bilgi verir
 | `coffee` / `coffee_outlined` | Espresso yöntemi | "Demle" sekmesi | Sekme yalnız espressoyu çağrıştırır | Sekme için genel bir simge veya espresso için ayrı simge |
 | `grain` | Çekirdek (çekirdek listesi, tarif) | Öğütme (paylaşım kartı) | Paylaşım kartında "Öğütme" satırı çekirdek simgesiyle | Öğütme için ayrı simge (ör. `tune`) |
 | `check` | "Dikkat edin" maddesi (ekipman rehberi) | Seçildi (kurulum) / şüphe yok (tat sonucu) | Üç ayrı anlam | Rehber maddesi için `arrow_right` veya madde imi; `check` yalnız "seçildi" |
+| `coffee_maker_outlined` | French press yöntemi | Ayarlar "Demleme araçları" | Yöntem ile ayar bölümü aynı simge | Ayar bölümü için ayrı simge |
+| `stop` | Bitir (basılı tut): demlemeyi **kaydetmeden** bırakır | - | "Bitir" kaydedip bitirmeyi çağrıştırır; davranış "vazgeç" | Ürün sahibi kararı: etiket "Demlemeyi bırak" mı, yoksa kayıt mı tutulmalı (KB-025) |
 
 ## Durum gösteren simgeler
 

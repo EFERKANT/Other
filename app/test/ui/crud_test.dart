@@ -169,6 +169,73 @@ void main() {
     );
   });
 
+  testWidgets('düzenleme sürerken yeniden adlandırma yalnız adı kaydeder, '
+      'sonraki Kaydet adı geri almaz (KB-019, KHV-FR-RCP-006)', (tester) async {
+    final env = await setUpEnv(tester, settings: v60User);
+    await tester.tap(find.text('V60 başlangıç'));
+    await settle(tester);
+    await tester.tap(find.byTooltip('Diğer işlemler'));
+    await settle(tester);
+    await tester.tap(find.text('Kendi tarifim olarak kaydet'));
+    await settle(tester);
+    await tester.tap(find.text('Kaydet'));
+    await settle(tester);
+    Future<Recipe> saved() async =>
+        (await tester.runAsync(() => env.db.watchUserRecipes().first))!.single;
+    final before = await saved();
+    // Kaydedilmemiş miktar değişikliği.
+    await tester.tap(find.byIcon(Icons.add).first);
+    await settle(tester);
+    await tester.tap(find.byTooltip('Diğer işlemler'));
+    await settle(tester);
+    await tester.tap(find.text('Yeniden adlandır'));
+    await settle(tester);
+    await tester.enterText(find.byType(TextField), 'Akşam V60');
+    await tester.tap(find.widgetWithText(FilledButton, 'Kaydet'));
+    await settle(tester);
+    var r = await saved();
+    expect(r.name, 'Akşam V60');
+    expect(r.coffeeG, before.coffeeG, reason: 'miktar sorulmadan yazılmaz');
+    expect(find.text('Akşam V60'), findsWidgets, reason: 'başlık güncellenir');
+    // Düzenleme şimdi kaydedilir; ad korunur.
+    await tester.tap(find.widgetWithText(TextButton, 'Kaydet'));
+    await settle(tester);
+    r = await saved();
+    expect(r.name, 'Akşam V60');
+    expect(r.coffeeG, greaterThan(before.coffeeG));
+  });
+
+  testWidgets('çekirdek silme onay ister; Vazgeç silmez (KB-022, '
+      'KHV-HMI-009)', (tester) async {
+    final env = await setUpEnv(tester, settings: v60User);
+    await env.db.saveBean(
+      BeansCompanion.insert(
+        id: 'b1',
+        name: 'Etiyopya',
+        createdAt: DateTime(2026),
+      ),
+    );
+    Future<int> count() async =>
+        (await tester.runAsync(() => env.db.watchBeans().first))!.length;
+    await tester.tap(find.text('Günlük'));
+    await settle(tester);
+    await tester.tap(find.text('Çekirdekler'));
+    await settle(tester);
+    await tester.tap(find.text('Etiyopya'));
+    await settle(tester);
+    await tester.tap(find.byTooltip('Sil'));
+    await settle(tester);
+    expect(find.text('Çekirdek silinsin mi?'), findsOneWidget);
+    await tester.tap(find.text('Vazgeç'));
+    await settle(tester);
+    expect(await count(), 1);
+    await tester.tap(find.byTooltip('Sil'));
+    await settle(tester);
+    await tester.tap(find.widgetWithText(FilledButton, 'Sil'));
+    await settle(tester);
+    expect(await count(), 0);
+  });
+
   testWidgets('günlük yönteme, çekirdeğe ve puana göre süzülür '
       '(KHV-FR-LOG-002)', (tester) async {
     final env = await setUpEnv(tester, settings: v60User);

@@ -649,7 +649,29 @@ class _BeanEditScreenState extends ConsumerState<BeanEditScreen> {
     if (mounted) context.pop();
   }
 
+  /// Silme geri alınamaz; önce onay istenir (KB-022, KHV-HMI-009).
   Future<void> _delete() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Çekirdek silinsin mi?'),
+        content: const Text(
+          'Bu işlem geri alınamaz. Bitmiş çekirdeği arşivlemek de '
+          'yeni demlemede listelenmemesini sağlar.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
     final ok = await ref.read(databaseProvider).deleteBean(widget.beanId!);
     if (!mounted) return;
     if (ok) {

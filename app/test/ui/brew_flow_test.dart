@@ -150,6 +150,41 @@ void main() {
     expect(find.text('DURAKLATILDI'), findsOneWidget);
   });
 
+  testWidgets('son adım atlanınca demleme biter, Geri al bildirimi tat '
+      'ekranına taşınmaz (KB-020, KHV-HMI-009)', (tester) async {
+    await setUpEnv(tester, settings: v60User);
+    await openV60(tester);
+    await tester.tap(find.text('Demlemeyi başlat'));
+    await settle(tester, 4);
+    for (
+      var i = 0;
+      i < 6 && find.text('Tadı nasıldı?').evaluate().isEmpty;
+      i++
+    ) {
+      await tester.tap(find.byTooltip('Adımı atla'));
+      await settle(tester, 10);
+    }
+    expect(find.text('Tadı nasıldı?'), findsOneWidget);
+    // Kapanmakta olan bildirimin çıkış animasyonu biter.
+    await tester.pump(const Duration(seconds: 1));
+    await settle(tester);
+    expect(find.text('Geri al'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('demleme sürerken geri tuşu demlemeyi kapatmaz, Bitir\'e '
+      'yönlendirir (KB-021, KHV-HMI-009)', (tester) async {
+    final env = await setUpEnv(tester, settings: v60User);
+    await openV60(tester);
+    await tester.tap(find.text('Demlemeyi başlat'));
+    await settle(tester, 4);
+    await tester.binding.handlePopRoute();
+    await settle(tester);
+    expect(find.text('Adım 1/6'), findsOneWidget);
+    expect(find.textContaining('basılı tutun'), findsOneWidget);
+    expect(await env.db.readJson(activeBrewKey), isNotNull);
+  });
+
   testWidgets('kayıtlı çekirdek yoksa hazırlıktan eklenir ve seçilebilir '
       '(KB-014, KHV-FR-LOG-004)', (tester) async {
     await setUpEnv(tester, settings: v60User);

@@ -373,13 +373,26 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       _beanId = lb.beanId;
       final after = _stepsAfterLongStep(lb.recipe);
       _recipe = lb.recipe;
-      _startTimer(
-        after.isEmpty
-            ? const [
-                BrewStep(title: 'Demleme hazır', trigger: StepTrigger.confirm),
-              ]
-            : after,
-      );
+      // Bitmeden açılırsa önce kalan süre gösterilir; sonraki adımlar ve
+      // kayıt süre dolmadan başlamaz (KB-024, KHV-FR-BRW-009).
+      final remainingS = lb.endsAt
+          .difference(ref.read(clockProvider)())
+          .inSeconds;
+      _startTimer([
+        if (remainingS > 0)
+          BrewStep(
+            title: 'Demleniyor',
+            description:
+                'Süre dolunca bildirim gelir. Bu ekrandan çıkmak '
+                'demlemeyi durdurmaz.',
+            trigger: StepTrigger.time,
+            durationS: remainingS,
+          ),
+        if (after.isEmpty)
+          const BrewStep(title: 'Demleme hazır', trigger: StepTrigger.confirm)
+        else
+          ...after,
+      ]);
       return;
     }
     if (l.recipe == null && l.recipeId == null) {
@@ -531,6 +544,8 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
     if (_finishing) return;
     _finishing = true;
     _ticker?.cancel();
+    // Bitmiş demlemede "Geri al" gibi bildirim tat ekranına taşınmaz (KB-020).
+    ScaffoldMessenger.of(context).clearSnackBars();
     final r = _recipe!;
     final db = ref.read(databaseProvider);
     final id = ref.read(idProvider)();
@@ -604,6 +619,8 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
   void _skip() {
     final t = _timer!;
     _handle(t.skip(_now));
+    // Son adım atlandıysa demleme bitti; geri alınacak adım yok (KB-020).
+    if (_finishing) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -615,6 +632,8 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
           action: SnackBarAction(
             label: 'Geri al',
             onPressed: () {
+              // Ekran kapandıysa (demleme bitti) geri alma yapılmaz (KB-020).
+              if (!mounted || _finishing) return;
               if (t.undoSkip(_now)) {
                 _finishing = false;
                 _beginTicking();
@@ -921,28 +940,48 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_recipe!.name),
-        automaticallyImplyLeading: false,
-        backgroundColor: bg,
-      ),
-      body: AnimatedContainer(
-        duration: reduceMotion
-            ? Duration.zero
-            : const Duration(milliseconds: 250),
-        color: bg,
-        child: SafeArea(
-          // Onay adımlarında ekranın herhangi bir yerine dokunarak
-          // ilerlenir (KHV-HMI-006).
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: v.waitingForConfirm && !paused
-                ? () => setState(() => _handle(t.confirm(_now)))
-                : null,
-            child: Semantics(
-              onTapHint: v.waitingForConfirm ? 'Sonraki adıma geç' : null,
-              child: body,
+    // Demleme sürerken geri tuşu veya kenardan kaydırma demlemeyi sessizce
+    // kapatmaz; bitirmek basılı tutmayla olur (KB-021, KHV-HMI-009).
+    // Uzun demleme arka planda sürer; ekrandan çıkmak onu durdurmaz.
+    return PopScope(
+      canPop: _longBrew != null,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: _snackMargin(),
+              content: const Text(
+                "Demlemeyi bitirmek için Bitir'e basılı tutun.",
+              ),
+            ),
+          );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_recipe!.name),
+          automaticallyImplyLeading: false,
+          backgroundColor: bg,
+        ),
+        body: AnimatedContainer(
+          duration: reduceMotion
+              ? Duration.zero
+              : const Duration(milliseconds: 250),
+          color: bg,
+          child: SafeArea(
+            // Onay adımlarında ekranın herhangi bir yerine dokunarak
+            // ilerlenir (KHV-HMI-006).
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: v.waitingForConfirm && !paused
+                  ? () => setState(() => _handle(t.confirm(_now)))
+                  : null,
+              child: Semantics(
+                onTapHint: v.waitingForConfirm ? 'Sonraki adıma geç' : null,
+                child: body,
+              ),
             ),
           ),
         ),
