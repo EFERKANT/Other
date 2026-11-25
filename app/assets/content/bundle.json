@@ -1,5 +1,74 @@
 {
- "version": 1,
+ "version": 2,
+ "maintenance": [
+  {
+   "id": "descale-espresso",
+   "title": "Kireç çözme",
+   "intervalDays": 60,
+   "methods": [
+    "espresso"
+   ],
+   "description": "Üreticinin kireç çözücüsüyle hazne ve kazanı temizleyin. Sert suda aralığı kısaltın."
+  },
+  {
+   "id": "backflush",
+   "title": "Grup başlığı temizliği (backflush)",
+   "intervalDays": 14,
+   "methods": [
+    "espresso"
+   ],
+   "description": "Kör sepet ve temizlik tozuyla grup başlığını yıkayın."
+  },
+  {
+   "id": "gasket",
+   "title": "Grup contası kontrolü",
+   "intervalDays": 180,
+   "methods": [
+    "espresso"
+   ],
+   "description": "Conta sertleştiyse veya portafilter kenarından sızıntı varsa değiştirin."
+  },
+  {
+   "id": "descale-drip",
+   "title": "Kireç çözme",
+   "intervalDays": 60,
+   "methods": [
+    "drip_machine"
+   ],
+   "description": "Makineyi kireç çözücüyle bir döngü çalıştırın, ardından iki kez temiz suyla durulayın."
+  },
+  {
+   "id": "descale-turkish",
+   "title": "Kireç çözme",
+   "intervalDays": 60,
+   "methods": [
+    "turkish"
+   ],
+   "description": "Türk kahve makinesinin haznesini üreticinin önerdiği çözücüyle temizleyin."
+  },
+  {
+   "id": "moka-gasket",
+   "title": "Moka pot contası ve filtresi",
+   "intervalDays": 180,
+   "methods": [
+    "moka_pot"
+   ],
+   "description": "Conta ve süzgeci kontrol edin; çatlak veya sertleşme varsa değiştirin."
+  },
+  {
+   "id": "grinder-clean",
+   "title": "Öğütücü temizliği",
+   "intervalDays": 30,
+   "requiresBurrGrinder": true,
+   "description": "Burr'ları fırçayla temizleyin; yağ birikimi bayat tat bırakır."
+  }
+ ],
+ "flags": {
+  "maintenance": true,
+  "share": true,
+  "backup": true,
+  "tts": true
+ },
  "methods": [
   {
    "id": "v60",

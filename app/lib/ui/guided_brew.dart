@@ -10,6 +10,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../data/database.dart';
+import '../services/platform.dart';
 import '../state/brew_state.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
@@ -91,6 +92,188 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
         state == AppLifecycleState.detached) {
       unawaited(_persist());
     }
+    if (state == AppLifecycleState.paused) unawaited(_enterBackground());
+    if (state == AppLifecycleState.resumed) unawaited(_cancelBackground());
+  }
+
+  static const _ongoingId = 900;
+  static const _stepBaseId = 1000;
+  static const _maxStepNotifications = 20;
+
+  /// Sesli ve bildirimde kullanılan kısa adım komutu (KHV-HMI-007).
+  static String _command(BrewStep s) {
+    final w = s.targetWaterG;
+    if (w != null && s.title.contains('dök')) {
+      return '${formatNumber(w)} grama kadar dök';
+    }
+    return s.title;
+  }
+
+  /// Uygulama arka plana alınınca adım geçişlerini bildirim olarak planlar
+  /// (KHV-FR-BRW-005) ve kilit ekranında kalan süreyi gösterir
+  /// (KHV-HMI-022, Android).
+  Future<void> _enterBackground() async {
+    final t = _timer;
+    final r = _recipe;
+    if (t == null || r == null || _longBrew != null) return;
+    final v = t.view(_now);
+    if (v.finished) return;
+    final prefs =
+        (ref.read(settingsProvider).value ?? const AppSettings()).notifications;
+    final n = ref.read(notificationsProvider);
+    final wall = ref.read(clockProvider)();
+    try {
+      if (scheduleNotification(NotificationType.brewStep, wall, prefs) !=
+          null) {
+        for (final (i, tr)
+            in t
+                .upcomingTransitions(_now)
+                .take(_maxStepNotifications)
+                .indexed) {
+          final next = tr.stepIndex < t.steps.length
+              ? t.steps[tr.stepIndex]
+              : null;
+          await n.schedule(
+            _stepBaseId + i,
+            r.name,
+            next == null ? 'Demleme bitti. Tadına bakın.' : _command(next),
+            wall.add(Duration(milliseconds: tr.inMs)),
+          );
+        }
+      }
+      await n.showOngoing(
+        _ongoingId,
+        r.name,
+        'Adım ${v.stepIndex + 1}/${v.stepCount}: ${_command(t.currentStep)}',
+        endsAt: v.paused || v.stepRemainingMs == null
+            ? null
+            : wall.add(Duration(milliseconds: v.stepRemainingMs!)),
+      );
+    } on Object {
+      // Bildirim izni yoksa rehber mod uygulama içi uyarılarla sürer
+      // (KHV-HMI-037).
+    }
+  }
+
+  Future<void> _cancelBackground() async {
+    final n = ref.read(notificationsProvider);
+    try {
+      for (var i = 0; i < _maxStepNotifications; i++) {
+        await n.cancel(_stepBaseId + i);
+      }
+      await n.cancel(_ongoingId);
+    } on Object {
+      // Yok sayılır.
+    }
+  }
+
+  /// Adım geçişinde sesli komut; Türkçe ses yoksa uyarı tonu
+  /// (KHV-HMI-007, KHV-FR-BRW-013).
+  Future<void> _speak(BrewStep step) async {
+    final s = ref.read(settingsProvider).value ?? const AppSettings();
+    if (!s.voiceGuidance) return;
+    final speaker = ref.read(speakerProvider);
+    try {
+      if (await speaker.turkishAvailable()) {
+        await speaker.speak(_command(step));
+      } else if (!s.alerts.contains(AlertChannel.sound)) {
+        await SystemSound.play(SystemSoundType.alert);
+      }
+    } on Object {
+      // Ses motoru hatası rehber modu durdurmaz.
+    }
+  }
+
+  /// Bildirime ihtiyaç duyan özellik ilk kullanıldığında, faydasını
+  /// açıklayan ön izin ekranı (KHV-HMI-037). Ret ve kabul eşit ağırlıkta
+  /// (KHV-HMI-039).
+  Future<void> _prepare() async {
+    final ctrl = ref.read(settingsProvider.notifier);
+    final s = ref.read(settingsProvider).value ?? const AppSettings();
+    if (!s.notificationPermissionAsked) {
+      await ctrl.change((x) => x.copyWith(notificationPermissionAsked: true));
+      if (!mounted) return;
+      final allow = await showModalBottomSheet<bool>(
+        context: context,
+        showDragHandle: true,
+        builder: (c) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Telefon kilitliyken de haber verelim mi?',
+                  style: Theme.of(c).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Ekran kapandığında veya başka uygulamaya geçtiğinizde adım '
+                  'geçişlerini ve cold brew bitişini bildirimle iletiriz. '
+                  'İzin vermezseniz uyarılar yalnız uygulama açıkken gelir.',
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(c, false),
+                        child: const Text('Şimdi değil'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(c, true),
+                        child: const Text('İzin ver'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      if (allow == true) {
+        try {
+          await ref.read(notificationsProvider).requestPermission();
+        } on Object {
+          // İzin alınamazsa uygulama içi uyarılar sürer.
+        }
+      }
+    }
+    final s2 = ref.read(settingsProvider).value ?? const AppSettings();
+    if (s2.voiceGuidance && !s2.ttsHelpShown) {
+      final available = await ref
+          .read(speakerProvider)
+          .turkishAvailable()
+          .catchError((Object _) => false);
+      if (!available) {
+        await ctrl.change((x) => x.copyWith(ttsHelpShown: true));
+        if (!mounted) return;
+        await showDialog<void>(
+          context: context,
+          builder: (c) => AlertDialog(
+            title: const Text('Türkçe ses bulunamadı'),
+            content: const Text(
+              'Sesli adım komutu için cihazınıza Türkçe ses paketi yükleyin. '
+              'Android: Ayarlar > Sistem > Diller > Metin okuma > Ses '
+              'verilerini yükle > Türkçe. iOS: Ayarlar > Erişilebilirlik > '
+              'Seslendirilen İçerik > Sesler > Türkçe. O zamana kadar adım '
+              'geçişlerinde uyarı tonu çalacağız.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(c),
+                child: const Text('Anladım'),
+              ),
+            ],
+          ),
+        );
+      }
+    }
   }
 
   Future<void> _init() async {
@@ -159,7 +342,9 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
     return i < 0 ? const [] : r.steps.sublist(i + 1);
   }
 
-  void _startTimer(List<BrewStep> steps) {
+  Future<void> _startTimer(List<BrewStep> steps) async {
+    await _prepare();
+    if (!mounted) return;
     final t = BrewTimer(steps);
     _timer = t;
     _handle(t.start(_now));
@@ -238,6 +423,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
         case StepAdvanced():
           _lastStepStartMs = _now;
           if (e.stepIndex > 0) _alert(strong: true);
+          unawaited(_speak(_timer!.steps[e.stepIndex]));
           unawaited(_persist());
         case PreWarning():
           _alert(strong: false);
@@ -281,6 +467,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       doseG: r.coffeeG,
     );
     await db.deleteKey(activeBrewKey);
+    await _cancelBackground();
     if (lb != null) await ref.read(longBrewsProvider.notifier).remove(lb.id);
     if (!mounted) return;
     // Bitişte tat değerlendirme ekranı açılır (KHV-FR-BRW-007).
@@ -289,6 +476,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
 
   Future<void> _stop() async {
     _ticker?.cancel();
+    await _cancelBackground();
     await ref.read(databaseProvider).deleteKey(activeBrewKey);
     if (mounted) context.canPop() ? context.pop() : context.go('/');
   }

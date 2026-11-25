@@ -24,6 +24,13 @@ dart run build_runner build
 flutter run
 ```
 
+Android APK (Android SDK gerekir):
+
+```bash
+cd app
+flutter build apk
+```
+
 Testler:
 
 ```bash
@@ -43,14 +50,22 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 | --- | --- | --- |
 | ONB Kurulum ve ekipman profili | Uygulandı | ONB-001..005; öğütücü, terazi ve kettle ilk kullanımda sorulur (HMI-016) |
 | RCP Tarif ve hesaplayıcı | Uygulandı | RCP-001..008, 010..014. RCP-009 (°F) S2 |
-| BRW Rehber mod ve zamanlayıcı | Kısmen | BRW-001..004, 006..011 uygulandı. BRW-005 (arka planda bildirim), BRW-012'nin sessiz mod algılaması ve BRW-013 (TTS) yerel eklenti gerektirir, sonraki adım |
+| BRW Rehber mod ve zamanlayıcı | Uygulandı | BRW-001..013. BRW-012: sessiz modda ses sistemin ses kanalına bırakılır; sessiz mod algılaması yerel kod gerektirir |
 | DIA Tat teşhisi ve dial-in | Uygulandı | DIA-001..006, Bölüm 6 kural 1-5. DIA-007 S2 |
 | EQP Ekipman rehberi | Uygulandı | EQP-001..006 |
 | LOG Günlük ve çekirdek | Uygulandı | LOG-001..004, 006..009. LOG-005 (CSV) S2 |
-| SET Ayarlar | Uygulandı | SET-001..003. Yedekleme/dışa aktarma (NFR-030) sonraki adım |
-| HLP Yardım | Kısmen | HLP-001, HLP-002. HLP-003 (hata bildirimi) sunucu kararı bekliyor |
-| HMI | Büyük ölçüde | HMI-001..006, 009..021, 023..028, 030..036, 038..040. HMI-007 (TTS), HMI-022 (Live Activity / kalıcı bildirim), HMI-037 (bildirim izni) yerel eklenti gerektirir |
-| ENG, SOC, ARC | Kısmen | Stok düşümü ve tazelik/stok göstergeleri (ENG-003..005, uygulama içi), paylaşım kodlama/doğrulama çekirdekte hazır (SOC-003/004/009/010). Bildirimler, paylaşım kartı ve deep link sonraki adım |
+| SET Ayarlar | Uygulandı | SET-001..003; yedekleme dışa/içe aktarma (NFR-030) |
+| HLP Yardım | Uygulandı | HLP-001..003; hata bildirimi sistem paylaşım menüsüyle, cihaz bilgisi yalnız onayla |
+| ENG Kullanım sıklığı | Uygulandı (MVP) | ENG-001..005, 008, 009. ENG-006/007 S2 |
+| SOC Sosyal | Uygulandı (MVP) | SOC-001..004, 009, 010. SOC-005/006 S2 |
+| ARC Altyapı | Uygulandı | ARC-001..006; özellik bayrakları içerik paketinde (`flags`) |
+| HMI | Uygulandı | iOS Live Activity (HMI-022) hariç; Android'de kalıcı bildirim ve geri sayım |
+
+### Yayın öncesi yapılması gerekenler
+
+- **Paylaşım alanı:** `https://evkahvesi.app/r/...` bağlantıları için alan adı ve `/.well-known/assetlinks.json` (Android) ile `apple-app-site-association` (iOS) yayımlanmalı. Uygulaması olmayan alıcı bu sayfadan mağazaya yönlendirilir. Alan adı `lib/services/platform.dart` içindeki `shareBaseUrl` sabitindedir. Alan adı hazır olana kadar `evkahvesi://r/...` şeması çalışır.
+- **iOS:** Universal Links için Xcode'da Associated Domains yeteneği, kilit ekranı için Live Activity widget uzantısı eklenmeli (Apple geliştirici hesabı gerektirir).
+- **Android:** Uygulama kimliği (`com.evkahvesi.ev_kahvesi`) ve imzalama yapılandırması kesinleştirilmeli.
 
 ### Dokümandaki çelişkiler için verilen kararlar
 

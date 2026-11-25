@@ -11,6 +11,8 @@ export 'src/rules/beans.dart';
 export 'src/rules/brew_timer.dart';
 export 'src/rules/calculator.dart';
 export 'src/rules/dial_in.dart';
+export 'src/rules/maintenance.dart';
+export 'src/rules/notifications.dart';
 export 'src/rules/profile_rules.dart';
 export 'src/rules/recipe_share.dart';
 export 'src/rules/taste_questions.dart';

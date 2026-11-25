@@ -8,10 +8,12 @@ import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../data/database.dart';
+import '../services/platform.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
+import 'share_card.dart';
 
 final _date = DateFormat('d MMM y, HH:mm', 'tr_TR');
 final _day = DateFormat('d MMM y', 'tr_TR');
@@ -230,6 +232,25 @@ class BrewDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(r.name),
         actions: [
+          IconButton(
+            tooltip: 'Paylaş',
+            icon: const Icon(Icons.ios_share),
+            onPressed: () => showShareSheet(
+              context,
+              recipe: r,
+              beanName: bean?.name,
+              score: a?.score,
+              actualTimeS: b.actualTimeS,
+              onShare: (png, link) => ref
+                  .read(sharerProvider)
+                  .shareFile(
+                    png,
+                    name: 'ev-kahvesi-demleme.png',
+                    mimeType: 'image/png',
+                    text: '${r.name}\n$link',
+                  ),
+            ),
+          ),
           IconButton(
             tooltip: 'Notu düzenle',
             icon: const Icon(Icons.edit_outlined),

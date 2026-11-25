@@ -255,6 +255,70 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
 
+  /// Yedek dosyası biçim sürümü (KHV-NFR-030).
+  static const backupFormat = 1;
+
+  /// Tüm yerel veriyi taşınabilir JSON olarak dışa aktarır (KHV-NFR-030).
+  /// Olay kaydı yedeğe alınmaz.
+  Future<Map<String, Object?>> exportAll({required DateTime at}) async => {
+    'app': 'ev_kahvesi',
+    'format': backupFormat,
+    'schema': schemaVersion,
+    'exportedAt': at.toIso8601String(),
+    'kv': [for (final r in await select(kvEntries).get()) r.toJson()],
+    'recipes': [for (final r in await select(userRecipes).get()) r.toJson()],
+    'favorites': [for (final r in await select(favorites).get()) r.toJson()],
+    'beans': [for (final r in await select(beans).get()) r.toJson()],
+    'brews': [for (final r in await select(brews).get()) r.toJson()],
+  };
+
+  /// Yedeği doğrular ve mevcut verinin yerine yükler. Doğrulama başarısızsa
+  /// mevcut veriye dokunulmaz ve [FormatException] fırlatılır.
+  Future<void> importAll(Map<String, Object?> data) async {
+    if (data['app'] != 'ev_kahvesi') {
+      throw const FormatException('Bu dosya bir Ev Kahvesi yedeği değil.');
+    }
+    final format = data['format'];
+    if (format is! int || format > backupFormat) {
+      throw const FormatException(
+        'Yedek, uygulamanın daha yeni bir sürümüyle alınmış.',
+      );
+    }
+    List<Map<String, Object?>> rows(String key) => [
+      for (final r in (data[key] as List<Object?>? ?? const []))
+        (r! as Map).cast<String, Object?>(),
+    ];
+    final List<KvEntry> kv;
+    final List<UserRecipe> recipes;
+    final List<Favorite> favs;
+    final List<Bean> beanRows;
+    final List<Brew> brewRows;
+    try {
+      kv = rows('kv').map(KvEntry.fromJson).toList();
+      recipes = rows('recipes').map(UserRecipe.fromJson).toList();
+      for (final r in recipes) {
+        Recipe.fromJson((jsonDecode(r.json) as Map).cast<String, Object?>());
+      }
+      favs = rows('favorites').map(Favorite.fromJson).toList();
+      beanRows = rows('beans').map(Bean.fromJson).toList();
+      brewRows = rows('brews').map(Brew.fromJson).toList();
+    } on Object {
+      throw const FormatException('Yedek dosyası bozuk veya eksik.');
+    }
+    await transaction(() async {
+      await wipe();
+      await batch((b) {
+        b
+          ..insertAll(kvEntries, kv)
+          ..insertAll(userRecipes, recipes)
+          ..insertAll(favorites, favs)
+          ..insertAll(beans, beanRows)
+          ..insertAll(brews, brewRows);
+      });
+      await logEvent('import', {'brews': brewRows.length});
+    });
+  }
+
   /// Tüm yerel veriyi siler (KHV-FR-SET-003).
   Future<void> wipe() => transaction(() async {
     for (final t in allTables) {

@@ -158,6 +158,23 @@ void main() {
     expect(r.view(0).paused, isTrue);
   });
 
+  test('arka plan bildirimleri için sıradaki geçişler (KHV-FR-BRW-005)', () {
+    final t = BrewTimer(steps())..start(0);
+    expect(t.upcomingTransitions(4 * s), [
+      (stepIndex: 1, inMs: 6 * s),
+      (stepIndex: 2, inMs: 26 * s),
+    ]);
+    t.pause(5 * s);
+    expect(t.upcomingTransitions(6 * s), isEmpty);
+    t.resume(6 * s);
+    t.tick(40 * s);
+    expect(t.view(40 * s).stepIndex, 2);
+    expect(t.upcomingTransitions(40 * s), isEmpty, reason: 'onay adımı');
+    t.confirm(41 * s);
+    expect(t.upcomingTransitions(42 * s), [(stepIndex: 4, inMs: 4 * s)]);
+    expect(BrewTimer(steps()).upcomingTransitions(0), isEmpty);
+  });
+
   test('kalan planlanan süre (KHV-HMI-022)', () {
     final t = BrewTimer(steps())..start(0);
     expect(t.remainingPlannedMs(4 * s), 6 * s + 20 * s + 5 * s);

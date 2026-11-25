@@ -27,6 +27,10 @@ class AppSettings {
     this.cupMl = 200,
     this.freshnessDays = 30,
     this.seenTerms = const {},
+    this.notifications = const NotificationPrefs(),
+    this.voiceGuidance = true,
+    this.ttsHelpShown = false,
+    this.notificationPermissionAsked = false,
   });
 
   factory AppSettings.fromJson(Map<String, Object?> j) => AppSettings(
@@ -56,6 +60,15 @@ class AppSettings {
       for (final t in (j['seenTerms'] as List<Object?>? ?? const []))
         t! as String,
     },
+    notifications: j['notifications'] == null
+        ? const NotificationPrefs()
+        : NotificationPrefs.fromJson(
+            (j['notifications']! as Map).cast<String, Object?>(),
+          ),
+    voiceGuidance: j['voiceGuidance'] as bool? ?? true,
+    ttsHelpShown: j['ttsHelpShown'] as bool? ?? false,
+    notificationPermissionAsked:
+        j['notificationPermissionAsked'] as bool? ?? false,
   );
 
   final bool onboardingDone;
@@ -78,6 +91,18 @@ class AppSettings {
 
   /// İlk açıklaması gösterilmiş terimler (KHV-HMI-018).
   final Set<String> seenTerms;
+
+  /// Tür bazlı bildirim tercihleri ve sessiz saatler (KHV-FR-ENG-008).
+  final NotificationPrefs notifications;
+
+  /// Sesli adım komutu (KHV-HMI-007).
+  final bool voiceGuidance;
+
+  /// Türkçe ses paketi yardımı gösterildi mi (KHV-FR-BRW-013).
+  final bool ttsHelpShown;
+
+  /// Bildirim ön izin ekranı gösterildi mi (KHV-HMI-037).
+  final bool notificationPermissionAsked;
 
   /// Etkin profil.
   UserProfile get profile =>
@@ -102,6 +127,10 @@ class AppSettings {
     double? cupMl,
     int? freshnessDays,
     Set<String>? seenTerms,
+    NotificationPrefs? notifications,
+    bool? voiceGuidance,
+    bool? ttsHelpShown,
+    bool? notificationPermissionAsked,
   }) => AppSettings(
     onboardingDone: onboardingDone ?? this.onboardingDone,
     onboardingSkipped: onboardingSkipped ?? this.onboardingSkipped,
@@ -117,6 +146,11 @@ class AppSettings {
     cupMl: cupMl ?? this.cupMl,
     freshnessDays: freshnessDays ?? this.freshnessDays,
     seenTerms: seenTerms ?? this.seenTerms,
+    notifications: notifications ?? this.notifications,
+    voiceGuidance: voiceGuidance ?? this.voiceGuidance,
+    ttsHelpShown: ttsHelpShown ?? this.ttsHelpShown,
+    notificationPermissionAsked:
+        notificationPermissionAsked ?? this.notificationPermissionAsked,
   );
 
   Map<String, Object?> toJson() => {
@@ -132,6 +166,10 @@ class AppSettings {
     'cupMl': cupMl,
     'freshnessDays': freshnessDays,
     'seenTerms': seenTerms.toList(),
+    'notifications': notifications.toJson(),
+    'voiceGuidance': voiceGuidance,
+    'ttsHelpShown': ttsHelpShown,
+    'notificationPermissionAsked': notificationPermissionAsked,
   };
 }
 

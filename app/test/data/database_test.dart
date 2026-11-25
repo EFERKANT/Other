@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:drift/native.dart';
 import 'package:ev_kahvesi/data/database.dart';
@@ -111,5 +113,62 @@ void main() {
         'event_log',
       ]),
     );
+  });
+
+  test('yedek dışa/içe aktarma (KHV-NFR-030)', () async {
+    await db.writeJson('settings', {'onboardingDone': true});
+    await db.saveUserRecipe(recipe);
+    await db.setFavorite('r1', favorite: true);
+    await db.saveBean(
+      BeansCompanion.insert(
+        id: 'b1',
+        name: 'Kenya',
+        createdAt: DateTime(2026),
+        roastDate: Value(DateTime(2026, 11, 1)),
+      ),
+    );
+    await db.insertBrew(
+      BrewsCompanion.insert(
+        id: 'br1',
+        brewedAt: DateTime(2026, 11, 24),
+        recipeId: 'r1',
+        lineageId: 'r1',
+        methodId: 'v60',
+        recipeJson: '{}',
+        beanId: const Value('b1'),
+      ),
+    );
+    final backup = await db.exportAll(at: DateTime(2026, 11, 25));
+    final other = AppDatabase(NativeDatabase.memory());
+    addTearDown(other.close);
+    await other.writeJson('settings', {'eski': true});
+    await other.importAll(
+      (jsonDecode(jsonEncode(backup)) as Map).cast<String, Object?>(),
+    );
+    expect(await other.readJson('settings'), {'onboardingDone': true});
+    expect((await other.watchUserRecipes().first).single.id, 'r1');
+    expect(await other.watchFavorites().first, {'r1'});
+    expect((await other.beanById('b1'))!.roastDate, DateTime(2026, 11, 1));
+    expect((await other.brewById('br1'))!.beanId, 'b1');
+  });
+
+  test('geçersiz yedek mevcut veriyi bozmaz', () async {
+    await db.writeJson('settings', {'a': 1});
+    expect(() => db.importAll({'app': 'baska'}), throwsFormatException);
+    expect(
+      () => db.importAll({'app': 'ev_kahvesi', 'format': 99}),
+      throwsFormatException,
+    );
+    expect(
+      () => db.importAll({
+        'app': 'ev_kahvesi',
+        'format': 1,
+        'brews': [
+          {'id': 'x'},
+        ],
+      }),
+      throwsFormatException,
+    );
+    expect(await db.readJson('settings'), {'a': 1});
   });
 }

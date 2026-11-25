@@ -273,6 +273,28 @@ class BrewTimer {
     stepStartTotalMs: _stepStartTotalMs,
   );
 
+  /// Uygulama arka plandayken bildirimle duyurulacak adım geçişleri
+  /// (KHV-FR-BRW-005): şu andan itibaren kaç ms sonra hangi adıma
+  /// geçileceği. Onay bekleyen ilk adımda zincir durur; duraklatılmış veya
+  /// bitmiş demlemede boştur. Son adımın bitişi indeks [steps] uzunluğu ile
+  /// gösterilir.
+  List<({int stepIndex, int inMs})> upcomingTransitions(int nowMs) {
+    final v = view(nowMs);
+    if (!_started || v.paused || v.finished) return const [];
+    final result = <({int stepIndex, int inMs})>[];
+    var offset = 0;
+    for (var i = _index; i < steps.length; i++) {
+      final s = steps[i];
+      if (!s.advancesByTime) break;
+      final remaining = i == _index
+          ? (v.stepRemainingMs ?? 0)
+          : s.durationS! * 1000;
+      offset += remaining;
+      result.add((stepIndex: i + 1, inMs: offset));
+    }
+    return result;
+  }
+
   /// Kalan planlanan süre (ms): aktif adımın kalanı ile sonraki süreli
   /// adımların toplamı. Kilit ekranı/bildirim için (KHV-HMI-022).
   int remainingPlannedMs(int nowMs) {

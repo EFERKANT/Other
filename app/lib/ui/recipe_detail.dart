@@ -3,10 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../services/platform.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
+import 'share_card.dart';
 
 /// Tarif ve hesaplayıcı ekranı (KHV-FR-RCP-002 - RCP-008, RCP-010,
 /// RCP-013, KHV-HMI-011, HMI-012, HMI-016, HMI-017).
@@ -75,6 +77,7 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
             tooltip: 'Diğer işlemler',
             onSelected: (v) => switch (v) {
               'copy' => _saveAsMine(r),
+              'share' => _share(r),
               'rename' => _rename(r),
               'delete' => _delete(r),
               _ => null,
@@ -84,6 +87,8 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
                 value: 'copy',
                 child: Text('Kendi tarifim olarak kaydet'),
               ),
+              if (ref.read(contentProvider).value?.flag('share') ?? true)
+                const PopupMenuItem(value: 'share', child: Text('Paylaş')),
               if (r.editable) ...[
                 const PopupMenuItem(
                   value: 'rename',
@@ -416,6 +421,20 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
       ),
     );
   }
+
+  /// Tarifi görsel kart ve bağlantıyla paylaşır (KHV-FR-SOC-001..003).
+  Future<void> _share(Recipe r) => showShareSheet(
+    context,
+    recipe: r,
+    onShare: (png, link) => ref
+        .read(sharerProvider)
+        .shareFile(
+          png,
+          name: 'ev-kahvesi-tarif.png',
+          mimeType: 'image/png',
+          text: '${r.name}\n$link',
+        ),
+  );
 
   /// Tarifi kopyalayıp kendi tarifi olarak kaydeder (KHV-FR-RCP-006).
   Future<void> _saveAsMine(Recipe r) async {

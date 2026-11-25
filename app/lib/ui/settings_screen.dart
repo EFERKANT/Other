@@ -3,7 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'dart:convert';
+
+import '../services/platform.dart';
 import '../state/brew_state.dart';
+import '../state/maintenance_state.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
@@ -99,6 +103,76 @@ class SettingsScreen extends ConsumerWidget {
             onChanged: (v) =>
                 ctrl.change((x) => x.copyWith(soundInSilentMode: v)),
           ),
+          SwitchListTile(
+            secondary: const Icon(Icons.record_voice_over_outlined),
+            title: const Text('Sesli adım komutu'),
+            subtitle: const Text('Ör. "150 grama kadar dök"'),
+            value: s.voiceGuidance,
+            onChanged: (v) => ctrl.change((x) => x.copyWith(voiceGuidance: v)),
+          ),
+          const SectionTitle('Bildirimler'),
+          for (final (type, label) in const [
+            (NotificationType.brewStep, 'Arka planda adım geçişleri'),
+            (NotificationType.longBrewDone, 'Uzun demleme bitişi'),
+            (NotificationType.lowStock, 'Çekirdek azaldı'),
+            (NotificationType.freshness, 'Çekirdek tazeliği'),
+            (NotificationType.maintenance, 'Bakım zamanı'),
+          ])
+            SwitchListTile(
+              title: Text(label),
+              value: s.notifications.enabled.contains(type),
+              onChanged: (v) => ctrl.change(
+                (x) => x.copyWith(
+                  notifications: x.notifications.copyWith(
+                    enabled: v
+                        ? {...x.notifications.enabled, type}
+                        : ({...x.notifications.enabled}..remove(type)),
+                  ),
+                ),
+              ),
+            ),
+          SwitchListTile(
+            title: const Text('Sessiz saatler'),
+            subtitle: Text(
+              '${_hm(s.notifications.quietStartMin)} - '
+              '${_hm(s.notifications.quietEndMin)} arası hatırlatıcı '
+              'gönderilmez. Günde en fazla 2 hatırlatıcı.',
+            ),
+            value: s.notifications.quietHoursEnabled,
+            onChanged: (v) => ctrl.change(
+              (x) => x.copyWith(
+                notifications: x.notifications.copyWith(quietHoursEnabled: v),
+              ),
+            ),
+          ),
+          if (s.notifications.quietHoursEnabled)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  OutlinedButton(
+                    onPressed: () => _pickTime(context, ref, start: true),
+                    child: Text(
+                      'Başlangıç ${_hm(s.notifications.quietStartMin)}',
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () => _pickTime(context, ref, start: false),
+                    child: Text('Bitiş ${_hm(s.notifications.quietEndMin)}'),
+                  ),
+                ],
+              ),
+            ),
+          ListTile(
+            leading: const Icon(Icons.build_outlined),
+            title: const Text('Bakım hatırlatıcıları'),
+            subtitle: Text(
+              '${(ref.watch(maintenanceProvider).value ?? const []).length} '
+              'görev',
+            ),
+            onTap: () => context.push('/settings/maintenance'),
+          ),
           const SectionTitle('Çekirdek'),
           NumberStepperTile(
             label: 'Tazelik uyarısı',
@@ -127,6 +201,20 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SectionTitle('Veri'),
           ListTile(
+            leading: const Icon(Icons.upload_file_outlined),
+            title: const Text('Verimi dışa aktar'),
+            subtitle: const Text(
+              'Günlük, tarifler ve çekirdekler tek dosyada; başka cihaza '
+              'taşıyabilirsiniz.',
+            ),
+            onTap: () => _export(context, ref),
+          ),
+          ListTile(
+            leading: const Icon(Icons.download_outlined),
+            title: const Text('Yedekten geri yükle'),
+            onTap: () => _import(context, ref),
+          ),
+          ListTile(
             leading: const Icon(Icons.delete_forever_outlined),
             title: const Text('Tüm verimi sil'),
             subtitle: const Text('Günlük, tarifler, çekirdekler ve ayarlar'),
@@ -137,6 +225,11 @@ class SettingsScreen extends ConsumerWidget {
             leading: const Icon(Icons.help_outline),
             title: const Text('Yardım ve sözlük'),
             onTap: () => context.push('/help'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.feedback_outlined),
+            title: const Text('Hata bildir veya öneri gönder'),
+            onTap: () => context.push('/feedback'),
           ),
           ListTile(
             leading: const Icon(Icons.gavel_outlined),
@@ -160,6 +253,96 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  static String _hm(int min) =>
+      '${(min ~/ 60).toString().padLeft(2, '0')}:'
+      '${(min % 60).toString().padLeft(2, '0')}';
+
+  Future<void> _pickTime(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool start,
+  }) async {
+    final p =
+        (ref.read(settingsProvider).value ?? const AppSettings()).notifications;
+    final current = start ? p.quietStartMin : p.quietEndMin;
+    final t = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: current ~/ 60, minute: current % 60),
+    );
+    if (t == null) return;
+    final m = t.hour * 60 + t.minute;
+    await ref
+        .read(settingsProvider.notifier)
+        .change(
+          (x) => x.copyWith(
+            notifications: start
+                ? x.notifications.copyWith(quietStartMin: m)
+                : x.notifications.copyWith(quietEndMin: m),
+          ),
+        );
+  }
+
+  /// Yerel veriyi dosya olarak dışa aktarır (KHV-NFR-030).
+  Future<void> _export(BuildContext context, WidgetRef ref) async {
+    final now = ref.read(clockProvider)();
+    final data = await ref.read(databaseProvider).exportAll(at: now);
+    final day =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-'
+        '${now.day.toString().padLeft(2, '0')}';
+    await ref
+        .read(sharerProvider)
+        .shareFile(
+          utf8.encode(const JsonEncoder.withIndent(' ').convert(data)),
+          name: 'ev-kahvesi-yedek-$day.json',
+          mimeType: 'application/json',
+        );
+  }
+
+  /// Yedek dosyasını doğrulayıp geri yükler (KHV-NFR-030).
+  Future<void> _import(BuildContext context, WidgetRef ref) async {
+    final text = await ref.read(filePickProvider).pickJson();
+    if (text == null || !context.mounted) return;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: const Text('Yedek geri yüklensin mi?'),
+        content: const Text(
+          'Bu cihazdaki mevcut günlük, tarif, çekirdek ve ayarların yerini '
+          'yedekteki veriler alır.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(c, false),
+            child: const Text('Vazgeç'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(c, true),
+            child: const Text('Geri yükle'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    String message;
+    try {
+      final json = (jsonDecode(text) as Map).cast<String, Object?>();
+      await ref.read(databaseProvider).importAll(json);
+      ref
+        ..invalidate(settingsProvider)
+        ..invalidate(longBrewsProvider)
+        ..invalidate(maintenanceProvider);
+      message = 'Yedek geri yüklendi.';
+    } on FormatException catch (e) {
+      message = e.message;
+    } on Object {
+      message = 'Dosya okunamadı. Ev Kahvesi yedek dosyası seçin.';
+    }
+    if (context.mounted) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    }
   }
 
   Future<void> _pickProfile(

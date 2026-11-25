@@ -2,7 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../services/platform.dart';
 import 'providers.dart';
+import 'settings.dart';
 
 /// Arka planda izlenen uzun süreli demleme (KHV-FR-BRW-009, BRW-010).
 @immutable
@@ -57,13 +59,44 @@ class LongBrewsController extends AsyncNotifier<List<LongBrew>> {
     });
   }
 
-  Future<void> add(LongBrew b) async =>
-      _save([...(state.value ?? await future), b]);
+  static int notificationId(String id) => 3000 + (id.hashCode & 0xfff);
 
-  Future<void> remove(String id) async => _save([
-    for (final b in state.value ?? await future)
-      if (b.id != id) b,
-  ]);
+  /// Uzun demlemeyi ekler ve bitişine bildirim planlar (KHV-FR-BRW-009).
+  Future<void> add(LongBrew b) async {
+    await _save([...(state.value ?? await future), b]);
+    final prefs =
+        (ref.read(settingsProvider).value ?? const AppSettings()).notifications;
+    final at = scheduleNotification(
+      NotificationType.longBrewDone,
+      b.endsAt,
+      prefs,
+    );
+    if (at == null) return;
+    try {
+      await ref
+          .read(notificationsProvider)
+          .schedule(
+            notificationId(b.id),
+            '${b.recipe.name} hazır',
+            'Filtreleme adımlarına geçmek için dokunun.',
+            at,
+          );
+    } on Object {
+      // İzin yoksa ana ekrandaki kart yeterlidir.
+    }
+  }
+
+  Future<void> remove(String id) async {
+    await _save([
+      for (final b in state.value ?? await future)
+        if (b.id != id) b,
+    ]);
+    try {
+      await ref.read(notificationsProvider).cancel(notificationId(id));
+    } on Object {
+      // Yok sayılır.
+    }
+  }
 }
 
 final longBrewsProvider =

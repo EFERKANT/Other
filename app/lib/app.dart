@@ -3,7 +3,16 @@ import 'package:go_router/go_router.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'dart:async';
+
+import 'services/platform.dart';
+import 'state/engagement.dart';
+import 'state/maintenance_state.dart';
+import 'state/providers.dart';
 import 'state/settings.dart';
+import 'ui/feedback.dart';
+import 'ui/import_recipe.dart';
+import 'ui/maintenance.dart';
 import 'ui/calculator.dart';
 import 'ui/equipment.dart';
 import 'ui/guided_brew.dart';
@@ -110,6 +119,10 @@ GoRouter buildRouter(Ref ref) {
                     path: 'equipment',
                     builder: (c, s) => const EquipmentProfileScreen(),
                   ),
+                  GoRoute(
+                    path: 'maintenance',
+                    builder: (c, s) => const MaintenanceScreen(),
+                  ),
                 ],
               ),
             ],
@@ -138,6 +151,17 @@ GoRouter buildRouter(Ref ref) {
         parentNavigatorKey: _rootKey,
         path: '/help',
         builder: (c, s) => const HelpScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/import/:payload',
+        builder: (c, s) =>
+            ImportRecipeScreen(payload: s.pathParameters['payload']!),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/feedback',
+        builder: (c, s) => const FeedbackScreen(),
       ),
       GoRoute(
         parentNavigatorKey: _rootKey,
@@ -198,11 +222,85 @@ class _Shell extends StatelessWidget {
   );
 }
 
-class EvKahvesiApp extends ConsumerWidget {
+class EvKahvesiApp extends ConsumerStatefulWidget {
   const EvKahvesiApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<EvKahvesiApp> createState() => _EvKahvesiAppState();
+}
+
+class _EvKahvesiAppState extends ConsumerState<EvKahvesiApp>
+    with WidgetsBindingObserver {
+  StreamSubscription<Uri>? _links;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_listenLinks());
+    unawaited(_reminders());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_links?.cancel());
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) unawaited(_reminders());
+  }
+
+  /// Paylaşılan tarif bağlantılarını içe aktarma ekranına yönlendirir
+  /// (KHV-ARC-003, KHV-FR-SOC-003).
+  Future<void> _listenLinks() async {
+    final links = ref.read(incomingLinksProvider);
+    void open(Uri uri) {
+      final payload = sharePayloadFromUri(uri);
+      if (payload != null) ref.read(routerProvider).push('/import/$payload');
+    }
+
+    try {
+      final first = await links.initial();
+      if (first != null) open(first);
+      _links = links.stream.listen(open);
+    } on Object {
+      // Bağlantı desteği olmayan ortamlarda yok sayılır.
+    }
+  }
+
+  /// Stok, tazelik ve bakım hatırlatıcıları (KHV-FR-ENG-001..008).
+  Future<void> _reminders() async {
+    try {
+      final settings = await ref.read(settingsProvider.future);
+      if (!settings.onboardingDone || !settings.notificationPermissionAsked) {
+        return;
+      }
+      final db = ref.read(databaseProvider);
+      final now = ref.read(clockProvider)();
+      final reminders = collectReminders(
+        beans: await db.watchBeans().first,
+        brews: await db.watchBrews().first,
+        tasks: await ref.read(maintenanceProvider.future),
+        settings: settings,
+        now: now,
+      );
+      await scheduleReminders(
+        db: db,
+        notifications: ref.read(notificationsProvider),
+        reminders: reminders,
+        prefs: settings.notifications,
+        now: now,
+      );
+    } on Object {
+      // Hatırlatıcı hatası uygulamayı etkilemez.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeMode =
         ref.watch(settingsProvider).value?.themeMode ?? ThemeMode.system;
     return MaterialApp.router(

@@ -7,7 +7,7 @@
 """
 import json, os
 
-VERSION = 1
+VERSION = 2
 VERIFIED = "2026-11-24"
 SCA = "SCA Protocols & Best Practices; genel uygulama"
 GEN = "Genel uygulama"
@@ -248,7 +248,26 @@ catalog = [
  cat("lelit-mara-x","espresso_machine","Lelit","Mara X",["espresso"],False,"high"),
 ]
 
-bundle = {"version":VERSION,"methods":methods,"recipes":recipes,"rules":rules,
+maintenance = [
+ {"id":"descale-espresso","title":"Kireç çözme","intervalDays":60,"methods":["espresso"],
+  "description":"Üreticinin kireç çözücüsüyle hazne ve kazanı temizleyin. Sert suda aralığı kısaltın."},
+ {"id":"backflush","title":"Grup başlığı temizliği (backflush)","intervalDays":14,"methods":["espresso"],
+  "description":"Kör sepet ve temizlik tozuyla grup başlığını yıkayın."},
+ {"id":"gasket","title":"Grup contası kontrolü","intervalDays":180,"methods":["espresso"],
+  "description":"Conta sertleştiyse veya portafilter kenarından sızıntı varsa değiştirin."},
+ {"id":"descale-drip","title":"Kireç çözme","intervalDays":60,"methods":["drip_machine"],
+  "description":"Makineyi kireç çözücüyle bir döngü çalıştırın, ardından iki kez temiz suyla durulayın."},
+ {"id":"descale-turkish","title":"Kireç çözme","intervalDays":60,"methods":["turkish"],
+  "description":"Türk kahve makinesinin haznesini üreticinin önerdiği çözücüyle temizleyin."},
+ {"id":"moka-gasket","title":"Moka pot contası ve filtresi","intervalDays":180,"methods":["moka_pot"],
+  "description":"Conta ve süzgeci kontrol edin; çatlak veya sertleşme varsa değiştirin."},
+ {"id":"grinder-clean","title":"Öğütücü temizliği","intervalDays":30,"requiresBurrGrinder":True,
+  "description":"Burr'ları fırçayla temizleyin; yağ birikimi bayat tat bırakır."},
+]
+
+flags = {"maintenance":True,"share":True,"backup":True,"tts":True}
+
+bundle = {"version":VERSION,"maintenance":maintenance,"flags":flags,"methods":methods,"recipes":recipes,"rules":rules,
   "glossary":[{"term":t,"definition":d} for t,d in glossary],"guides":guides,"catalog":catalog}
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 out = os.path.join(root,"app","assets","content","bundle.json")

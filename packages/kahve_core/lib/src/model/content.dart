@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../rules/dial_in.dart';
+import '../rules/maintenance.dart';
 import 'brew_method.dart';
 import 'recipe.dart';
 
@@ -195,6 +196,8 @@ class ContentBundle {
     required this.glossary,
     required this.guides,
     required this.catalog,
+    this.maintenance = const [],
+    this.flags = const {},
   });
 
   /// JSON'dan okur ve tutarlılığı doğrular.
@@ -211,6 +214,15 @@ class ContentBundle {
       glossary: list('glossary').map(GlossaryTerm.fromJson).toList(),
       guides: list('guides').map(EquipmentGuide.fromJson).toList(),
       catalog: list('catalog').map(CatalogModel.fromJson).toList(),
+      maintenance: list('maintenance')
+          .map(MaintenanceTemplate.fromJson)
+          .toList(),
+      flags: {
+        for (final e
+            in ((j['flags'] as Map?)?.cast<String, Object?>() ?? const {})
+                .entries)
+          e.key: e.value == true,
+      },
     );
     final errors = bundle.validate();
     if (errors.isNotEmpty) {
@@ -239,6 +251,15 @@ class ContentBundle {
 
   /// Katalog modelleri.
   final List<CatalogModel> catalog;
+
+  /// Bakım şablonları (KHV-FR-ENG-001).
+  final List<MaintenanceTemplate> maintenance;
+
+  /// Uzaktan açılıp kapatılabilen özellik bayrakları (KHV-ARC-006).
+  final Map<String, bool> flags;
+
+  /// [name] bayrağı açık mı; tanımsız bayrak [fallback] değerini alır.
+  bool flag(String name, {bool fallback = true}) => flags[name] ?? fallback;
 
   /// Yöntem içeriğini döndürür.
   MethodContent method(BrewMethod m) =>
