@@ -213,3 +213,27 @@ KHV-FR-SCL-008,TC-SCL-008,S2,Test,Cihaz,Manuel
 KHV-FR-SCL-009,TC-SCL-009,S2,Test,Entegrasyon,Otomatik
 KHV-FR-SCL-010,TC-SCL-010,S2,Test + İnceleme,Birim + Kod incelemesi + Cihaz,Yarı otomatik
 KHV-NFR-045,TC-NFR-045,S2,İnceleme,Hukuki inceleme + Sürüm geçidi,Manuel
+KHV-FR-PRO-001,TC-PRO-001,S2,Test,Widget + Entegrasyon,Otomatik
+KHV-FR-PRO-002,TC-PRO-002,S2,Test,Birim + Entegrasyon,Otomatik
+KHV-FR-PRO-003,TC-PRO-003,S2,Test,Sunucu,Otomatik
+KHV-FR-PRO-004,TC-PRO-004,S2,Test,Birim + Widget,Otomatik
+KHV-FR-PRO-005,TC-PRO-005,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-011,TC-SOC-011,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-FR-SOC-012,TC-SOC-012,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-013,TC-SOC-013,S2,Test,Birim,Otomatik
+KHV-FR-SOC-014,TC-SOC-014,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-001,TC-EVT-001,S2,Test,Widget + Sunucu,Otomatik
+KHV-FR-EVT-002,TC-EVT-002,S2,Test,Sunucu + Widget,Otomatik
+KHV-FR-EVT-003,TC-EVT-003,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-004,TC-EVT-004,S2,Test,Sunucu + Entegrasyon,Otomatik
+KHV-FR-EVT-005,TC-EVT-005,S2,Test,Sunucu,Otomatik
+KHV-FR-EVT-006,TC-EVT-006,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-007,TC-EVT-007,S2,Test,Widget,Otomatik
+KHV-FR-EVT-008,TC-EVT-008,S2,Test,Sunucu + Entegrasyon,Otomatik
+KHV-FR-EVT-009,TC-EVT-009,S2,Test,Sunucu + Widget,Otomatik
+KHV-FR-EVT-010,TC-EVT-010,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-011,TC-EVT-011,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-012,TC-EVT-012,S2,İnceleme + Test,Hukuki inceleme + Widget,Yarı otomatik
+KHV-FR-EVT-013,TC-EVT-013,S2,Test,Entegrasyon + Panel,Otomatik
+KHV-FR-ADM-006,TC-ADM-006,S2,Test,Sunucu + Panel,Otomatik
+KHV-NFR-046,TC-NFR-046,S2,Test + İnceleme,Sunucu + Manifest incelemesi,Yarı otomatik

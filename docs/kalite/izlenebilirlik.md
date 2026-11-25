@@ -12,17 +12,19 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | Tat teşhisi | 7 | 6 | 6 | 0 | 0 |
 | Ekipman rehberi | 6 | 6 | 6 | 1 | 0 |
 | Günlük ve çekirdek | 9 | 8 | 8 | 0 | 0 |
-| Deneyim formu | 17 | 0 | 0 | 0 | 0 |
+| Deneyim formu | 17 | 0 | 1 | 0 | 0 |
 | İçerik | 9 | 9 | 5 | 7 | 0 |
-| Fonksiyonel olmayan | 45 | 38 | 21 | 22 | 5 |
+| Fonksiyonel olmayan | 46 | 38 | 22 | 23 | 5 |
 | HMI | 42 | 41 | 32 | 16 | 0 |
 | Günlük kullanım | 9 | 7 | 7 | 1 | 0 |
-| Sosyal | 10 | 6 | 6 | 4 | 0 |
+| Sosyal | 14 | 6 | 10 | 4 | 0 |
 | Altyapı | 7 | 7 | 6 | 2 | 0 |
 | Ayarlar | 3 | 3 | 3 | 0 | 0 |
 | Yardım | 3 | 3 | 3 | 0 | 0 |
-| Yönetim paneli | 5 | 1 | 0 | 0 | 1 |
+| Yönetim paneli | 6 | 1 | 1 | 0 | 1 |
 | Terazi | 10 | 0 | 7 | 8 | 0 |
+| Profil | 5 | 0 | 4 | 0 | 0 |
+| Etkinlik | 13 | 0 | 13 | 1 | 0 |
 
 ## Ayrıntı
 
@@ -74,7 +76,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-COM-004 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-005 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-006 | S2 | Otomatik | Sonraki sürüm |  |
-| KHV-FR-COM-007 | S2 | Otomatik | Sonraki sürüm |  |
+| KHV-FR-COM-007 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
 | KHV-FR-COM-008 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-009 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-010 | S2 | Otomatik | Sonraki sürüm |  |
@@ -242,3 +244,27 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-SCL-009 | S2 | Otomatik | Testte | `app/test/ui/scale_test.dart` |
 | KHV-FR-SCL-010 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/scale_test.dart` |
 | KHV-NFR-045 | S2 | Manuel | Manuel kontrol | Hukuki inceleme + Sürüm geçidi (test planı) |
+| KHV-FR-PRO-001 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-PRO-002 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-PRO-003 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-PRO-004 | S2 | Otomatik | Sonraki sürüm |  |
+| KHV-FR-PRO-005 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-SOC-011 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-SOC-012 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-SOC-013 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-SOC-014 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-001 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-002 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-003 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-004 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-005 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-006 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-007 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-008 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-009 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-010 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-011 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-012 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-EVT-013 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-FR-ADM-006 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
+| KHV-NFR-046 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/community_test.dart` |

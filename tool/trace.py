@@ -39,7 +39,7 @@ TEST_DIRS = [
 CI_DIR = ROOT / ".github/workflows"
 
 FR = {"ONB", "RCP", "BRW", "DIA", "EQP", "LOG", "COM", "ENG", "SOC", "SET",
-      "HLP", "ADM", "SCL"}
+      "HLP", "ADM", "SCL", "PRO", "EVT"}
 OTHER = {"CNT", "NFR", "HMI", "ARC"}
 MODULES = FR | OTHER
 MOD_NAMES = {
@@ -48,6 +48,7 @@ MOD_NAMES = {
     "COM": "Deneyim formu", "CNT": "İçerik", "NFR": "Fonksiyonel olmayan",
     "HMI": "HMI", "ENG": "Günlük kullanım", "SOC": "Sosyal", "ARC": "Altyapı",
     "SET": "Ayarlar", "HLP": "Yardım", "ADM": "Yönetim paneli", "SCL": "Terazi",
+    "PRO": "Profil", "EVT": "Etkinlik",
 }
 
 TOKEN = re.compile(

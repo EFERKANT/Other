@@ -2,6 +2,10 @@
 /// (KHV-NFR-040).
 library;
 
+export 'src/community/event.dart';
+export 'src/community/moderation.dart';
+export 'src/community/profile.dart';
+export 'src/community/voting.dart';
 export 'src/model/brew_method.dart';
 export 'src/model/content.dart';
 export 'src/model/equipment.dart';

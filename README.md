@@ -70,6 +70,7 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 | ARC Altyapı | Uygulandı | ARC-001..006; özellik bayrakları içerik paketinde (`flags`) |
 | HMI | Uygulandı | iOS Live Activity (HMI-022) hariç; Android'de kalıcı bildirim ve geri sayım |
 | ARC-007 Terazi arayüzü | Uygulandı (MVP) | Ortak `Scale` arayüzü; MVP gerçekleştirimi elle giriş (`ManualScale`). Tartılan doz ve ölçülen su demleme kaydına yalnız sonuç olarak yazılır (SCL-009, şema v2) |
+| Topluluk: PRO, SOC-011..014, EVT, ADM-006, NFR-046 (S2, Bölüm 16) | Çekirdek kurallar hazır | Profil ve Instagram görünürlüğü, gizli profil, etkinlik ilanı ve adres görünürlüğü (24 saat), adresin 30 günde silinmesi, 18 yaş beyanı, kontenjan ve yedek liste, engelleme, nötr ret bildirimi, anonim etkinlik tadımı, tarif oyları ve "yeni" etiketi, şikayet önceliği, bağlantı/telefon/e-posta tespiti. Sunucu, hesap ve arayüz sunucu altyapısı kararını bekliyor |
 | SCL Bluetooth terazi (S2) | Çekirdek kurallar hazır | SCL-001 destek listesi doğrulaması, SCL-002 parmak izi eşleme, SCL-003 dinleme modu teyidi, SCL-004 ağırlıkla ilerleme, SCL-005 tutarlılık koruması, SCL-010 yazma yasağı. Bluetooth sürücüsü, izin akışı (SCL-007/008) ve destek talebi (SCL-006) için desteklenecek terazinin seçilmesi ve lisansının doğrulanması (NFR-045) bekleniyor |
 
 ### Mac'te kurulum
