@@ -10,7 +10,7 @@ Bu depo, *Ev Kahvesi Uygulaması Gereksinim Dokümanı Rev1*'deki MVP çekirdek 
 | --- | --- |
 | `packages/kahve_core` | Flutter'dan bağımsız saf Dart iş kuralları (KHV-NFR-040): hesaplayıcı, ölçekleme, dial-in motoru, zamanlayıcı, stok/tazelik, profil atama, paylaşım doğrulama, Türkçe arama ve sayı biçimi |
 | `app` | Flutter uygulaması (Riverpod, go_router, Drift) |
-| `app/assets/content/bundle.json` | Gömülü içerik: 9 yöntem, başlangıç tarifleri, düzeltme kuralları, sözlük, ekipman rehberi ve katalog (KHV-NFR-026, KHV-CNT-002) |
+| `app/assets/content/bundle.json` | Gömülü içerik: 9 yöntem, başlangıç tarifleri, düzeltme kuralları, sözlük ve ekipman seçim kriterleri (KHV-NFR-026, KHV-CNT-002) |
 | `tool/build_content.py` | İçerik paketini üreten betik. İçerik değişince sürüm numarasını artırın |
 
 ## Çalıştırma
@@ -57,11 +57,11 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 
 | Modül | Durum | Not |
 | --- | --- | --- |
-| ONB Kurulum ve ekipman profili | Uygulandı | ONB-001..005; öğütücü, terazi ve kettle ilk kullanımda sorulur (HMI-016) |
+| ONB Kurulum ve ekipman profili | Uygulandı | ONB-001..005; öğütücü, terazi ve kettle ilk kullanımda sorulur (HMI-016). Marka/model serbest metinle girilir (KB-017) |
 | RCP Tarif ve hesaplayıcı | Uygulandı | RCP-001..008, 010..014. RCP-009 (°F) S2 |
 | BRW Rehber mod ve zamanlayıcı | Uygulandı | BRW-001..013. BRW-012: sessiz modda ses sistemin ses kanalına bırakılır; sessiz mod algılaması yerel kod gerektirir |
 | DIA Tat teşhisi ve dial-in | Uygulandı | DIA-001..006, Bölüm 6 kural 1-5. DIA-007 S2 |
-| EQP Ekipman rehberi | Uygulandı | EQP-001..006 |
+| EQP Ekipman rehberi | Uygulandı (karar KB-017) | EQP-001, 002, 004, 006. Ürün sahibi kararıyla marka/model önerileri, model sayfası ve bütçe filtresi kaldırıldı; EQP-003, EQP-005 ve CNT-004 gerekçeli istisna |
 | LOG Günlük ve çekirdek | Uygulandı | LOG-001..004, 006..009. LOG-005 (CSV) S2 |
 | SET Ayarlar | Uygulandı | SET-001..003; yedekleme dışa/içe aktarma (NFR-030) |
 | HLP Yardım | Uygulandı | HLP-001..003; hata bildirimi sistem paylaşım menüsüyle, cihaz bilgisi yalnız onayla |
