@@ -25,15 +25,31 @@ if [ "$(uname -s)" != "Darwin" ]; then
 fi
 
 step "Xcode"
-if ! xcode-select -p >/dev/null 2>&1 || ! have xcodebuild; then
-  echo "Xcode bulunamadı. App Store'dan Xcode'u kurup bir kez açın, sonra:"
+# Yalnız Command Line Tools kuruluysa xcodebuild vardır ama -version hata verir.
+if ! xcodebuild -version >/dev/null 2>&1; then
+  echo "Xcode bulunamadı veya etkin değil. App Store'dan Xcode'u kurup bir kez açın, sonra:"
   echo "  sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"
   echo "  sudo xcodebuild -runFirstLaunch"
   exit 1
 fi
-xcodebuild -version | head -1
+xcodebuild -version | awk 'NR == 1'
+if ! xcodebuild -license check >/dev/null 2>&1; then
+  echo "Xcode lisansı onaylanmamış. Şunu çalıştırıp betiği yeniden başlatın:"
+  echo "  sudo xcodebuild -license accept"
+  exit 1
+fi
+if ! xcrun simctl list runtimes 2>/dev/null | grep -q '^iOS'; then
+  echo "Uyarı: iOS simülatör çalışma ortamı yok. Simülatör için (birkaç GB):"
+  echo "  xcodebuild -downloadPlatform iOS"
+fi
 
 step "Homebrew"
+# Apple Silicon'da brew kurulu olup PATH'te olmayabilir.
+if ! have brew; then
+  for B in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    [ -x "$B" ] && eval "$("$B" shellenv)" && break
+  done
+fi
 if ! have brew; then
   echo "Homebrew bulunamadı. https://brew.sh adresindeki tek satırlık komutla kurun ve betiği yeniden çalıştırın."
   exit 1
@@ -44,6 +60,9 @@ have pod || brew install cocoapods
 pod --version
 
 step "Flutter $FLUTTER_VERSION"
+if ! have flutter && [ -x "$HOME/development/flutter/bin/flutter" ]; then
+  export PATH="$HOME/development/flutter/bin:$PATH"
+fi
 if ! have flutter; then
   ARCH="$(uname -m)"
   case "$ARCH" in
@@ -61,7 +80,8 @@ if ! have flutter; then
     echo 'export PATH="$HOME/development/flutter/bin:$PATH"' >>"$SHELL_RC"
   echo "Flutter kuruldu; yeni terminallerde PATH otomatik gelir."
 fi
-INSTALLED="$(flutter --version 2>/dev/null | head -1 | awk '{print $2}')"
+# head yerine awk: pipefail altında head, flutter'a SIGPIPE gönderip betiği durdurabilir.
+INSTALLED="$(flutter --version 2>/dev/null | awk 'NR == 1 {print $2}')"
 if [ "$INSTALLED" != "$FLUTTER_VERSION" ]; then
   echo "Uyarı: Flutter $INSTALLED kurulu; proje $FLUTTER_VERSION ile test edildi."
 fi
@@ -71,16 +91,23 @@ step "Proje bağımlılıkları"
 (cd "$ROOT/packages/kahve_core" && dart pub get)
 (cd "$APP" && flutter pub get && dart run build_runner build --delete-conflicting-outputs)
 
-step "iOS pod kurulumu"
-(cd "$APP/ios" && pod install)
+step "iOS yapılandırması"
+# Podfile depoda yok; Flutter onu ilk iOS yapılandırmasında üretir (eklentiler
+# Swift Package Manager ile geliyorsa hiç üretmeyebilir).
+(cd "$APP" && flutter build ios --config-only --debug --no-codesign)
+if [ -f "$APP/ios/Podfile" ]; then
+  (cd "$APP/ios" && pod install)
+fi
 
 step "iOS derleme denemesi (imzasız)"
 (cd "$APP" && flutter build ios --debug --no-codesign)
 
 if [ "$WANT_KEYSTORE" = "1" ]; then
   step "Android yayın imza anahtarı"
-  if ! have keytool; then
-    echo "keytool bulunamadı; Java 17 kuruluyor."
+  # /usr/bin/keytool, Java kurulu olmasa da bulunan bir yönlendirmedir; Java'yı
+  # java_home ile denetle.
+  if ! /usr/libexec/java_home >/dev/null 2>&1; then
+    echo "Java bulunamadı; Java 17 kuruluyor (kurulum yönetici şifresi isteyebilir)."
     brew install --cask temurin@17
   fi
   KEYDIR="$HOME/.ev-kahvesi"
@@ -99,7 +126,14 @@ if [ "$WANT_KEYSTORE" = "1" ]; then
       echo "Şifreler eşleşmiyor veya çok kısa." >&2
       exit 1
     fi
+    # key.properties Java Properties biçimindedir; ters bölü kaçış karakteridir.
+    case "$PASS" in *\\*)
+      echo "Şifre ters bölü (\\) içeremez." >&2
+      exit 1
+      ;;
+    esac
     read -r -p "Ad Soyad veya şirket adı: " CN
+    CN="${CN//,/\\,}" # dname içinde virgül ayırıcıdır.
     # Şifre komut satırında görünmesin diye ortam değişkeninden okunur.
     KS_PASS="$PASS" keytool -genkeypair -v -keystore "$KEYSTORE" -keyalg RSA \
       -keysize 2048 -validity 10000 -alias upload \
