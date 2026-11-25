@@ -38,7 +38,7 @@ class MaintenanceScreen extends ConsumerWidget {
               message:
                   'Ekipman profilinize espresso makinesi, filtre makinesi veya '
                   'burr grinder eklerseniz bakım takvimini otomatik '
-                  'oluştururuz. Katalogda olmayan ekipman için elle '
+                  'oluştururuz. Diğer ekipmanlar için hatırlatıcıyı elle '
                   'ekleyebilirsiniz.',
             )
           : ListView(

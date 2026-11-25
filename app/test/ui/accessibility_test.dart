@@ -263,6 +263,23 @@ void main() {
     expect(offenders, isEmpty);
   });
 
+  test('koddaki her simge simge sözlüğünde tanımlı (KB-018)', () {
+    final dictionary = File('../docs/kalite/simge-sozlugu.md')
+        .readAsStringSync();
+    final missing = <String>{};
+    for (final f in Directory('lib').listSync(recursive: true)) {
+      if (f is! File || !f.path.endsWith('.dart')) continue;
+      for (final m in RegExp(
+        r'Icons\.([a-z0-9_]+)',
+      ).allMatches(f.readAsStringSync())) {
+        if (!dictionary.contains('`${m.group(1)}`')) {
+          missing.add('${m.group(1)} (${f.path})');
+        }
+      }
+    }
+    expect(missing, isEmpty, reason: 'docs/kalite/simge-sozlugu.md');
+  });
+
   test('kırmızı yalnız hata ve geri alınamaz işlemde (KHV-HMI-035)', () {
     final uses = <String>[];
     for (final f in Directory('lib').listSync(recursive: true)) {

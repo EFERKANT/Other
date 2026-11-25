@@ -37,3 +37,5 @@ Linter'ın yakalayamadığı kurallar (KHV-NFR-022) ve projeye özgü riskler. �
 - [ ] Geçici katmanlar (SnackBar, banner, alt sayfa) açıkken kontrol düğmelerine basılabiliyor; özellikle rehber modda Duraklat ve Bitir (KB-012)
 - [ ] Sürükleme alanı kaydırılabilir bir sayfadaysa hareket çakışması ele alındı ve gerçek üst yapıyla test edildi (KB-013)
 - [ ] Seçim listesi ve açılır menü boşken kullanıcıya nedeni ve nasıl dolduracağı söyleniyor (KB-014)
+- [ ] Yeni veya yeni yerde kullanılan simge [simge sözlüğünde](simge-sozlugu.md) tek anlamla tanımlı; aynı simge ikinci bir anlamda kullanılmıyor (KB-018, testle denetlenir)
+- [ ] Durum gösteren simge (dolu/boş, açık/kapalı) durumunu kalıcı kaynaktan okuyor ve test, dokunuştan sonra simgenin değiştiğini denetliyor; yalnız basmak yetmez (KB-016)

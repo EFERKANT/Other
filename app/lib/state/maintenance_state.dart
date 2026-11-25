@@ -52,7 +52,8 @@ class MaintenanceController extends AsyncNotifier<List<MaintenanceTask>> {
   /// Aralığı veya açık/kapalı durumunu değiştirir (KHV-FR-ENG-001).
   Future<void> save(MaintenanceTask t) => _replace(t);
 
-  /// Katalog dışı ekipman için elle bakım tanımlar (KHV-FR-ENG-009).
+  /// Otomatik takvimi olmayan ekipman için elle bakım tanımlar
+  /// (KHV-FR-ENG-009).
   Future<void> addCustom(String title, int intervalDays) async => _save([
     ...state.value ?? await future,
     MaintenanceTask(

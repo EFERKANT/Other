@@ -38,7 +38,7 @@ enum KettleType {
   bool get isGooseneck => this != standard;
 }
 
-/// Katalog kategorileri (Bölüm 5).
+/// Ekipman kategorileri (Bölüm 5).
 enum EquipmentCategory {
   /// Demleme aracı veya makinesi.
   brewer,
