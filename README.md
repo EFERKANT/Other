@@ -61,9 +61,19 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 | ARC Altyapı | Uygulandı | ARC-001..006; özellik bayrakları içerik paketinde (`flags`) |
 | HMI | Uygulandı | iOS Live Activity (HMI-022) hariç; Android'de kalıcı bildirim ve geri sayım |
 
+### Mac'te kurulum
+
+```bash
+git clone https://github.com/EFERKANT/Other.git ev-kahvesi
+cd ev-kahvesi
+tool/mac_setup.sh --keystore
+```
+
+Betik Xcode, Homebrew, CocoaPods ve Flutter'ı denetler, eksikleri kurar, `pod install` ve imzasız iOS derlemesi yapar. `--keystore` ile Android yayın anahtarını `~/.ev-kahvesi/` altına oluşturur ve `app/android/key.properties` dosyasını yazar (ikisi de depoya girmez). `key.properties` yoksa release derlemesi debug anahtarıyla imzalanır.
+
 ### Yayın öncesi yapılması gerekenler
 
-- **Paylaşım alanı:** `https://evkahvesi.app/r/...` bağlantıları için alan adı ve `/.well-known/assetlinks.json` (Android) ile `apple-app-site-association` (iOS) yayımlanmalı. Uygulaması olmayan alıcı bu sayfadan mağazaya yönlendirilir. Alan adı `lib/services/platform.dart` içindeki `shareBaseUrl` sabitindedir. Alan adı hazır olana kadar `evkahvesi://r/...` şeması çalışır.
+- **Paylaşım alanı:** `site/` klasörü yayımlanmaya hazır (doğrulama dosyaları ve mağazaya yönlendiren sayfa). Yer tutucular `tool/fill_site.sh` ile doldurulur, `.github/workflows/pages.yml` GitHub Pages'e yayımlar; ayrıntılar `site/README.md` içinde. Alan adı `lib/services/platform.dart` içindeki `shareBaseUrl` sabitindedir. Alan adı hazır olana kadar `evkahvesi://r/...` şeması çalışır.
 - **iOS:** Universal Links için Xcode'da Associated Domains yeteneği, kilit ekranı için Live Activity widget uzantısı eklenmeli (Apple geliştirici hesabı gerektirir).
 - **Android:** Uygulama kimliği (`com.evkahvesi.ev_kahvesi`) ve imzalama yapılandırması kesinleştirilmeli.
 
