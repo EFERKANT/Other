@@ -7,9 +7,9 @@ import '../helpers.dart';
 
 void main() {
   testWidgets('tarif: doz değişince su ölçeklenir, terazi yoksa kaşık, '
-      'kettle standart ise bekleme (KHV-FR-RCP-004, RCP-008, RCP-010)', (
-    tester,
-  ) async {
+      'kettle standart ise bekleme; artır/azalt girişi ve Türkçe sayı biçimi '
+      '(KHV-FR-RCP-004, RCP-007, RCP-008, RCP-010, KHV-HMI-011, '
+      'KHV-NFR-010, NFR-031)', (tester) async {
     await setUpEnv(
       tester,
       settings: const AppSettings(

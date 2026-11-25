@@ -69,7 +69,7 @@ void main() {
         throwsA(isA<CalculatorException>()),
       );
     });
-    test('Türk kahvesi fincan başına 6,5 g / 67,5 ml', () {
+    test('Türk kahvesi fincan başına 6,5 g / 67,5 ml (KHV-FR-RCP-005)', () {
       final a = BrewCalculator.turkish(2);
       expect(a.coffeeG, 13);
       expect(a.waterG, 135);
@@ -164,7 +164,7 @@ void main() {
     });
   });
 
-  group('espresso shot (KHV-FR-BRW-008)', () {
+  group('espresso shot: doz, çıktı, hedef süre (KHV-FR-BRW-008, RCP-005)', () {
     final esp = recipeOf(loadBundle(), BrewMethod.espresso);
     test('hedef aralıkta', () {
       final e = evaluateShot(esp, doseG: 18, yieldG: 36, timeS: 28);

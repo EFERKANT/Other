@@ -231,7 +231,8 @@ void main() {
         loadBundle(),
         BrewMethod.v60,
       ).copyWith(notes: 'gizli not', favorite: true);
-      test('gidiş-dönüş; kaynak kimliği korunur, kişisel alan yok', () {
+      test('gidiş-dönüş; kaynak kimliği ve sürüm, kişisel alan yok '
+        '(KHV-ARC-001)', () {
         final payload = encodeSharedRecipe(v60);
         final r = decodeSharedRecipe(payload, newId: 'yeni');
         expect(r.id, 'yeni');
@@ -418,7 +419,8 @@ void main() {
 
   group('içerik paketi (KHV-CNT-001, CNT-002, NFR-026)', () {
     final b = loadBundle();
-    test('dokuz yöntem, tarif ve tüm belirtiler için kural var', () {
+    test('dokuz yöntem, tarif ve tüm belirtiler için kural var '
+        '(KHV-FR-RCP-001, KHV-CNT-002)', () {
       expect(b.validate(), isEmpty);
       expect(b.methods, hasLength(9));
       expect(b.method(BrewMethod.turkish).tips, isNotEmpty);

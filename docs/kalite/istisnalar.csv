@@ -1,0 +1,7 @@
+gereksinim,gerekce,karar_bekleyen
+KHV-FR-ADM-005,İçerik yönetim arayüzü sunucu altyapısı kararına bağlı (Bölüm 10 açık konu: Firebase/Supabase/özel API). İçerik şimdilik tool/build_content.py ile sürümlenip uygulamaya gömülüyor.,Ürün sahibi
+KHV-NFR-011,Uygulama sürümü olmadan içerik güncellemesi sunucu/CMS gerektirir; ContentBundle sürümlü ve doğrulamalı olduğu için istemci tarafı hazır.,Ürün sahibi
+KHV-NFR-027,Değişen içerik kayıtlarının indirilmesi sunucu/CMS gerektirir (KHV-NFR-011 ile aynı karar).,Ürün sahibi
+KHV-NFR-029,Desteklenen minimum sürüm bilgisi sunucudan okunur; sunucu altyapısı seçilmedi.,Ürün sahibi
+KHV-NFR-033,Çökme raporlama servisi seçilmedi (ör. Sentry/Crashlytics). Rıza ayarı ve varsayılan kapalı durumu hazır ve testli.,Ürün sahibi + KVKK
+KHV-NFR-044,Analitik servisi seçilmedi. Olay kaydı (KHV-ARC-004) ve rıza ayarı hazır; ölçütler servis seçilince bağlanır.,Ürün sahibi + KVKK

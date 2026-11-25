@@ -742,7 +742,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
           color: paused ? scheme.onSurfaceVariant : scheme.onSurface,
         );
         final info = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Adım ${v.stepIndex + 1}/${v.stepCount}',
@@ -838,7 +838,19 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
           ],
         );
         final children = [
-          Expanded(flex: 3, child: info),
+          // Alan yetmezse (yatay telefon, büyük yazı) bilgi bütün olarak
+          // küçülür, kesilmez (KHV-HMI-019, HMI-028).
+          Expanded(
+            flex: 3,
+            child: LayoutBuilder(
+              builder: (context, box) => Center(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: SizedBox(width: box.maxWidth, child: info),
+                ),
+              ),
+            ),
+          ),
           Padding(padding: const EdgeInsets.all(16), child: controls),
         ];
         return Column(

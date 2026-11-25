@@ -123,6 +123,9 @@ class TestEnv {
   final filePick = FakeFilePick();
   final links = FakeLinks();
 
+  /// İçerik yüklenemiyormuş gibi davran (KHV-HMI-042).
+  bool contentError = false;
+
   /// Terazi (KHV-ARC-007); verilmezse elle giriş kullanılır.
   Scale Function()? scaleFactory;
   var _id = 0;
@@ -133,7 +136,10 @@ class TestEnv {
   Widget app() => ProviderScope(
     overrides: [
       databaseProvider.overrideWithValue(db),
-      contentProvider.overrideWith((ref) async => bundle),
+      contentProvider.overrideWith(
+        (ref) async =>
+            contentError ? throw const FormatException('içerik bozuk') : bundle,
+      ),
       clockProvider.overrideWithValue(() => clock.wall),
       monotonicMsProvider.overrideWithValue(() => clock.ms),
       idProvider.overrideWithValue(() => 'id-${_id++}'),

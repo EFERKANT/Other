@@ -25,7 +25,8 @@ Future<void> openV60(WidgetTester tester) async {
 
 void main() {
   testWidgets('tam döngü: rehberli demleme → tat → tek düzeltme → tarife '
-      'uygulama (UC-02, UC-03, KHV-FR-DIA-005)', (tester) async {
+      'uygulama (UC-02, UC-03, KHV-FR-BRW-001, BRW-002, BRW-007, DIA-001, '
+      'DIA-005, LOG-001)', (tester) async {
     final env = await setUpEnv(tester, settings: v60User);
     await openV60(tester);
     // KHV-FR-BRW-001 hazırlık listesi.

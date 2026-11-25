@@ -5,8 +5,10 @@ import 'package:kahve_core/kahve_core.dart';
 import '../helpers.dart';
 
 void main() {
-  testWidgets('ilk açılış: araç seç, en fazla 3 ekranda rehber moda '
-      '(UC-01, KHV-HMI-038)', (tester) async {
+  testWidgets('ilk açılış: yalnız araç sorulur, hesap istenmez, en fazla 3 '
+      'ekranda rehber moda (UC-01, KHV-FR-ONB-001, KHV-HMI-038, KHV-NFR-012)', (
+    tester,
+  ) async {
     final env = await setUpEnv(tester);
     // Ekran 1: kurulum.
     expect(find.text('Hangi demleme araçlarınız var?'), findsOneWidget);

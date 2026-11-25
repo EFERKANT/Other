@@ -14,12 +14,15 @@ final databaseProvider = Provider<AppDatabase>(
 );
 
 /// Uygulamaya gömülü içerik paketi (KHV-NFR-026).
+///
+/// Gömülü içerik tekrar denemeyle düzelmez; otomatik yeniden deneme
+/// kapalıdır, böylece hata kullanıcıya hemen gösterilir (KHV-HMI-042).
 final contentProvider = FutureProvider<ContentBundle>((ref) async {
   final text = await rootBundle.loadString('assets/content/bundle.json');
   return ContentBundle.fromJson(
     (jsonDecode(text) as Map).cast<String, Object?>(),
   );
-});
+}, retry: (_, _) => null);
 
 /// Saat kaynağı; testlerde sabitlenebilir.
 final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);

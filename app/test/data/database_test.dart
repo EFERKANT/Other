@@ -171,4 +171,23 @@ void main() {
     );
     expect(await db.readJson('settings'), {'a': 1});
   });
+
+  test('demleme ve içe aktarma zaman damgalı olay olarak kaydedilir '
+      '(KHV-ARC-004)', () async {
+    await db.insertBrew(
+      BrewsCompanion.insert(
+        id: 'e1',
+        brewedAt: DateTime(2026, 11, 25),
+        recipeId: 'r',
+        lineageId: 'r',
+        methodId: 'v60',
+        recipeJson: '{}',
+      ),
+    );
+    await db.logEvent('taste', {'brewId': 'e1', 'score': 4});
+    final events = await db.select(db.eventLog).get();
+    expect(events.map((e) => e.type), ['brew', 'taste']);
+    expect(jsonDecode(events.last.payload), {'brewId': 'e1', 'score': 4});
+    expect(events.every((e) => e.at.year == DateTime.now().year), isTrue);
+  });
 }
