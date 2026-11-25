@@ -1,0 +1,71 @@
+# Otomatik kod incelemesi: her PR'da Claude kodu okur, CLAUDE.md ve
+# docs/kalite/kod-inceleme.md kurallarına göre satır yorumu ve özet bırakır.
+# Onay vermez ve kod değiştirmez; yalnız okur ve yorum yazar.
+#
+# Kurulum: Settings > Secrets and variables > Actions > ANTHROPIC_API_KEY.
+# Sır yoksa iş atlanır, PR'ı bloklamaz.
+name: Kod incelemesi
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    env:
+      HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+    steps:
+      - name: Anahtar yoksa atla
+        if: env.HAS_KEY != 'true'
+        run: echo "ANTHROPIC_API_KEY tanımlı değil; otomatik inceleme atlandı."
+
+      - uses: actions/checkout@v6
+        if: env.HAS_KEY == 'true'
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        if: env.HAS_KEY == 'true'
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          use_sticky_comment: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Ev Kahvesi deposunda bir PR'ı inceliyorsun. PR dalı çalışma dizininde.
+            Önce CLAUDE.md ve docs/kalite/kod-inceleme.md dosyalarını oku; inceleme
+            bu kurallara göre yapılır. `gh pr diff` ile değişikliği gör.
+
+            Yalnız gerçek sorunları bildir, öncelik sırasıyla:
+            1. Doğruluk hataları (zamanlayıcı, dial-in, veri kaybı, yarış durumu,
+               `mounted`/`dispose` hataları)
+            2. Emniyet, gizlilik ve güvenlik (rıza, kişisel veri, dış veri doğrulama,
+               tanınmayan teraziye yazma)
+            3. Gereksinim uyumu: değişiklik ilgili KHV gereksinimini karşılıyor mu,
+               yeni davranışın testi var mı, test adında gereksinim kimliği var mı
+            4. Effective Dart'ın linter dışı kuralları ve proje kuralları
+
+            Biçim ve lint sorunlarını yazma; CI bunları zaten denetliyor.
+            Her bulguda önem belirt: [Ö1] kritik, [Ö2] yüksek, [Ö3] orta, [Ö4] öneri.
+            Emin olmadığın bulguyu soru olarak yaz.
+
+            Belirli satırlar için `mcp__github_inline_comment__create_inline_comment`
+            aracını `confirmed: true` ile kullan. Sonda `gh pr comment` ile tek bir
+            Türkçe özet yaz: bulgu sayısı önem düzeyine göre ve "birleştirmeye engel
+            Ö1/Ö2 var/yok" cümlesi. Yorumları yalnız GitHub'a yaz.
+          claude_args: |
+            --model claude-sonnet-5-5
+            --max-turns 30
+            --permission-mode default
+            --allowedTools "Read,Grep,Glob,mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

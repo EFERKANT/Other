@@ -232,7 +232,7 @@ void main() {
         BrewMethod.v60,
       ).copyWith(notes: 'gizli not', favorite: true);
       test('gidiş-dönüş; kaynak kimliği ve sürüm, kişisel alan yok '
-        '(KHV-ARC-001)', () {
+          '(KHV-ARC-001)', () {
         final payload = encodeSharedRecipe(v60);
         final r = decodeSharedRecipe(payload, newId: 'yeni');
         expect(r.id, 'yeni');

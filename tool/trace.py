@@ -27,10 +27,13 @@ ROOT = Path(__file__).resolve().parent.parent
 MATRIX = ROOT / "docs/kalite/matris.csv"
 EXCEPTIONS = ROOT / "docs/kalite/istisnalar.csv"
 REPORT = ROOT / "docs/kalite/izlenebilirlik.md"
+MANUAL = ROOT / "docs/kalite/manuel-senaryolar.md"
 TEST_DIRS = [
     ROOT / "packages/kahve_core/test",
     ROOT / "app/test",
     ROOT / "app/integration_test",
+    ROOT / "packages/kahve_core/test_stres",
+    ROOT / "app/test_stres",
 ]
 # CI'da otomatik doğrulanan gereksinimler iş akışı dosyalarında yazılır.
 CI_DIR = ROOT / ".github/workflows"
@@ -152,8 +155,55 @@ def main(argv: list[str]) -> int:
         return 0 if ok else 1
 
     REPORT.write_text(render(matrix, refs, exceptions), encoding="utf-8")
-    print(f"yazıldı: {REPORT.relative_to(ROOT)}")
+    MANUAL.write_text(render_manual(matrix, refs), encoding="utf-8")
+    print(f"yazıldı: {REPORT.relative_to(ROOT)}, {MANUAL.relative_to(ROOT)}")
     return 0
+
+
+def render_manual(matrix, refs) -> str:
+    """Kalitecinin sürüm adayında koşacağı manuel ve yarı otomatik senaryolar."""
+    rows = [r for r in matrix if r["otomasyon"] != "Otomatik"
+            and r["oncelik"].startswith("MVP")]
+    groups: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for r in rows:
+        seviye = r["seviye"]
+        if "Kullanılabilirlik" in seviye:
+            key = "Kullanılabilirlik oturumu"
+        elif "Cihaz" in seviye:
+            key = "Fiziksel cihaz"
+        elif "inceleme" in seviye.lower() or "geçidi" in seviye:
+            key = "İnceleme ve sürüm geçidi"
+        else:
+            key = "Yarı otomatik (otomatik kısım + elle onay)"
+        groups[key].append(r)
+    out = [
+        "# Manuel ve yarı otomatik test senaryoları",
+        "",
+        "Bu dosya `python3 tool/trace.py` ile üretilir; elle düzenlemeyin.",
+        "Her senaryonun adımları ve beklenen sonuçları paylaşılan izlenebilirlik",
+        "matrisinde (\"Normal durum senaryosu\" ve \"Sınır ve hata durumu\"",
+        "sütunları). Kaliteci her sürüm adayında bu listeyi kopyalayıp sonuç",
+        "sütununu doldurur ve [yayın kontrol listesine](yayin-kontrol-listesi.md)",
+        "ekler. Otomatik kısmı olan senaryolarda ilgili test dosyası da verilir.",
+        "",
+        f"MVP kapsamında {len(rows)} senaryo.",
+        "",
+        "Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.",
+    ]
+    order = ["Fiziksel cihaz", "Kullanılabilirlik oturumu",
+             "Yarı otomatik (otomatik kısım + elle onay)",
+             "İnceleme ve sürüm geçidi"]
+    for key in order:
+        if key not in groups:
+            continue
+        out += ["", f"## {key}", "",
+                "| Senaryo | Gereksinim | Yöntem | Seviye | Otomatik kısım | Sonuç |",
+                "| --- | --- | --- | --- | --- | --- |"]
+        for r in groups[key]:
+            auto = ", ".join(f"`{Path(p).name}`" for p in sorted(refs.get(r["gereksinim"], [])))
+            out.append(f"| {r['senaryo']} | {r['gereksinim']} | {r['dogrulama']} | "
+                       f"{r['seviye']} | {auto or '-'} |  |")
+    return "\n".join(out) + "\n"
 
 
 def render(matrix, refs, exceptions) -> str:

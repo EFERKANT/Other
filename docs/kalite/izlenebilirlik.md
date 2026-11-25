@@ -14,7 +14,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | Günlük ve çekirdek | 9 | 8 | 8 | 0 | 0 |
 | Deneyim formu | 17 | 0 | 0 | 0 | 0 |
 | İçerik | 9 | 9 | 5 | 7 | 0 |
-| Fonksiyonel olmayan | 45 | 38 | 17 | 22 | 5 |
+| Fonksiyonel olmayan | 45 | 38 | 21 | 22 | 5 |
 | HMI | 42 | 41 | 32 | 16 | 0 |
 | Günlük kullanım | 9 | 7 | 7 | 1 | 0 |
 | Sosyal | 10 | 6 | 6 | 4 | 0 |
@@ -34,7 +34,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-ONB-004 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
 | KHV-FR-ONB-005 | MVP | Otomatik | Testte | `app/test/ui/onboarding_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-RCP-001 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
-| KHV-FR-RCP-002 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/calculator_test.dart` |
+| KHV-FR-RCP-002 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/calculator_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
 | KHV-FR-RCP-003 | MVP | Otomatik | Testte | `packages/kahve_core/test/calculator_test.dart` |
 | KHV-FR-RCP-004 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/calculator_test.dart` |
 | KHV-FR-RCP-005 | MVP | Otomatik | Testte | `packages/kahve_core/test/calculator_test.dart` |
@@ -51,11 +51,11 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-BRW-007 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
 | KHV-FR-BRW-008 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `app/test/ui/scale_test.dart`, `packages/kahve_core/test/calculator_test.dart` |
 | KHV-FR-DIA-001 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
-| KHV-FR-DIA-002 | MVP | Otomatik | Testte | `packages/kahve_core/test/dial_in_test.dart` |
+| KHV-FR-DIA-002 | MVP | Otomatik | Testte | `packages/kahve_core/test/dial_in_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
 | KHV-FR-DIA-003 | MVP | Otomatik | Testte | `packages/kahve_core/test/dial_in_test.dart` |
 | KHV-FR-DIA-004 | MVP | Otomatik | Testte | `packages/kahve_core/test/dial_in_test.dart` |
-| KHV-FR-DIA-005 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/dial_in_test.dart` |
-| KHV-FR-DIA-006 | MVP | Otomatik | Testte | `packages/kahve_core/test/dial_in_test.dart` |
+| KHV-FR-DIA-005 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/dial_in_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
+| KHV-FR-DIA-006 | MVP | Otomatik | Testte | `app/test_stres/veri_stres_test.dart`, `packages/kahve_core/test/dial_in_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
 | KHV-FR-DIA-007 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-EQP-001 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
 | KHV-FR-EQP-002 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
@@ -64,7 +64,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-EQP-005 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
 | KHV-FR-EQP-006 | MVP | Yarı otomatik | Testte | `app/test/ui/screens_test.dart` |
 | KHV-FR-LOG-001 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
-| KHV-FR-LOG-002 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
+| KHV-FR-LOG-002 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart`, `app/test_stres/arayuz_stres_test.dart` |
 | KHV-FR-LOG-003 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
 | KHV-FR-LOG-004 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-LOG-005 | S2 | Otomatik | Sonraki sürüm |  |
@@ -91,9 +91,9 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-CNT-004 | MVP | Yarı otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-CNT-005 | MVP | Manuel | Manuel kontrol | İçerik incelemesi (test planı) |
 | KHV-CNT-006 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
-| KHV-NFR-001 | MVP | Yarı otomatik | Manuel kontrol | Cihaz (performans) (test planı) |
-| KHV-NFR-002 | MVP | Yarı otomatik | Manuel kontrol | Cihaz (test planı) |
-| KHV-NFR-003 | MVP | Manuel | Testte | `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
+| KHV-NFR-001 | MVP | Yarı otomatik | Testte | `app/integration_test/performans_test.dart` |
+| KHV-NFR-002 | MVP | Yarı otomatik | Testte | `packages/kahve_core/test_stres/timer_stres_test.dart` |
+| KHV-NFR-003 | MVP | Manuel | Testte | `app/test/ui/brew_flow_test.dart`, `app/test_stres/arayuz_stres_test.dart`, `packages/kahve_core/test/brew_timer_test.dart`, `packages/kahve_core/test_stres/timer_stres_test.dart` |
 | KHV-NFR-004 | MVP | Yarı otomatik | Manuel kontrol | Entegrasyon + Cihaz (test planı) |
 | KHV-NFR-005 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-NFR-006 | MVP | Yarı otomatik | Manuel kontrol | Cihaz (test planı) |
@@ -118,10 +118,10 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-HMI-003 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
 | KHV-HMI-004 | MVP | Otomatik | Testte | `packages/kahve_core/test/brew_timer_test.dart` |
 | KHV-HMI-005 | MVP | Yarı otomatik | Testte | `app/test/ui/screens_test.dart` |
-| KHV-HMI-006 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
+| KHV-HMI-006 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `app/test_stres/arayuz_stres_test.dart` |
 | KHV-HMI-007 | MVP | Manuel | Testte | `app/test/ui/platform_features_test.dart` |
 | KHV-HMI-008 | S2 | Manuel | Manuel kontrol | Cihaz (test planı) |
-| KHV-HMI-009 | MVP | Otomatik | Testte | `app/test/ui/accessibility_test.dart`, `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
+| KHV-HMI-009 | MVP | Otomatik | Testte | `app/integration_test/performans_test.dart`, `app/test/ui/accessibility_test.dart`, `app/test/ui/brew_flow_test.dart`, `app/test_stres/arayuz_stres_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
 | KHV-HMI-010 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
 | KHV-HMI-011 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
 | KHV-HMI-012 | MVP | Otomatik | Testte | `packages/kahve_core/test/calculator_test.dart` |
@@ -154,17 +154,17 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-HMI-039 | MVP | Yarı otomatik | Manuel kontrol | Widget + İnceleme (test planı) |
 | KHV-HMI-040 | MVP | Yarı otomatik | Manuel kontrol | Entegrasyon + Cihaz (test planı) |
 | KHV-HMI-041 | MVP | Manuel | Manuel kontrol | Kullanılabilirlik (test planı) |
-| KHV-NFR-023 | MVP | Yarı otomatik | Manuel kontrol | Cihaz (performans) (test planı) |
-| KHV-NFR-024 | MVP | Manuel | Manuel kontrol | Test planı incelemesi (test planı) |
+| KHV-NFR-023 | MVP | Yarı otomatik | Testte | `app/integration_test/performans_test.dart`, `app/test_stres/arayuz_stres_test.dart`, `app/test_stres/veri_stres_test.dart` |
+| KHV-NFR-024 | MVP | Manuel | Testte | `app/integration_test/performans_test.dart` |
 | KHV-NFR-025 | MVP | Manuel | Manuel kontrol | Sürüm geçidi (test planı) |
 | KHV-FR-ENG-001 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/notifications_test.dart` |
 | KHV-FR-ENG-002 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/notifications_test.dart` |
-| KHV-FR-ENG-003 | MVP | Otomatik | Testte | `app/test/data/database_test.dart`, `packages/kahve_core/test/misc_test.dart` |
-| KHV-FR-ENG-004 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-FR-ENG-003 | MVP | Otomatik | Testte | `app/test/data/database_test.dart`, `app/test_stres/veri_stres_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-FR-ENG-004 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `app/test_stres/veri_stres_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-ENG-005 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-ENG-006 | S2 | Manuel | Manuel kontrol | Cihaz (test planı) |
 | KHV-FR-ENG-007 | S2 | Otomatik | Sonraki sürüm |  |
-| KHV-FR-ENG-008 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `packages/kahve_core/test/notifications_test.dart` |
+| KHV-FR-ENG-008 | MVP | Otomatik | Testte | `app/test/state/engagement_test.dart`, `app/test_stres/veri_stres_test.dart`, `packages/kahve_core/test/notifications_test.dart` |
 | KHV-FR-SOC-001 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart` |
 | KHV-FR-SOC-002 | MVP | Manuel | Testte | `app/test/ui/platform_features_test.dart` |
 | KHV-FR-SOC-003 | MVP | Yarı otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/misc_test.dart` |
@@ -184,9 +184,9 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-RCP-012 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-RCP-013 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
 | KHV-FR-RCP-014 | MVP | Otomatik | Testte | `app/test/data/database_test.dart` |
-| KHV-FR-BRW-009 | MVP | Yarı otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
+| KHV-FR-BRW-009 | MVP | Yarı otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/brew_timer_test.dart`, `packages/kahve_core/test_stres/timer_stres_test.dart` |
 | KHV-FR-BRW-010 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart` |
-| KHV-FR-BRW-011 | MVP | Yarı otomatik | Testte | `packages/kahve_core/test/brew_timer_test.dart` |
+| KHV-FR-BRW-011 | MVP | Yarı otomatik | Testte | `packages/kahve_core/test/brew_timer_test.dart`, `packages/kahve_core/test_stres/timer_stres_test.dart` |
 | KHV-FR-BRW-012 | MVP | Manuel | Manuel kontrol | Cihaz (test planı) |
 | KHV-FR-BRW-013 | MVP | Manuel | Testte | `app/test/ui/platform_features_test.dart` |
 | KHV-FR-LOG-006 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
@@ -200,7 +200,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-HLP-002 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
 | KHV-FR-HLP-003 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart` |
 | KHV-FR-ENG-009 | MVP | Otomatik | Testte | `packages/kahve_core/test/notifications_test.dart` |
-| KHV-FR-SOC-009 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-FR-SOC-009 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/misc_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
 | KHV-FR-SOC-010 | MVP | Otomatik | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-CNT-007 | MVP | Manuel | Manuel kontrol | İçerik incelemesi (test planı) |
 | KHV-CNT-008 | MVP | Manuel | Manuel kontrol | İçerik incelemesi (test planı) |
@@ -214,8 +214,8 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-NFR-027 | MVP | Otomatik | İstisna | Değişen içerik kayıtlarının indirilmesi sunucu/CMS gerektirir (KHV-NFR-011 ile aynı karar). |
 | KHV-NFR-028 | MVP | Otomatik | Testte | `app/test/data/database_test.dart`, `app/test/data/migration_test.dart` |
 | KHV-NFR-029 | MVP | Otomatik | İstisna | Desteklenen minimum sürüm bilgisi sunucudan okunur; sunucu altyapısı seçilmedi. |
-| KHV-NFR-030 | MVP | Manuel | Testte | `app/test/data/database_test.dart`, `app/test/ui/platform_features_test.dart` |
-| KHV-NFR-031 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-NFR-030 | MVP | Manuel | Testte | `app/test/data/database_test.dart`, `app/test/ui/platform_features_test.dart`, `app/test_stres/veri_stres_test.dart` |
+| KHV-NFR-031 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
 | KHV-NFR-032 | MVP | Otomatik | Testte | `.github/workflows/ci.yml` |
 | KHV-NFR-033 | MVP | Otomatik | İstisna | Çökme raporlama servisi seçilmedi (ör. Sentry/Crashlytics). Rıza ayarı ve varsayılan kapalı durumu hazır ve testli. |
 | KHV-NFR-038 | S2 | Yarı otomatik | Manuel kontrol | Cihaz + Güvenlik (test planı) |

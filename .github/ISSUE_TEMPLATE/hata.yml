@@ -1,0 +1,47 @@
+name: Hata bildirimi
+description: Beklenmeyen davranış, çökme veya yanlış öneri
+labels: [hata, triyaj]
+body:
+  - type: dropdown
+    id: onem
+    attributes:
+      label: Önem
+      description: docs/kalite/hata-yasam-dongusu.md içindeki tanımlara göre
+      options:
+        - "Ö1 Kritik: çökme, veri kaybı, emniyet"
+        - "Ö2 Yüksek: ana akış (demleme, tat, günlük) bozuk, geçici çözüm yok"
+        - "Ö3 Orta: geçici çözümü olan hata"
+        - "Ö4 Düşük: görünüm, metin"
+    validations:
+      required: true
+  - type: input
+    id: gereksinim
+    attributes:
+      label: İlgili gereksinim veya test senaryosu
+      placeholder: KHV-FR-BRW-005 / TC-BRW-005
+  - type: textarea
+    id: adimlar
+    attributes:
+      label: Yeniden üretme adımları
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: beklenen
+    attributes:
+      label: Beklenen ve gerçekleşen
+    validations:
+      required: true
+  - type: input
+    id: ortam
+    attributes:
+      label: Ortam
+      placeholder: Uygulama sürümü, cihaz modeli, işletim sistemi sürümü
+    validations:
+      required: true
+  - type: textarea
+    id: ek
+    attributes:
+      label: Ekran görüntüsü, video veya günlük

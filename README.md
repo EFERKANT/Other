@@ -40,6 +40,15 @@ cd app && flutter test
 
 Golden görüntüleri güncellemek için `flutter test --update-goldens` kullanın.
 
+## Kalite süreci
+
+Ayrıntılar [`docs/kalite/`](docs/kalite/README.md) altında: tamamlanma tanımı, kod inceleme ve yayın kontrol listeleri, test planı, kaliteci rolü, hata yaşam döngüsü, stres testleri ve bulgular.
+
+- **İzlenebilirlik:** `python3 tool/trace.py --check`. MVP'de otomatik test olarak işaretlenmiş her gereksinim bir testte geçmeli ya da `docs/kalite/istisnalar.csv` içinde gerekçesiyle yer almalı. CI'da zorunlu.
+- **Otomatik kod incelemesi:** `.github/workflows/claude-review.yml`; depo sırlarına `ANTHROPIC_API_KEY` eklenince her PR'da çalışır.
+- **Stres testleri:** `test_stres/` klasörleri; CI'da her gece (`.github/workflows/stres.yml`).
+- **Şablonlar:** PR şablonu ve hata/gereksinim issue şablonları `.github/` altında.
+
 ## Kodlama standardı
 
 Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik analiz (`flutter_lints`, çekirdekte ek olarak `public_member_api_docs`), tüm testler ve çekirdek katmanda en az %90 satır kapsamı (`.github/workflows/ci.yml`).
