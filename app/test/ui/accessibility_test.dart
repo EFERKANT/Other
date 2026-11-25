@@ -195,6 +195,59 @@ void main() {
     expect(value, const Offset(0, 0.7));
   });
 
+  testWidgets('kaydırılabilir sayfada top ilk dikey sürüklemede taşınır; '
+      'boş yerde sayfa kayar (KB-013, KHV-HMI-013)', (tester) async {
+    var value = Offset.zero;
+    final scroll = ScrollController();
+    addTearDown(scroll.dispose);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: StatefulBuilder(
+            builder: (context, setState) => ListView(
+              controller: scroll,
+              children: [
+                const SizedBox(height: 200),
+                SizedBox(
+                  width: 400,
+                  child: TastePad(
+                    value: value,
+                    onChanged: (v) => setState(() => value = v),
+                  ),
+                ),
+                const SizedBox(height: 2000),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    final rect = tester.getRect(
+      find.descendant(
+        of: find.byType(TastePad),
+        matching: find.byType(AspectRatio),
+      ),
+    );
+    // Top (başta merkezde) tutulup yukarı çekilir: sayfa kaymaz, top yoğun
+    // yönüne gider.
+    await tester.dragFrom(rect.center, const Offset(0, -100));
+    await tester.pump();
+    expect(scroll.offset, 0);
+    expect(value.dy, lessThan(-0.3));
+    // Topun uzağında dikey sürükleme sayfayı kaydırır, tat değişmez.
+    // Parmak gibi küçük adımlarla hareket edilir.
+    final before = value;
+    final g = await tester.startGesture(rect.topRight + const Offset(-30, 30));
+    for (var i = 0; i < 20; i++) {
+      await g.moveBy(const Offset(0, -5));
+      await tester.pump();
+    }
+    await g.up();
+    await tester.pump();
+    expect(scroll.offset, greaterThan(0));
+    expect(value, before);
+  });
+
   test('widget kodunda doğrudan renk değeri yok (KHV-HMI-033)', () {
     final offenders = <String>[];
     for (final f in Directory('lib').listSync(recursive: true)) {

@@ -34,3 +34,6 @@ Linter'ın yakalayamadığı kurallar (KHV-NFR-022) ve projeye özgü riskler. �
 - [ ] Rehber modda birincil bilgi en büyük öğe; dokunmadan ilerlenebiliyor (KHV-HMI-001, HMI-006)
 - [ ] En büyük yazı boyutunda ve yatay ekranda taşma yok (KHV-HMI-019, HMI-028)
 - [ ] Bilgi yalnız renkle verilmiyor (KHV-HMI-024)
+- [ ] Geçici katmanlar (SnackBar, banner, alt sayfa) açıkken kontrol düğmelerine basılabiliyor; özellikle rehber modda Duraklat ve Bitir (KB-012)
+- [ ] Sürükleme alanı kaydırılabilir bir sayfadaysa hareket çakışması ele alındı ve gerçek üst yapıyla test edildi (KB-013)
+- [ ] Seçim listesi ve açılır menü boşken kullanıcıya nedeni ve nasıl dolduracağı söyleniyor (KB-014)

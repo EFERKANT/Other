@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kahve_core/kahve_core.dart';
@@ -376,9 +377,31 @@ class TastePad extends StatelessWidget {
                       label: 'Tat alanı',
                       value: _describe(value),
                       excludeSemantics: true,
-                      child: GestureDetector(
-                        onTapDown: (d) => _update(d.localPosition, size),
-                        onPanUpdate: (d) => _update(d.localPosition, size),
+                      // Alan kaydırılabilir sayfadadır. Top tutulursa
+                      // hareket hemen alana verilir; ilk dikey hareketi
+                      // sayfa kaydırması almaz. Boş yerde dikey sürükleme
+                      // sayfayı kaydırır, dokunuş topu taşır (KHV-HMI-013).
+                      child: RawGestureDetector(
+                        gestures: {
+                          TapGestureRecognizer:
+                              GestureRecognizerFactoryWithHandlers<
+                                TapGestureRecognizer
+                              >(TapGestureRecognizer.new, (r) {
+                                r.onTapDown = (d) =>
+                                    _update(d.localPosition, size);
+                              }),
+                          _ThumbPanRecognizer:
+                              GestureRecognizerFactoryWithHandlers<
+                                _ThumbPanRecognizer
+                              >(_ThumbPanRecognizer.new, (r) {
+                                r.grabs = (p) =>
+                                    (p - pos).distance <= _thumbGrabRadius;
+                                r.onStart = (d) =>
+                                    _update(d.localPosition, size);
+                                r.onUpdate = (d) =>
+                                    _update(d.localPosition, size);
+                              }),
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             color: scheme.surfaceContainerHigh,
@@ -675,5 +698,23 @@ class _QuestionnaireState extends State<_Questionnaire> {
         ),
       ),
     );
+  }
+}
+
+/// Topun yakalama yarıçapı (36 px simge, en az 48 dp dokunma hedefi).
+const _thumbGrabRadius = 32.0;
+
+/// Top üzerinde başlayan hareketi hemen sahiplenen pan tanıyıcı: üst kaydırma
+/// alanı dikey sürüklemeyi elinden alamaz. Başka yerde normal pan gibi
+/// davranır.
+class _ThumbPanRecognizer extends PanGestureRecognizer {
+  bool Function(Offset localPosition)? grabs;
+
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    super.addAllowedPointer(event);
+    if (grabs?.call(event.localPosition) ?? false) {
+      resolve(GestureDisposition.accepted);
+    }
   }
 }

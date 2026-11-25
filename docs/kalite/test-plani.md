@@ -60,4 +60,5 @@ Minimum işletim sistemi sürümleri Bölüm 10'da açık konudur; karar verilin
 | Arka planda zamanlayıcı ve bildirim davranışı üreticiye göre değişir (pil optimizasyonu) | Adım geçişi kaçar | Cihaz matrisinde Samsung, Xiaomi gibi agresif pil yönetimli cihaz; manuel TC-BRW-005 |
 | iOS derlemesi yalnız Mac'te | iOS hataları geç bulunur | Mac'te haftalık iOS derlemesi; `tool/mac_setup.sh` |
 | Golden görüntüleri platforma göre farklılaşır | Sahte kırmızı CI | Goldenlar yalnız Linux CI'da üretilir ve karşılaştırılır |
+| Golden görüntüleri test yazı tipiyle (Ahem) üretilir, metin kutu olarak görünür | Örtüşme, taşma ve kesik metin görüntü incelemesinde kaçar (KB-015) | Kullanıcıya görünen değişiklikte cihaz veya simülatör denemesi; öneri: goldenları gerçek yazı tipiyle üretmek |
 | Tat girdisinin kalitesi (kullanıcı ekşi/acıyı karıştırır) | Yanlış düzeltme | Kullanılabilirlik oturumunda tat seçimi tutarlılığı ölçülür (Bölüm 12.4) |

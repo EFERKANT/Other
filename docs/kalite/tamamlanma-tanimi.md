@@ -19,6 +19,8 @@ Bir iş, aşağıdakilerin hepsi sağlandığında tamamdır.
 - [ ] Yeni ekranda dokunma hedefi, kontrast ve etiket kılavuzları testte (`test/ui/accessibility_test.dart`)
 - [ ] Şema değiştiyse taşıma testi eklendi (KHV-NFR-028)
 - [ ] Manuel veya yarı otomatik senaryolar için [manuel senaryolar](manuel-senaryolar.md) güncellendi
+- [ ] Widget testi bileşeni gerçek ekrandaki üst yapısıyla (kaydırma, Scaffold, bildirim) çalıştırıyor; sürükleme testleri küçük adımlarla, ekranın görünen kısmında (KB-015)
+- [ ] Kullanıcıya görünen değişiklik cihazda veya simülatörde denendi; otomatik testlerin geçmesi tek başına "tamam" sayılmaz (KB-015)
 
 ## Süreç
 

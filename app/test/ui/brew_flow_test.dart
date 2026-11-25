@@ -120,6 +120,55 @@ void main() {
     expect(find.text('Adım 1/6'), findsOneWidget);
   });
 
+  testWidgets('adım atlandı bildirimi duraklat ve bitir düğmelerini örtmez '
+      '(KB-012, KHV-HMI-009)', (tester) async {
+    await setUpEnv(tester, settings: v60User);
+    await openV60(tester);
+    await tester.tap(find.text('Demlemeyi başlat'));
+    await settle(tester, 4);
+    await tester.tap(find.byTooltip('Adımı atla'));
+    await settle(tester, 10);
+    // Görünen bildirim kutusu (kenar boşluğu hariç).
+    final snack = tester.getRect(
+      find
+          .ancestor(
+            of: find.text('Adım atlandı'),
+            matching: find.byType(Material),
+          )
+          .first,
+    );
+    for (final control in [
+      find.byTooltip('Duraklat'),
+      find.byTooltip('Adımı atla'),
+      find.textContaining('Bitir'),
+    ]) {
+      expect(snack.overlaps(tester.getRect(control)), isFalse);
+    }
+    // Bildirim ekrandayken duraklatma çalışır.
+    await tester.tap(find.byTooltip('Duraklat'));
+    await settle(tester, 2);
+    expect(find.text('DURAKLATILDI'), findsOneWidget);
+  });
+
+  testWidgets('kayıtlı çekirdek yoksa hazırlıktan eklenir ve seçilebilir '
+      '(KB-014, KHV-FR-LOG-004)', (tester) async {
+    await setUpEnv(tester, settings: v60User);
+    await openV60(tester);
+    expect(find.text('Kayıtlı çekirdek yok.'), findsOneWidget);
+    await tester.ensureVisible(find.text('Çekirdek ekle'));
+    await tester.tap(find.text('Çekirdek ekle'));
+    await settle(tester);
+    await tester.enterText(find.widgetWithText(TextField, 'Ad'), 'Etiyopya');
+    await tester.tap(find.text('Kaydet'));
+    await settle(tester);
+    // Hazırlığa dönülür, yeni çekirdek listede.
+    expect(find.text('Hazırlık · V60 başlangıç'), findsOneWidget);
+    expect(find.text('Kayıtlı çekirdek yok.'), findsNothing);
+    await tester.tap(find.byType(DropdownButtonFormField<String?>));
+    await settle(tester);
+    expect(find.text('Etiyopya'), findsOneWidget);
+  });
+
   testWidgets('kesinti sonrası aktif demlemeye dönülür (KHV-HMI-023)', (
     tester,
   ) async {

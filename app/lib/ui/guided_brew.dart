@@ -15,6 +15,7 @@ import '../state/brew_state.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
+import 'log.dart' show BeanEditScreen;
 
 /// Rehber modun nasıl açıldığı.
 @immutable
@@ -72,6 +73,7 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
   bool _flash = false;
   final _safetyStep = <SafetyWarning, int>{};
   bool _finishing = false;
+  final _controlsKey = GlobalKey();
 
   late final int Function() _clock = ref.read(monotonicMsProvider);
 
@@ -153,6 +155,8 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
     t.weightMode = WeightMode.degraded;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: _snackMargin(),
         content: Text(
           _guard.health == WeightHealth.disconnected
               ? 'Terazi bağlantısı koptu. Adımları dokunarak ilerletin.'
@@ -589,6 +593,14 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
     if (mounted) context.canPop() ? context.pop() : context.go('/');
   }
 
+  /// Demleme bildirimleri kontrol düğmelerinin üstünde açılır; altta kalan
+  /// Duraklat ve Bitir dokunulabilir kalır (KHV-HMI-009).
+  EdgeInsets _snackMargin() {
+    final box = _controlsKey.currentContext?.findRenderObject() as RenderBox?;
+    final lift = box != null && box.hasSize ? box.size.height : 0.0;
+    return EdgeInsets.fromLTRB(16, 0, 16, lift);
+  }
+
   void _skip() {
     final t = _timer!;
     _handle(t.skip(_now));
@@ -596,6 +608,8 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
+          behavior: SnackBarBehavior.floating,
+          margin: _snackMargin(),
           duration: const Duration(seconds: 5),
           content: const Text('Adım atlandı'),
           action: SnackBarAction(
@@ -665,9 +679,10 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
           DropdownButtonFormField<String?>(
             isExpanded: true,
             initialValue: _beanId,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
               labelText: 'Kullanılan çekirdek (isteğe bağlı)',
+              helperText: beans.isEmpty ? 'Kayıtlı çekirdek yok.' : null,
             ),
             items: [
               const DropdownMenuItem(value: null, child: Text('Seçilmedi')),
@@ -676,6 +691,25 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
             ],
             onChanged: (v) => setState(() => _beanId = v),
           ),
+          // Boş liste kullanıcıyı çıkmazda bırakmaz: eklenen çekirdek
+          // dönüşte listede görünür (KHV-FR-LOG-004).
+          if (beans.isEmpty)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                // Form sekme yapısının dışında, tam ekran demlemenin üstünde
+                // açılır; '/beans/new' adresi burada yönlendirici yığınını
+                // bozar.
+                onPressed: () =>
+                    Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const BeanEditScreen(),
+                      ),
+                    ),
+                icon: const Icon(Icons.add),
+                label: const Text('Çekirdek ekle'),
+              ),
+            ),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -851,7 +885,11 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
               ),
             ),
           ),
-          Padding(padding: const EdgeInsets.all(16), child: controls),
+          Padding(
+            key: _controlsKey,
+            padding: const EdgeInsets.all(16),
+            child: controls,
+          ),
         ];
         return Column(
           children: [
