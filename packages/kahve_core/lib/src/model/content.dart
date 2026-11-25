@@ -65,85 +65,6 @@ class GlossaryTerm {
   final String definition;
 }
 
-/// Ekipman kataloğu kaydı (KHV-FR-EQP-003, KHV-CNT-004).
-@immutable
-class CatalogModel {
-  /// Bir katalog kaydı oluşturur.
-  const CatalogModel({
-    required this.id,
-    required this.category,
-    required this.brand,
-    required this.model,
-    required this.verifiedAt,
-    this.methods = const {},
-    this.usesFilter = false,
-    this.budget = Budget.mid,
-    this.notes = '',
-  });
-
-  /// JSON'dan okur.
-  factory CatalogModel.fromJson(Map<String, Object?> j) => CatalogModel(
-    id: j['id']! as String,
-    category: j['category']! as String,
-    brand: j['brand']! as String,
-    model: j['model']! as String,
-    verifiedAt: DateTime.parse(j['verifiedAt']! as String),
-    methods: {
-      for (final m in (j['methods'] as List<Object?>? ?? const []))
-        BrewMethod.parse(m! as String),
-    },
-    usesFilter: j['usesFilter'] as bool? ?? false,
-    budget: Budget.values.byName(j['budget'] as String? ?? 'mid'),
-    notes: j['notes'] as String? ?? '',
-  );
-
-  /// Kimlik.
-  final String id;
-
-  /// Kategori kimliği ([EquipmentGuide.id]).
-  final String category;
-
-  /// Marka.
-  final String brand;
-
-  /// Model.
-  final String model;
-
-  /// Son doğrulama tarihi.
-  final DateTime verifiedAt;
-
-  /// İlgili yöntemler; boşsa tümü.
-  final Set<BrewMethod> methods;
-
-  /// Filtre kullanıyor mu.
-  final bool usesFilter;
-
-  /// Bütçe aralığı.
-  final Budget budget;
-
-  /// Editoryal not.
-  final String notes;
-
-  /// "Marka Model".
-  String get displayName => '$brand $model';
-
-  /// Son doğrulamadan bu yana 6 ay geçtiyse `true` (KHV-CNT-004).
-  bool isStale(DateTime today) =>
-      today.difference(verifiedAt) > const Duration(days: 183);
-}
-
-/// Bütçe aralığı (KHV-FR-EQP-001).
-enum Budget {
-  /// Giriş seviyesi.
-  low,
-
-  /// Orta.
-  mid,
-
-  /// Üst.
-  high,
-}
-
 /// Ekipman kategorisi seçim rehberi (Bölüm 5, KHV-FR-EQP-002).
 @immutable
 class EquipmentGuide {
@@ -196,7 +117,6 @@ class ContentBundle {
     required this.rules,
     required this.glossary,
     required this.guides,
-    required this.catalog,
     this.maintenance = const [],
     this.flags = const {},
     this.scales = const [],
@@ -215,7 +135,6 @@ class ContentBundle {
       rules: list('rules').map(CorrectionRule.fromJson).toList(),
       glossary: list('glossary').map(GlossaryTerm.fromJson).toList(),
       guides: list('guides').map(EquipmentGuide.fromJson).toList(),
-      catalog: list('catalog').map(CatalogModel.fromJson).toList(),
       maintenance: list('maintenance')
           .map(MaintenanceTemplate.fromJson)
           .toList(),
@@ -251,9 +170,6 @@ class ContentBundle {
 
   /// Ekipman rehberleri.
   final List<EquipmentGuide> guides;
-
-  /// Katalog modelleri.
-  final List<CatalogModel> catalog;
 
   /// Bakım şablonları (KHV-FR-ENG-001).
   final List<MaintenanceTemplate> maintenance;
@@ -297,12 +213,6 @@ class ContentBundle {
     }
     for (final s in scales) {
       errors.addAll(ScaleRegistry.validate(s));
-    }
-    final guideIds = {for (final g in guides) g.id};
-    for (final c in catalog) {
-      if (!guideIds.contains(c.category)) {
-        errors.add('Bilinmeyen katalog kategorisi: ${c.category}');
-      }
     }
     return errors;
   }

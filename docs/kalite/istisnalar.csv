@@ -5,3 +5,6 @@ KHV-NFR-027,Değişen içerik kayıtlarının indirilmesi sunucu/CMS gerektirir 
 KHV-NFR-029,Desteklenen minimum sürüm bilgisi sunucudan okunur; sunucu altyapısı seçilmedi.,Ürün sahibi
 KHV-NFR-033,Çökme raporlama servisi seçilmedi (ör. Sentry/Crashlytics). Rıza ayarı ve varsayılan kapalı durumu hazır ve testli.,Ürün sahibi + KVKK
 KHV-NFR-044,Analitik servisi seçilmedi. Olay kaydı (KHV-ARC-004) ve rıza ayarı hazır; ölçütler servis seçilince bağlanır.,Ürün sahibi + KVKK
+KHV-FR-EQP-003,Ürün sahibi kararı (2026-11-25): marka/model kataloğu reklam izlenimi verdiği için kaldırıldı; ekipman rehberi yalnız kriter anlatır (KB-017). Gereksinim dokümanında madde güncellenmeli.,Ürün sahibi (doküman güncellemesi)
+KHV-FR-EQP-005,Ürün sahibi kararı (2026-11-25): katalog modeli sayfası katalogla birlikte kaldırıldı (KB-017). Gereksinim dokümanında madde güncellenmeli.,Ürün sahibi (doküman güncellemesi)
+KHV-CNT-004,Ürün sahibi kararı (2026-11-25): doğrulama tarihi tutulacak katalog kaydı kalmadı (KB-017). Gereksinim dokümanında madde güncellenmeli.,Ürün sahibi (doküman güncellemesi)

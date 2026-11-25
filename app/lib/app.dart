@@ -99,13 +99,6 @@ GoRouter buildRouter(Ref ref) {
               GoRoute(
                 path: '/equipment',
                 builder: (c, s) => const EquipmentScreen(),
-                routes: [
-                  GoRoute(
-                    path: 'model/:id',
-                    builder: (c, s) =>
-                        ModelScreen(modelId: s.pathParameters['id']!),
-                  ),
-                ],
               ),
             ],
           ),

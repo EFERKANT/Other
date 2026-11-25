@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:kahve_core/kahve_core.dart';
 import 'package:test/test.dart';
 
@@ -369,7 +371,7 @@ void main() {
           OwnedEquipment(
             category: EquipmentCategory.brewer,
             method: BrewMethod.v60,
-            catalogModelId: 'hario-v60-02',
+            freeText: 'Seramik dripper',
           ),
           OwnedEquipment(
             category: EquipmentCategory.grinder,
@@ -444,12 +446,21 @@ void main() {
         );
       }
     });
-    test('katalog doğrulama tarihleri (KHV-CNT-004)', () {
-      for (final c in b.catalog) {
-        expect(c.isStale(DateTime(2026, 12, 1)), isFalse);
-        expect(c.isStale(DateTime(2027, 7, 1)), isTrue);
-        expect(c.displayName, contains(c.model));
-      }
+    test('katalogdan seçilmiş eski kayıt serbest metin olarak korunur '
+        '(KHV-FR-ONB-004, KB-017)', () {
+      final e = OwnedEquipment.fromJson({
+        'category': 'brewer',
+        'method': 'v60',
+        'catalogModelId': 'hario-v60-02',
+      });
+      expect(e.freeText, 'hario-v60-02');
+      expect(e.toJson(), isNot(contains('catalogModelId')));
+    });
+    test('içerikte marka ve model kataloğu yok (KB-017)', () {
+      final raw = File('../../app/assets/content/bundle.json')
+          .readAsStringSync();
+      expect(raw, isNot(contains('"brand"')));
+      expect(raw, isNot(contains('"catalog"')));
     });
     test('geçersiz paket reddedilir', () {
       expect(
@@ -463,7 +474,6 @@ void main() {
         rules: [],
         glossary: [],
         guides: [],
-        catalog: [],
       );
       expect(dup.validate(), isNotEmpty);
     });

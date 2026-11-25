@@ -58,17 +58,12 @@ enum EquipmentCategory {
 
 /// Kullanıcının sahip olduğu tek bir ekipman (KHV-FR-ONB-004).
 ///
-/// Ya bir katalog modeline ([catalogModelId]) ya da serbest metne
-/// ([freeText]) bağlanır.
+/// Adı kullanıcının yazdığı serbest metindir ([freeText]); uygulama marka
+/// ve model listesi sunmaz (KB-017).
 @immutable
 class OwnedEquipment {
   /// Bir ekipman kaydı oluşturur.
-  const OwnedEquipment({
-    required this.category,
-    this.method,
-    this.catalogModelId,
-    this.freeText,
-  });
+  const OwnedEquipment({required this.category, this.method, this.freeText});
 
   /// JSON'dan okur.
   factory OwnedEquipment.fromJson(Map<String, Object?> json) => OwnedEquipment(
@@ -76,8 +71,8 @@ class OwnedEquipment {
     method: json['method'] == null
         ? null
         : BrewMethod.parse(json['method']! as String),
-    catalogModelId: json['catalogModelId'] as String?,
-    freeText: json['freeText'] as String?,
+    // Katalog kaldırılmadan önce kaydedilen seçim kaybolmaz.
+    freeText: json['freeText'] as String? ?? json['catalogModelId'] as String?,
   );
 
   /// Ekipmanın kategorisi.
@@ -86,17 +81,13 @@ class OwnedEquipment {
   /// Demleme aracıysa ilişkili yöntem.
   final BrewMethod? method;
 
-  /// Katalog modeli kimliği.
-  final String? catalogModelId;
-
-  /// Katalogda olmayan model için serbest metin.
+  /// Kullanıcının yazdığı model adı.
   final String? freeText;
 
   /// JSON'a yazar.
   Map<String, Object?> toJson() => {
     'category': category.name,
     if (method != null) 'method': method!.id,
-    if (catalogModelId != null) 'catalogModelId': catalogModelId,
     if (freeText != null) 'freeText': freeText,
   };
 
@@ -105,11 +96,10 @@ class OwnedEquipment {
       other is OwnedEquipment &&
       other.category == category &&
       other.method == method &&
-      other.catalogModelId == catalogModelId &&
       other.freeText == freeText;
 
   @override
-  int get hashCode => Object.hash(category, method, catalogModelId, freeText);
+  int get hashCode => Object.hash(category, method, freeText);
 }
 
 /// Kullanıcının ekipman profili (KHV-FR-ONB-001, KHV-HMI-016).

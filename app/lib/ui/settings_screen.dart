@@ -438,8 +438,8 @@ class NumberStepperTile extends StatelessWidget {
   );
 }
 
-/// Ekipman profili düzenleme; marka/model katalogdan veya serbest metinle
-/// (KHV-FR-ONB-003, ONB-004).
+/// Ekipman profili düzenleme; kullanıcının kendi aracının adı serbest metinle
+/// girilir, marka listesi sunulmaz (KHV-FR-ONB-003, ONB-004, KB-017).
 class EquipmentProfileScreen extends ConsumerWidget {
   const EquipmentProfileScreen({super.key});
 
@@ -450,39 +450,17 @@ class EquipmentProfileScreen extends ConsumerWidget {
     final ctrl = ref.read(settingsProvider.notifier);
     Future<void> set(EquipmentProfile e) =>
         ctrl.change((x) => x.copyWith(equipment: e));
-    final catalog = ref.watch(contentProvider).value?.catalog ?? const [];
+    String? modelOf(EquipmentCategory cat, {BrewMethod? method}) => eq.items
+        .where((i) => i.category == cat && i.method == method)
+        .firstOrNull
+        ?.freeText;
 
-    String? modelOf(EquipmentCategory cat, {BrewMethod? method}) {
-      final item = eq.items
-          .where((i) => i.category == cat && i.method == method)
-          .firstOrNull;
-      if (item == null) return null;
-      if (item.freeText != null) return item.freeText;
-      return catalog
-          .where((c) => c.id == item.catalogModelId)
-          .firstOrNull
-          ?.displayName;
-    }
-
-    Future<void> pickModel(
-      EquipmentCategory cat,
-      Set<String> guideIds, {
-      BrewMethod? method,
-    }) async {
-      final options = [
-        for (final c in catalog)
-          if (guideIds.contains(c.category) &&
-              (method == null ||
-                  c.methods.isEmpty ||
-                  c.methods.contains(method)))
-            c,
-      ];
-      final result = await showModalBottomSheet<OwnedEquipment>(
+    Future<void> pickModel(EquipmentCategory cat, {BrewMethod? method}) async {
+      final result = await showModalBottomSheet<String>(
         context: context,
         isScrollControlled: true,
         showDragHandle: true,
-        builder: (c) =>
-            _ModelPicker(category: cat, method: method, options: options),
+        builder: (c) => _ModelNameSheet(initial: modelOf(cat, method: method)),
       );
       if (result == null) return;
       await set(
@@ -490,7 +468,8 @@ class EquipmentProfileScreen extends ConsumerWidget {
           items: [
             for (final i in eq.items)
               if (!(i.category == cat && i.method == method)) i,
-            result,
+            if (result.isNotEmpty)
+              OwnedEquipment(category: cat, method: method, freeText: result),
           ],
         ),
       );
@@ -526,12 +505,7 @@ class EquipmentProfileScreen extends ConsumerWidget {
               leading: const SizedBox(width: 24),
               title: Text('${methodName(m)} modeli'),
               trailing: const Icon(Icons.edit_outlined),
-              onTap: () => pickModel(EquipmentCategory.brewer, {
-                'brewer',
-                'espresso_machine',
-                'drip_machine',
-                'turkish',
-              }, method: m),
+              onTap: () => pickModel(EquipmentCategory.brewer, method: m),
             ),
           const SectionTitle('Öğütücü'),
           RadioGroup<GrinderType>(
@@ -552,11 +526,7 @@ class EquipmentProfileScreen extends ConsumerWidget {
               title: const Text('Öğütücü modeli'),
               subtitle: Text(modelOf(EquipmentCategory.grinder) ?? 'Seçilmedi'),
               trailing: const Icon(Icons.edit_outlined),
-              onTap: () => pickModel(EquipmentCategory.grinder, {
-                'hand_grinder',
-                'electric_grinder',
-                'espresso_grinder',
-              }),
+              onTap: () => pickModel(EquipmentCategory.grinder),
             ),
           const SectionTitle('Terazi ve kettle'),
           SwitchListTile(
@@ -588,85 +558,55 @@ class EquipmentProfileScreen extends ConsumerWidget {
   }
 }
 
-class _ModelPicker extends StatefulWidget {
-  const _ModelPicker({
-    required this.category,
-    required this.method,
-    required this.options,
-  });
+/// Kullanıcının kendi aracının adı; boş bırakılırsa kayıt silinir.
+class _ModelNameSheet extends StatefulWidget {
+  const _ModelNameSheet({this.initial});
 
-  final EquipmentCategory category;
-  final BrewMethod? method;
-  final List<CatalogModel> options;
+  final String? initial;
 
   @override
-  State<_ModelPicker> createState() => _ModelPickerState();
+  State<_ModelNameSheet> createState() => _ModelNameSheetState();
 }
 
-class _ModelPickerState extends State<_ModelPicker> {
-  String _query = '';
+class _ModelNameSheetState extends State<_ModelNameSheet> {
+  late final _text = TextEditingController(text: widget.initial);
 
   @override
-  Widget build(BuildContext context) {
-    final filtered = [
-      for (final o in widget.options)
-        if (matchesQuery(_query, [o.displayName])) o,
-    ];
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Marka veya model ara',
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (v) => setState(() => _query = v),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 320),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  for (final o in filtered)
-                    ListTile(
-                      title: Text(o.displayName),
-                      onTap: () => Navigator.pop(
-                        context,
-                        OwnedEquipment(
-                          category: widget.category,
-                          method: widget.method,
-                          catalogModelId: o.id,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            if (_query.trim().isNotEmpty)
-              FilledButton.tonal(
-                onPressed: () => Navigator.pop(
-                  context,
-                  OwnedEquipment(
-                    category: widget.category,
-                    method: widget.method,
-                    freeText: _query.trim(),
-                  ),
-                ),
-                child: Text('"${_query.trim()}" olarak kaydet'),
-              ),
-          ],
-        ),
-      ),
-    );
+  void dispose() {
+    _text.dispose();
+    super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+    child: Padding(
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            controller: _text,
+            autofocus: true,
+            decoration: const InputDecoration(
+              labelText: 'Aracınızın adı',
+              helperText: 'Kendiniz için not; uygulama marka önermez.',
+            ),
+            onSubmitted: (v) => Navigator.pop(context, v.trim()),
+          ),
+          const SizedBox(height: 12),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, _text.text.trim()),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 /// Kullanım koşulları ve emniyet beyanı; ilk açılışta zorunlu onay değildir

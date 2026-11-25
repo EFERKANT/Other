@@ -8,7 +8,6 @@
 import json, os
 
 VERSION = 2
-VERIFIED = "2026-11-24"
 SCA = "SCA Protocols & Best Practices; genel uygulama"
 GEN = "Genel uygulama"
 
@@ -219,35 +218,6 @@ guides = [
  {"id":"turkish","name":"Türk kahve makinesi / cezve","lookFor":["Makinede köpük sensörü ve taşma koruması","Kolay temizlenen hazne","Cezvede ince boyun ve kalın taban","Fincan sayısına uygun hacim"],"avoid":["İhtiyacın çok üzerinde hacimli cezve (köpük oluşmaz)"],"methods":["turkish"]},
 ]
 
-def cat(id, category, brand, model, methods=None, usesFilter=False, budget="mid"):
-    c = {"id":id,"category":category,"brand":brand,"model":model,"verifiedAt":VERIFIED,"usesFilter":usesFilter,"budget":budget}
-    if methods: c["methods"] = methods
-    return c
-
-catalog = [
- cat("hario-v60-02","brewer","Hario","V60 02",["v60"],True,"low"),
- cat("chemex-6","brewer","Chemex","Classic 6 fincan",["chemex"],True,"mid"),
- cat("aeropress-original","brewer","AeroPress","Original",["aeropress"],True,"low"),
- cat("bodum-chambord","brewer","Bodum","Chambord",["french_press"],False,"low"),
- cat("bialetti-moka-express","brewer","Bialetti","Moka Express",["moka_pot"],False,"low"),
- cat("1zpresso-j","hand_grinder","1Zpresso","J",None,False,"mid"),
- cat("1zpresso-k-ultra","hand_grinder","1Zpresso","K-Ultra",None,False,"high"),
- cat("fellow-ode-2","electric_grinder","Fellow","Ode Gen 2",None,False,"high"),
- cat("baratza-encore-esp","electric_grinder","Baratza","Encore ESP",None,False,"mid"),
- cat("oxo-brew-conical","electric_grinder","OXO","Brew Conical",None,False,"low"),
- cat("eureka-mignon-specialita","espresso_grinder","Eureka","Mignon Specialita",["espresso"],False,"high"),
- cat("baratza-encore-esp-espresso","espresso_grinder","Baratza","Encore ESP",["espresso"],False,"mid"),
- cat("fellow-tally-pro","scale","Fellow","Tally Pro",None,False,"high"),
- cat("acaia-lunar","scale","Acaia","Lunar",None,False,"high"),
- cat("wacaco-exagram","scale","Wacaco","Exagram",None,False,"low"),
- cat("fellow-stagg-ekg-pro","kettle","Fellow","Stagg EKG Pro",["v60","chemex"],False,"high"),
- cat("breville-bambino","espresso_machine","Breville/Sage","Bambino",["espresso"],False,"low"),
- cat("breville-bambino-plus","espresso_machine","Breville/Sage","Bambino Plus",["espresso"],False,"mid"),
- cat("gaggia-classic-pro","espresso_machine","Gaggia","Classic Pro",["espresso"],False,"mid"),
- cat("rancilio-silvia","espresso_machine","Rancilio","Silvia",["espresso"],False,"high"),
- cat("lelit-mara-x","espresso_machine","Lelit","Mara X",["espresso"],False,"high"),
-]
-
 maintenance = [
  {"id":"descale-espresso","title":"Kireç çözme","intervalDays":60,"methods":["espresso"],
   "description":"Üreticinin kireç çözücüsüyle hazne ve kazanı temizleyin. Sert suda aralığı kısaltın."},
@@ -268,7 +238,7 @@ maintenance = [
 flags = {"maintenance":True,"share":True,"backup":True,"tts":True}
 
 bundle = {"version":VERSION,"maintenance":maintenance,"flags":flags,"methods":methods,"recipes":recipes,"rules":rules,
-  "glossary":[{"term":t,"definition":d} for t,d in glossary],"guides":guides,"catalog":catalog}
+  "glossary":[{"term":t,"definition":d} for t,d in glossary],"guides":guides}
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 out = os.path.join(root,"app","assets","content","bundle.json")
 with open(out,"w",encoding="utf-8") as f:

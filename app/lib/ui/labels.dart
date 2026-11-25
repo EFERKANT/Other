@@ -150,12 +150,6 @@ String safetyText(SafetyWarning w) => switch (w) {
     'Ocak: sapı ocaktan uzağa çevirin, başından ayrılmayın.',
 };
 
-String budgetName(Budget b) => switch (b) {
-  Budget.low => 'Giriş',
-  Budget.mid => 'Orta',
-  Budget.high => 'Üst',
-};
-
 String roastLevelName(String level) => switch (level) {
   'light' => 'Açık',
   'dark' => 'Koyu',

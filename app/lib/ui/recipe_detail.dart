@@ -66,12 +66,15 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
       appBar: AppBar(
         title: Text(r.name),
         actions: [
+          // Favori durumu düzenlenen kopyadan değil kayıtlı tariften okunur;
+          // miktar değiştirildikten sonra da yıldız tepki verir (KB-016,
+          // KHV-FR-RCP-011).
           IconButton(
-            tooltip: r.favorite ? 'Favorilerden çıkar' : 'Favorilere ekle',
-            icon: Icon(r.favorite ? Icons.star : Icons.star_border),
+            tooltip: base.favorite ? 'Favorilerden çıkar' : 'Favorilere ekle',
+            icon: Icon(base.favorite ? Icons.star : Icons.star_border),
             onPressed: () => ref
                 .read(databaseProvider)
-                .setFavorite(r.id, favorite: !r.favorite),
+                .setFavorite(base.id, favorite: !base.favorite),
           ),
           PopupMenuButton<String>(
             tooltip: 'Diğer işlemler',

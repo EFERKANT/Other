@@ -58,7 +58,7 @@ Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.
 | Senaryo | Gereksinim | Yöntem | Seviye | Otomatik kısım | Sonuç |
 | --- | --- | --- | --- | --- | --- |
 | TC-EQP-006 | KHV-FR-EQP-006 | İnceleme + Test | İnceleme + Otomatik metin taraması | `screens_test.dart` |  |
-| TC-CNT-004 | KHV-CNT-004 | İnceleme + Test | CMS testi | `misc_test.dart` |  |
+| TC-CNT-004 | KHV-CNT-004 | İnceleme + Test | CMS testi | - |  |
 | TC-NFR-015 | KHV-NFR-015 | Test | Sunucu + Güvenlik | - |  |
 | TC-HMI-035 | KHV-HMI-035 | İnceleme + Test | Golden + İnceleme | `accessibility_test.dart` |  |
 | TC-HMI-039 | KHV-HMI-039 | Test + İnceleme | Widget + İnceleme | - |  |

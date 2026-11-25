@@ -10,10 +10,10 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | Tarif ve hesaplayıcı | 14 | 13 | 13 | 0 | 0 |
 | Rehber mod | 13 | 13 | 10 | 7 | 0 |
 | Tat teşhisi | 7 | 6 | 6 | 0 | 0 |
-| Ekipman rehberi | 6 | 6 | 6 | 1 | 0 |
+| Ekipman rehberi | 6 | 6 | 4 | 1 | 2 |
 | Günlük ve çekirdek | 9 | 8 | 8 | 0 | 0 |
 | Deneyim formu | 17 | 0 | 1 | 0 | 0 |
-| İçerik | 9 | 9 | 5 | 7 | 0 |
+| İçerik | 9 | 9 | 4 | 7 | 1 |
 | Fonksiyonel olmayan | 46 | 38 | 22 | 23 | 5 |
 | HMI | 42 | 41 | 32 | 16 | 0 |
 | Günlük kullanım | 9 | 7 | 7 | 1 | 0 |
@@ -33,7 +33,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-ONB-001 | MVP | Otomatik | Testte | `app/test/ui/onboarding_test.dart` |
 | KHV-FR-ONB-002 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-ONB-003 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
-| KHV-FR-ONB-004 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
+| KHV-FR-ONB-004 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-ONB-005 | MVP | Otomatik | Testte | `app/test/ui/onboarding_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-RCP-001 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-RCP-002 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/calculator_test.dart`, `packages/kahve_core/test_stres/kural_stres_test.dart` |
@@ -61,14 +61,14 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-DIA-007 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-EQP-001 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
 | KHV-FR-EQP-002 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
-| KHV-FR-EQP-003 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart` |
+| KHV-FR-EQP-003 | MVP | Otomatik | İstisna | Ürün sahibi kararı (2026-11-25): marka/model kataloğu reklam izlenimi verdiği için kaldırıldı; ekipman rehberi yalnız kriter anlatır (KB-017). Gereksinim dokümanında madde güncellenmeli. |
 | KHV-FR-EQP-004 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
-| KHV-FR-EQP-005 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
+| KHV-FR-EQP-005 | MVP | Otomatik | İstisna | Ürün sahibi kararı (2026-11-25): katalog modeli sayfası katalogla birlikte kaldırıldı (KB-017). Gereksinim dokümanında madde güncellenmeli. |
 | KHV-FR-EQP-006 | MVP | Yarı otomatik | Testte | `app/test/ui/screens_test.dart` |
 | KHV-FR-LOG-001 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
 | KHV-FR-LOG-002 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart`, `app/test_stres/arayuz_stres_test.dart` |
 | KHV-FR-LOG-003 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
-| KHV-FR-LOG-004 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-FR-LOG-004 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-LOG-005 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-001 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-002 | S2 | Otomatik | Sonraki sürüm |  |
@@ -90,7 +90,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-CNT-001 | MVP | Manuel | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-CNT-002 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-CNT-003 | MVP | Manuel | Testte | `packages/kahve_core/test/misc_test.dart` |
-| KHV-CNT-004 | MVP | Yarı otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
+| KHV-CNT-004 | MVP | Yarı otomatik | İstisna | Ürün sahibi kararı (2026-11-25): doğrulama tarihi tutulacak katalog kaydı kalmadı (KB-017). Gereksinim dokümanında madde güncellenmeli. |
 | KHV-CNT-005 | MVP | Manuel | Manuel kontrol | İçerik incelemesi (test planı) |
 | KHV-CNT-006 | MVP | Otomatik | Testte | `packages/kahve_core/test/misc_test.dart` |
 | KHV-NFR-001 | MVP | Yarı otomatik | Testte | `app/integration_test/performans_test.dart` |

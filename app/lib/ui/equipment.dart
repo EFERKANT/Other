@@ -1,6 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -9,10 +7,9 @@ import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
 
-final _verified = DateFormat('MMMM y', 'tr_TR');
-
-/// Ekipman rehberi (UC-05, KHV-FR-EQP-001 - EQP-006). Fiyat ve satın alma
-/// bağlantısı gösterilmez (KHV-FR-EQP-006).
+/// Ekipman rehberi (UC-05, KHV-FR-EQP-001 - EQP-006). Marka ve model
+/// önerilmez; yalnız neye bakılacağı anlatılır (ürün sahibi kararı, KB-017).
+/// Fiyat ve satın alma bağlantısı gösterilmez (KHV-FR-EQP-006).
 class EquipmentScreen extends ConsumerStatefulWidget {
   const EquipmentScreen({super.key});
 
@@ -22,7 +19,6 @@ class EquipmentScreen extends ConsumerStatefulWidget {
 
 class _EquipmentScreenState extends ConsumerState<EquipmentScreen> {
   BrewMethod? _method;
-  Budget? _budget;
 
   @override
   Widget build(BuildContext context) {
@@ -80,38 +76,7 @@ class _EquipmentScreenState extends ConsumerState<EquipmentScreen> {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                child: Row(
-                  children: [
-                    for (final b in [null, ...Budget.values])
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: ChoiceChip(
-                          label: Text(
-                            b == null ? 'Tüm bütçeler' : budgetName(b),
-                          ),
-                          selected: _budget == b,
-                          onSelected: (_) => setState(() => _budget = b),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              for (final g in guides)
-                _GuideCard(
-                  guide: g,
-                  models: [
-                    for (final c in content.catalog)
-                      if (c.category == g.id &&
-                          (_budget == null || c.budget == _budget) &&
-                          (_method == null ||
-                              c.methods.isEmpty ||
-                              c.methods.contains(_method)))
-                        c,
-                  ],
-                ),
+              for (final g in guides) _GuideCard(guide: g),
             ],
           );
         },
@@ -121,10 +86,9 @@ class _EquipmentScreenState extends ConsumerState<EquipmentScreen> {
 }
 
 class _GuideCard extends StatelessWidget {
-  const _GuideCard({required this.guide, required this.models});
+  const _GuideCard({required this.guide});
 
   final EquipmentGuide guide;
-  final List<CatalogModel> models;
 
   @override
   Widget build(BuildContext context) {
@@ -141,25 +105,6 @@ class _GuideCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text('Kaçının', style: t.labelLarge),
           for (final a in guide.avoid) _bullet(Icons.block, a),
-          if (models.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text('Örnek modeller', style: t.labelLarge),
-            for (final m in models)
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(m.displayName),
-                subtitle: Text(
-                  '${budgetName(m.budget)} bütçe · Son doğrulama '
-                  '${_verified.format(m.verifiedAt)}',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push('/equipment/model/${m.id}'),
-              ),
-          ] else if (guide.id == 'turkish')
-            const Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Text('Örnek modeller içerik ekibince eklenecek.'),
-            ),
         ],
       ),
     );
@@ -176,60 +121,4 @@ class _GuideCard extends StatelessWidget {
       ],
     ),
   );
-}
-
-/// Katalog modeli sayfası; editoryal kriterler (KHV-FR-EQP-005).
-class ModelScreen extends ConsumerWidget {
-  const ModelScreen({super.key, required this.modelId});
-
-  final String modelId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ContentGate(
-      builder: (context, content) {
-        final m = content.catalog.where((c) => c.id == modelId).firstOrNull;
-        if (m == null) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const EmptyState(
-              icon: Icons.devices_other,
-              title: 'Model bulunamadı',
-              message: 'Bu model katalogdan kaldırılmış olabilir.',
-            ),
-          );
-        }
-        final g = content.guides.firstWhere((g) => g.id == m.category);
-        final stale = m.isStale(ref.watch(clockProvider)());
-        return Scaffold(
-          appBar: AppBar(title: Text(m.displayName)),
-          body: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Text(g.name, style: Theme.of(context).textTheme.titleMedium),
-              Text(
-                'Son doğrulama: ${_verified.format(m.verifiedAt)}'
-                '${stale ? ' (güncelliği gözden geçiriliyor)' : ''}',
-              ),
-              if (m.methods.isNotEmpty)
-                Text('Yöntem: ${m.methods.map(methodName).join(', ')}'),
-              if (m.notes.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Text(m.notes),
-              ],
-              const SectionTitle('Bu kategoride dikkat edilecekler'),
-              for (final l in g.lookFor) Text('• $l'),
-              const SectionTitle('Kaçınılacak durumlar'),
-              for (final a in g.avoid) Text('• $a'),
-              const SizedBox(height: 16),
-              const Text(
-                'Kullanıcı deneyimleri ikinci sürümde bu sayfaya eklenecek.',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }

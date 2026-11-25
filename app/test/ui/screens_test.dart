@@ -104,8 +104,8 @@ void main() {
     expect(s.analyticsConsent, isFalse, reason: 'KHV-NFR-017');
   });
 
-  testWidgets('ekipman rehberi: öneri, filtre, doğrulama tarihi '
-      '(KHV-FR-EQP-001 - EQP-004)', (tester) async {
+  testWidgets('ekipman rehberi: öneri ve kriterler, marka yok '
+      '(KHV-FR-EQP-001, EQP-002, EQP-004, KB-017)', (tester) async {
     await setUpEnv(
       tester,
       settings: const AppSettings(
@@ -119,8 +119,17 @@ void main() {
     expect(find.text('Kavurma tarihi yazılı taze çekirdek'), findsOneWidget);
     await tester.tap(find.text('Terazi'));
     await settle(tester);
-    expect(find.text('Fellow Tally Pro'), findsOneWidget);
-    expect(find.textContaining('Son doğrulama'), findsWidgets);
+    expect(find.text('0,1 g çözünürlük'), findsOneWidget);
+    // Marka ve model önerilmez; bütçe filtresi yok (ürün sahibi kararı).
+    for (final brand in [
+      'Fellow',
+      'Acaia',
+      'Hario',
+      'Baratza',
+      'Tüm bütçeler',
+    ]) {
+      expect(find.textContaining(brand), findsNothing, reason: brand);
+    }
     expect(find.textContaining('TL'), findsNothing, reason: 'KHV-FR-EQP-006');
   });
 

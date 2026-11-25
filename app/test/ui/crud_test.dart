@@ -68,9 +68,8 @@ void main() {
     expect(empty.profile, UserProfile.shopper);
   });
 
-  testWidgets('marka/model katalogdan veya serbest metinle (KHV-FR-ONB-004)', (
-    tester,
-  ) async {
+  testWidgets('araç adı serbest metinle girilir, marka listesi yok '
+      '(KHV-FR-ONB-004, KB-017)', (tester) async {
     final env = await setUpEnv(tester, settings: v60User);
     await tester.tap(find.text('Ayarlar'));
     await settle(tester);
@@ -79,20 +78,41 @@ void main() {
     await scrollTo(tester, find.text('V60 / Pour over modeli'));
     await tester.tap(find.text('V60 / Pour over modeli'));
     await settle(tester);
-    await tester.tap(find.text('Hario V60 02'));
+    expect(find.text('Hario V60 02'), findsNothing);
+    await tester.enterText(find.byType(TextField), 'Seramik dripper');
+    await tester.tap(find.text('Kaydet'));
     await settle(tester);
     await scrollTo(tester, find.text('Öğütücü modeli'));
     await tester.tap(find.text('Öğütücü modeli'));
     await settle(tester);
     await tester.enterText(find.byType(TextField), 'Dedemin değirmeni');
-    await settle(tester);
-    await tester.tap(find.text('"Dedemin değirmeni" olarak kaydet'));
+    await tester.tap(find.text('Kaydet'));
     await settle(tester);
     final s = AppSettings.fromJson((await env.db.readJson('settings'))!);
     expect(
-      s.equipment.items.map((i) => i.catalogModelId ?? i.freeText),
-      containsAll(['hario-v60-02', 'Dedemin değirmeni']),
+      s.equipment.items.map((i) => i.freeText),
+      containsAll(['Seramik dripper', 'Dedemin değirmeni']),
     );
+    // Yazılan ad araç satırında görünür.
+    await scrollTo(tester, find.text('Seramik dripper'), by: -300);
+    expect(find.text('Seramik dripper'), findsOneWidget);
+  });
+
+  testWidgets('yıldız, miktar değiştirildikten sonra da favoriye ekler ve '
+      'çıkarır (KB-016, KHV-FR-RCP-011)', (tester) async {
+    await setUpEnv(tester, settings: v60User);
+    await tester.tap(find.text('V60 başlangıç'));
+    await settle(tester);
+    // Miktar değişince ekran düzenlenen kopyayı gösterir.
+    await tester.tap(find.byIcon(Icons.add).first);
+    await settle(tester);
+    await tester.tap(find.byTooltip('Favorilere ekle'));
+    await settle(tester);
+    expect(find.byTooltip('Favorilerden çıkar'), findsOneWidget);
+    expect(find.byIcon(Icons.star), findsOneWidget);
+    await tester.tap(find.byTooltip('Favorilerden çıkar'));
+    await settle(tester);
+    expect(find.byTooltip('Favorilere ekle'), findsOneWidget);
   });
 
   testWidgets('favori ana ekranda, tek dokunuşla başlar (KHV-FR-RCP-011, '
@@ -259,24 +279,6 @@ void main() {
     final s = AppSettings.fromJson((await env.db.readJson('settings'))!);
     expect(s.profileOverride, UserProfile.espresso);
     expect(find.text('P3 Espresso kullanıcısı'), findsOneWidget);
-  });
-
-  testWidgets('model sayfası editoryal kriterleri gösterir (KHV-FR-EQP-005)', (
-    tester,
-  ) async {
-    await setUpEnv(tester, settings: v60User);
-    await tester.tap(find.text('Ekipman'));
-    await settle(tester);
-    await tester.tap(find.text('Terazi'));
-    await settle(tester);
-    await scrollTo(tester, find.text('Acaia Lunar'));
-    await tester.ensureVisible(find.text('Acaia Lunar'));
-    await settle(tester);
-    await tester.tap(find.text('Acaia Lunar'));
-    await settle(tester);
-    expect(find.text('Bu kategoride dikkat edilecekler'), findsOneWidget);
-    expect(find.text('• 0,1 g çözünürlük'), findsOneWidget);
-    expect(find.textContaining('Son doğrulama'), findsOneWidget);
   });
 
   testWidgets('yardım: SSS ve terim açıklaması (KHV-FR-HLP-002, '
