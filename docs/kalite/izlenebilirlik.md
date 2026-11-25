@@ -68,7 +68,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-FR-LOG-001 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
 | KHV-FR-LOG-002 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart`, `app/test_stres/arayuz_stres_test.dart` |
 | KHV-FR-LOG-003 | MVP | Otomatik | Testte | `app/test/ui/crud_test.dart` |
-| KHV-FR-LOG-004 | MVP | Otomatik | Testte | `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
+| KHV-FR-LOG-004 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart`, `app/test/ui/screens_test.dart`, `packages/kahve_core/test/misc_test.dart` |
 | KHV-FR-LOG-005 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-001 | S2 | Otomatik | Sonraki sürüm |  |
 | KHV-FR-COM-002 | S2 | Otomatik | Sonraki sürüm |  |
