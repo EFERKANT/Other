@@ -111,6 +111,12 @@ void main() {
     final env = await setUpEnv(tester, settings: v60User);
     tester.view.physicalSize = const Size(2400, 1080);
     await settle(tester);
+    // Yatayda gün batımı sahnesi listeyi aşağı iter; tarife kaydır.
+    await tester.scrollUntilVisible(
+      find.text('V60 başlangıç'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     await tester.tap(find.text('V60 başlangıç'));
     await settle(tester);
     await tester.tap(find.text('Rehberle demle'));
