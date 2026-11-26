@@ -1,0 +1,44 @@
+# Gecelik stres testleri (docs/kalite/stres-testleri.md). Her gece hem sabit
+# tohumla (geriye dönük tekrar) hem o geceye özgü tohumla (yeni dizi keşfi)
+# çalışır. Başarısız koşu, kayıttaki tohumla yerelde yeniden üretilir:
+#   STRES_TOHUM=<tohum> dart test test_stres
+name: Stres
+
+on:
+  schedule:
+    - cron: "17 1 * * *"   # her gece 04:17 (Türkiye)
+  workflow_dispatch:
+    inputs:
+      tohum:
+        description: Rastgele tohum (boş = koşu numarası)
+        required: false
+
+jobs:
+  stres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        tohum: [sabit, gece]
+    env:
+      STRES_TOHUM: ${{ matrix.tohum == 'sabit' && '20261125' || (inputs.tohum != '' && inputs.tohum || github.run_number) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - name: Tohum
+        run: echo "STRES_TOHUM=$STRES_TOHUM"
+      - name: Çekirdek stres (zamanlayıcı, dial-in, paylaşım, hesaplayıcı)
+        working-directory: packages/kahve_core
+        run: |
+          dart pub get
+          dart test test_stres
+      - name: Uygulama stres (veri yükü, monkey, büyük günlük)
+        working-directory: app
+        run: |
+          flutter pub get
+          dart run build_runner build --delete-conflicting-outputs
+          flutter test test_stres

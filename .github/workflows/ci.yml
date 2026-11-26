@@ -1,0 +1,102 @@
+# Kalite kapıları: biçim (KHV-NFR-019), statik analiz (KHV-NFR-020), public
+# API doc comment'leri (KHV-NFR-021, çekirdekte public_member_api_docs),
+# saf Dart iş katmanı (KHV-NFR-040), testler ve kapsam (KHV-NFR-041),
+# izlenebilirlik, APK boyutu (KHV-NFR-032). Hepsi geçmeden ana dala
+# birleştirme yapılmaz (KHV-NFR-042).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/kahve_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - name: İş katmanı Flutter'a bağımlı değil (KHV-NFR-040)
+        run: |
+          ! grep -nE "^\s+flutter" pubspec.yaml
+          ! grep -rn "package:flutter" lib
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed lib test test_stres
+      - run: dart analyze --fatal-infos
+      - run: dart pub global activate coverage
+      - run: dart pub global run coverage:test_with_coverage
+      - name: Satır kapsamı en az %90 (KHV-NFR-041)
+        run: |
+          python3 - <<'PY'
+          hit = total = 0
+          for line in open('coverage/lcov.info'):
+              if line.startswith('DA:'):
+                  total += 1
+                  hit += int(line.split(',')[1]) > 0
+          pct = 100 * hit / total
+          print(f'Kapsam: {pct:.1f}%')
+          raise SystemExit(0 if pct >= 90 else 1)
+          PY
+
+  trace:
+    name: izlenebilirlik
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: MVP otomatik gereksinimlerin hepsi testte veya istisnada
+        run: python3 tool/trace.py --check
+      - name: Rapor güncel
+        run: |
+          python3 tool/trace.py
+          git diff --exit-code -- docs/kalite/izlenebilirlik.md
+
+  app:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - name: Üretilen kod güncel mi
+        run: git diff --exit-code -- lib/data/database.g.dart
+      - run: dart format --output=none --set-exit-if-changed lib test test_stres integration_test test_driver
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
+
+  android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.1
+          channel: stable
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - name: Release APK derlenir ve 50 MB altında kalır (KHV-NFR-032)
+        run: |
+          flutter build apk --release --split-per-abi
+          for f in build/app/outputs/flutter-apk/*-release.apk; do
+            size=$(stat -c %s "$f")
+            echo "$f: $size bayt"
+            test "$size" -lt 52428800
+          done

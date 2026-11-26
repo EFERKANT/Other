@@ -1,0 +1,27 @@
+name: Özellik veya gereksinim değişikliği
+description: Yeni gereksinim, mevcut gereksinimde değişiklik veya kapsam sorusu
+labels: [gereksinim]
+body:
+  - type: input
+    id: kimlik
+    attributes:
+      label: Gereksinim kimliği (varsa)
+      placeholder: KHV-FR-SCL-004
+  - type: textarea
+    id: istek
+    attributes:
+      label: İstek
+    validations:
+      required: true
+  - type: textarea
+    id: kabul
+    attributes:
+      label: Kabul kriterleri
+      description: Doğrulanabilir, tek davranışlı ifadeler (Bölüm 1, gereksinim yazım kuralı)
+    validations:
+      required: true
+  - type: dropdown
+    id: surum
+    attributes:
+      label: Hedef sürüm
+      options: [MVP, S2, S3 adayı, Bilinmiyor]

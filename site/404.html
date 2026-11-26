@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ev Kahvesi</title>
+<style>
+  :root { color-scheme: light dark; --bg:#fbf7f4; --fg:#2b1d14; --accent:#6f4e37; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1d1612; --fg:#f2e8e1; --accent:#d9b89c; } }
+  body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  main { max-width: 32rem; margin: 0 auto; padding: 3rem 1rem; }
+  h1 { margin: 0 0 .5rem; }
+  a.button { display:block; margin:.75rem 0; padding:1rem; border-radius:999px; text-align:center;
+             background:var(--accent); color:var(--bg); text-decoration:none; font-weight:600; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Ev Kahvesi</h1>
+  <p>Elinizdeki ekipmanla adım adım demleyin; tadına göre bir sonraki fincanı birlikte düzeltelim.</p>
+  <p>Size bir tarif paylaşıldıysa uygulamayı yükleyip bağlantıyı yeniden açın.</p>
+  <div id="links">
+    <a class="button" id="play" href="#">Google Play</a>
+    <a class="button" id="appstore" href="#">App Store</a>
+  </div>
+</main>
+<script src="/redirect.js"></script>
+</body>
+</html>

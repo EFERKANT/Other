@@ -1,0 +1,239 @@
+gereksinim,senaryo,oncelik,dogrulama,seviye,otomasyon
+KHV-FR-ONB-001,TC-ONB-001,MVP,Test,Widget + Entegrasyon,Otomatik
+KHV-FR-ONB-002,TC-ONB-002,MVP,Test,Birim,Otomatik
+KHV-FR-ONB-003,TC-ONB-003,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-ONB-004,TC-ONB-004,MVP,Test,Widget,Otomatik
+KHV-FR-ONB-005,TC-ONB-005,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-RCP-001,TC-RCP-001,MVP,Test + İnceleme,Entegrasyon + İçerik incelemesi,Otomatik
+KHV-FR-RCP-002,TC-RCP-002,MVP,Test,Birim,Otomatik
+KHV-FR-RCP-003,TC-RCP-003,MVP,Test,Birim,Otomatik
+KHV-FR-RCP-004,TC-RCP-004,MVP,Test,Birim + Widget,Otomatik
+KHV-FR-RCP-005,TC-RCP-005,MVP,Test,Birim,Otomatik
+KHV-FR-RCP-006,TC-RCP-006,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-RCP-007,TC-RCP-007,MVP,Test,Widget,Otomatik
+KHV-FR-RCP-008,TC-RCP-008,MVP,Test,Birim + Widget,Otomatik
+KHV-FR-RCP-009,TC-RCP-009,S2,Test,Birim,Otomatik
+KHV-FR-BRW-001,TC-BRW-001,MVP,Test,Widget,Otomatik
+KHV-FR-BRW-002,TC-BRW-002,MVP,Test,Widget + Golden,Otomatik
+KHV-FR-BRW-003,TC-BRW-003,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-FR-BRW-004,TC-BRW-004,MVP,Test,Cihaz,Manuel
+KHV-FR-BRW-005,TC-BRW-005,MVP,Test,Cihaz,Manuel
+KHV-FR-BRW-006,TC-BRW-006,MVP,Test,Birim + Widget,Otomatik
+KHV-FR-BRW-007,TC-BRW-007,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-BRW-008,TC-BRW-008,MVP,Test,Birim + Widget,Otomatik
+KHV-FR-DIA-001,TC-DIA-001,MVP,Test,Widget,Otomatik
+KHV-FR-DIA-002,TC-DIA-002,MVP,Test,Birim,Otomatik
+KHV-FR-DIA-003,TC-DIA-003,MVP,Test,Birim,Otomatik
+KHV-FR-DIA-004,TC-DIA-004,MVP,Test,Widget,Otomatik
+KHV-FR-DIA-005,TC-DIA-005,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-DIA-006,TC-DIA-006,MVP,Test,Birim,Otomatik
+KHV-FR-DIA-007,TC-DIA-007,S2,Test,Widget,Otomatik
+KHV-FR-EQP-001,TC-EQP-001,MVP,Test,Widget,Otomatik
+KHV-FR-EQP-002,TC-EQP-002,MVP,Test + İnceleme,Widget + İçerik incelemesi,Otomatik
+KHV-FR-EQP-003,TC-EQP-003,MVP,Test,Widget,Otomatik
+KHV-FR-EQP-004,TC-EQP-004,MVP,Test,Birim,Otomatik
+KHV-FR-EQP-005,TC-EQP-005,MVP,Test,Widget,Otomatik
+KHV-FR-EQP-006,TC-EQP-006,MVP,İnceleme + Test,İnceleme + Otomatik metin taraması,Yarı otomatik
+KHV-FR-LOG-001,TC-LOG-001,MVP,Test,Birim + Entegrasyon,Otomatik
+KHV-FR-LOG-002,TC-LOG-002,MVP,Test,Birim,Otomatik
+KHV-FR-LOG-003,TC-LOG-003,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-LOG-004,TC-LOG-004,MVP,Test,Birim,Otomatik
+KHV-FR-LOG-005,TC-LOG-005,S2,Test,Birim,Otomatik
+KHV-FR-COM-001,TC-COM-001,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-FR-COM-002,TC-COM-002,S2,Test,Widget + Birim,Otomatik
+KHV-FR-COM-003,TC-COM-003,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-FR-COM-004,TC-COM-004,S2,Test,Widget,Otomatik
+KHV-FR-COM-005,TC-COM-005,S2,Test,Widget,Otomatik
+KHV-FR-COM-006,TC-COM-006,S2,Test,Sunucu + Entegrasyon,Otomatik
+KHV-FR-COM-007,TC-COM-007,S2,Test,Birim,Otomatik
+KHV-FR-COM-008,TC-COM-008,S2,Test,Birim + Sunucu,Otomatik
+KHV-FR-COM-009,TC-COM-009,S2,Test,Golden,Otomatik
+KHV-FR-COM-010,TC-COM-010,S2,Test,Birim + Sunucu,Otomatik
+KHV-FR-COM-011,TC-COM-011,S2,Test,Widget,Otomatik
+KHV-FR-COM-012,TC-COM-012,S2,Test,Sunucu,Otomatik
+KHV-FR-COM-013,TC-COM-013,S2,Test,Sunucu,Otomatik
+KHV-FR-COM-014,TC-COM-014,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-FR-COM-015,TC-COM-015,S2,Test,Sunucu,Otomatik
+KHV-FR-COM-016,TC-COM-016,S2,Test,Entegrasyon,Otomatik
+KHV-FR-COM-017,TC-COM-017,S2,Test,Birim,Otomatik
+KHV-CNT-001,TC-CNT-001,MVP,İnceleme + Gösterim,İçerik incelemesi + Demleme denemesi,Manuel
+KHV-CNT-002,TC-CNT-002,MVP,Test + İnceleme,Birim + Kod incelemesi,Otomatik
+KHV-CNT-003,TC-CNT-003,MVP,İnceleme,İçerik incelemesi,Manuel
+KHV-CNT-004,TC-CNT-004,MVP,İnceleme + Test,CMS testi,Yarı otomatik
+KHV-CNT-005,TC-CNT-005,MVP,İnceleme,İçerik incelemesi,Manuel
+KHV-CNT-006,TC-CNT-006,MVP,Test + İnceleme,Widget + İçerik incelemesi,Otomatik
+KHV-NFR-001,TC-NFR-001,MVP,Test,Cihaz (performans),Yarı otomatik
+KHV-NFR-002,TC-NFR-002,MVP,Test,Cihaz,Yarı otomatik
+KHV-NFR-003,TC-NFR-003,MVP,Test,Cihaz,Manuel
+KHV-NFR-004,TC-NFR-004,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-NFR-005,TC-NFR-005,S2,Test,Entegrasyon,Otomatik
+KHV-NFR-006,TC-NFR-006,MVP,Test,Cihaz,Yarı otomatik
+KHV-NFR-007,TC-NFR-007,MVP,Test + İnceleme,Widget + Kullanılabilirlik,Yarı otomatik
+KHV-NFR-008,TC-NFR-008,MVP,Test,Widget + Cihaz,Yarı otomatik
+KHV-NFR-009,TC-NFR-009,MVP,Test,Golden,Otomatik
+KHV-NFR-010,TC-NFR-010,MVP / S2,Test + İnceleme,Birim + İnceleme,Otomatik
+KHV-NFR-011,TC-NFR-011,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-012,TC-NFR-012,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-013,TC-NFR-013,S2,İnceleme + Test,Hukuki inceleme + Entegrasyon,Manuel
+KHV-NFR-014,TC-NFR-014,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-NFR-015,TC-NFR-015,MVP,Test,Sunucu + Güvenlik,Yarı otomatik
+KHV-NFR-016,TC-NFR-016,S2,Analiz,Operasyonel ölçüm,Otomatik
+KHV-NFR-017,TC-NFR-017,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-018,TC-NFR-018,MVP,İnceleme,Kod incelemesi,Manuel
+KHV-NFR-019,TC-NFR-019,MVP,Test,CI,Otomatik
+KHV-NFR-020,TC-NFR-020,MVP,Test,CI,Otomatik
+KHV-NFR-021,TC-NFR-021,MVP,Test + İnceleme,CI + Kod incelemesi,Otomatik
+KHV-NFR-022,TC-NFR-022,MVP,İnceleme,Kod incelemesi,Manuel
+KHV-HMI-001,TC-HMI-001,MVP,Test,Golden,Otomatik
+KHV-HMI-002,TC-HMI-002,MVP,Gösterim,Kullanılabilirlik,Manuel
+KHV-HMI-003,TC-HMI-003,MVP,Test,Birim + Widget,Otomatik
+KHV-HMI-004,TC-HMI-004,MVP,Test,Widget,Otomatik
+KHV-HMI-005,TC-HMI-005,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-HMI-006,TC-HMI-006,MVP,Test,Widget,Otomatik
+KHV-HMI-007,TC-HMI-007,MVP,Test,Cihaz,Manuel
+KHV-HMI-008,TC-HMI-008,S2,Test,Cihaz,Manuel
+KHV-HMI-009,TC-HMI-009,MVP,Test,Widget,Otomatik
+KHV-HMI-010,TC-HMI-010,MVP,Test,Golden,Otomatik
+KHV-HMI-011,TC-HMI-011,MVP,Test,Widget,Otomatik
+KHV-HMI-012,TC-HMI-012,MVP,Test,Birim + Widget,Otomatik
+KHV-HMI-013,TC-HMI-013,MVP,Test,Widget + Birim,Otomatik
+KHV-HMI-014,TC-HMI-014,MVP,İnceleme,İçerik incelemesi,Manuel
+KHV-HMI-015,TC-HMI-015,MVP,Test,Birim,Otomatik
+KHV-HMI-016,TC-HMI-016,MVP,Test,Widget,Otomatik
+KHV-HMI-017,TC-HMI-017,MVP,Test,Widget,Otomatik
+KHV-HMI-018,TC-HMI-018,MVP,Test,Widget,Otomatik
+KHV-HMI-019,TC-HMI-019,MVP,Test,Golden + Cihaz,Otomatik
+KHV-HMI-020,TC-HMI-020,MVP,Test,Otomatik kontrast testi,Otomatik
+KHV-HMI-021,TC-HMI-021,MVP,Test + İnceleme,Widget,Otomatik
+KHV-HMI-022,TC-HMI-022,MVP,Test,Cihaz,Manuel
+KHV-HMI-023,TC-HMI-023,MVP,Test,Entegrasyon,Otomatik
+KHV-HMI-024,TC-HMI-024,MVP,Test,Widget + Golden,Otomatik
+KHV-HMI-025,TC-HMI-025,MVP,Test,Widget,Otomatik
+KHV-HMI-026,TC-HMI-026,MVP,Test,Golden + Cihaz,Yarı otomatik
+KHV-HMI-027,TC-HMI-027,MVP,Test + İnceleme,Widget + Cihaz,Yarı otomatik
+KHV-HMI-028,TC-HMI-028,MVP,Test,Golden,Otomatik
+KHV-HMI-029,TC-HMI-029,MVP,Test,Cihaz (performans),Yarı otomatik
+KHV-HMI-030,TC-HMI-030,MVP,Test,Widget + Cihaz,Yarı otomatik
+KHV-HMI-031,TC-HMI-031,MVP,Test,Widget + Cihaz,Yarı otomatik
+KHV-HMI-032,TC-HMI-032,MVP,Test,Widget,Otomatik
+KHV-HMI-033,TC-HMI-033,MVP,Test + İnceleme,Statik analiz + Kod incelemesi,Otomatik
+KHV-HMI-034,TC-HMI-034,MVP,Test,Otomatik kontrast testi,Otomatik
+KHV-HMI-035,TC-HMI-035,MVP,İnceleme + Test,Golden + İnceleme,Yarı otomatik
+KHV-HMI-036,TC-HMI-036,MVP,Test,Golden,Otomatik
+KHV-HMI-037,TC-HMI-037,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-HMI-038,TC-HMI-038,MVP,Test,Entegrasyon,Otomatik
+KHV-HMI-039,TC-HMI-039,MVP,Test + İnceleme,Widget + İnceleme,Yarı otomatik
+KHV-HMI-040,TC-HMI-040,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-HMI-041,TC-HMI-041,MVP,Gösterim + Analiz,Kullanılabilirlik,Manuel
+KHV-NFR-023,TC-NFR-023,MVP,Test,Cihaz (performans),Yarı otomatik
+KHV-NFR-024,TC-NFR-024,MVP,İnceleme,Test planı incelemesi,Manuel
+KHV-NFR-025,TC-NFR-025,MVP,İnceleme,Sürüm geçidi,Manuel
+KHV-FR-ENG-001,TC-ENG-001,MVP,Test,Birim + Entegrasyon,Otomatik
+KHV-FR-ENG-002,TC-ENG-002,MVP,Test,Birim,Otomatik
+KHV-FR-ENG-003,TC-ENG-003,MVP,Test,Birim,Otomatik
+KHV-FR-ENG-004,TC-ENG-004,MVP,Test,Birim,Otomatik
+KHV-FR-ENG-005,TC-ENG-005,MVP,Test,Birim,Otomatik
+KHV-FR-ENG-006,TC-ENG-006,S2,Test,Cihaz,Manuel
+KHV-FR-ENG-007,TC-ENG-007,S2,Test,Birim,Otomatik
+KHV-FR-ENG-008,TC-ENG-008,MVP,Test,Birim,Otomatik
+KHV-FR-SOC-001,TC-SOC-001,MVP,Test,Golden,Otomatik
+KHV-FR-SOC-002,TC-SOC-002,MVP,Test,Cihaz,Manuel
+KHV-FR-SOC-003,TC-SOC-003,MVP,Test,Cihaz + Entegrasyon,Yarı otomatik
+KHV-FR-SOC-004,TC-SOC-004,MVP,Test,Birim,Otomatik
+KHV-FR-SOC-005,TC-SOC-005,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-006,TC-SOC-006,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-007,TC-SOC-007,S3 adayı,Test,Entegrasyon,Yarı otomatik
+KHV-FR-SOC-008,TC-SOC-008,S3 adayı,Gösterim,Sistem testi,Manuel
+KHV-ARC-001,TC-ARC-001,MVP,Test,Birim,Otomatik
+KHV-ARC-002,TC-ARC-002,MVP,Analiz + Test,Tasarım incelemesi + Birim,Yarı otomatik
+KHV-ARC-003,TC-ARC-003,MVP,Test,Cihaz,Yarı otomatik
+KHV-ARC-004,TC-ARC-004,MVP,Test,Birim,Otomatik
+KHV-ARC-005,TC-ARC-005,MVP,Test,Birim,Otomatik
+KHV-ARC-006,TC-ARC-006,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-RCP-010,TC-RCP-010,MVP,Test,Birim,Otomatik
+KHV-FR-RCP-011,TC-RCP-011,MVP,Test,Widget + Entegrasyon,Otomatik
+KHV-FR-RCP-012,TC-RCP-012,MVP,Test,Birim,Otomatik
+KHV-FR-RCP-013,TC-RCP-013,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-RCP-014,TC-RCP-014,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-BRW-009,TC-BRW-009,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-FR-BRW-010,TC-BRW-010,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-BRW-011,TC-BRW-011,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-BRW-012,TC-BRW-012,MVP,Test,Cihaz,Manuel
+KHV-FR-BRW-013,TC-BRW-013,MVP,Test,Cihaz,Manuel
+KHV-FR-LOG-006,TC-LOG-006,MVP,Test,Widget + Entegrasyon,Otomatik
+KHV-FR-LOG-007,TC-LOG-007,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-LOG-008,TC-LOG-008,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-LOG-009,TC-LOG-009,MVP,Test,Birim,Otomatik
+KHV-FR-SET-001,TC-SET-001,MVP,Test,Widget,Otomatik
+KHV-FR-SET-002,TC-SET-002,MVP,Test,Widget,Otomatik
+KHV-FR-SET-003,TC-SET-003,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-HLP-001,TC-HLP-001,MVP,Test,Widget,Otomatik
+KHV-FR-HLP-002,TC-HLP-002,MVP,Test + İnceleme,Widget + İçerik incelemesi,Otomatik
+KHV-FR-HLP-003,TC-HLP-003,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-ENG-009,TC-ENG-009,MVP,Test,Birim + Widget,Otomatik
+KHV-FR-SOC-009,TC-SOC-009,MVP,Test,Birim,Otomatik
+KHV-FR-SOC-010,TC-SOC-010,MVP,Test,Birim,Otomatik
+KHV-CNT-007,TC-CNT-007,MVP,İnceleme + Gösterim,İçerik incelemesi,Manuel
+KHV-CNT-008,TC-CNT-008,MVP,İnceleme,İçerik incelemesi,Manuel
+KHV-CNT-009,TC-CNT-009,MVP,İnceleme + Gösterim,İçerik incelemesi,Manuel
+KHV-FR-ADM-001,TC-ADM-001,S2,Test,Sunucu + Panel,Otomatik
+KHV-FR-ADM-002,TC-ADM-002,S2,Test,Sunucu + Panel,Otomatik
+KHV-FR-ADM-003,TC-ADM-003,S2,Test,Sunucu + Panel,Otomatik
+KHV-FR-ADM-004,TC-ADM-004,S2,Test,Sunucu,Otomatik
+KHV-FR-ADM-005,TC-ADM-005,MVP,Test,CMS + Entegrasyon,Otomatik
+KHV-NFR-026,TC-NFR-026,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-NFR-027,TC-NFR-027,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-028,TC-NFR-028,MVP,Test,Birim + Entegrasyon,Otomatik
+KHV-NFR-029,TC-NFR-029,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-030,TC-NFR-030,MVP,Test,Cihaz,Manuel
+KHV-NFR-031,TC-NFR-031,MVP,Test,Birim + Widget,Otomatik
+KHV-NFR-032,TC-NFR-032,MVP,Test,CI,Otomatik
+KHV-NFR-033,TC-NFR-033,MVP,Test,Entegrasyon,Otomatik
+KHV-NFR-038,TC-NFR-038,S2,Test,Cihaz + Güvenlik,Yarı otomatik
+KHV-NFR-039,TC-NFR-039,S2,Test,Sunucu + Güvenlik,Otomatik
+KHV-NFR-034,TC-NFR-034,MVP,İnceleme + Test,Hukuki inceleme + Entegrasyon,Yarı otomatik
+KHV-NFR-035,TC-NFR-035,MVP,İnceleme,Sürüm geçidi,Manuel
+KHV-NFR-036,TC-NFR-036,MVP,Test,Widget,Otomatik
+KHV-NFR-037,TC-NFR-037,MVP,Test + İnceleme,Widget + Hukuki inceleme,Yarı otomatik
+KHV-NFR-040,TC-NFR-040,MVP,İnceleme + Test,Mimari inceleme + CI,Otomatik
+KHV-NFR-041,TC-NFR-041,MVP,Test,CI,Otomatik
+KHV-NFR-042,TC-NFR-042,MVP,Test,CI,Otomatik
+KHV-NFR-043,TC-NFR-043,MVP,İnceleme,Sürüm geçidi,Manuel
+KHV-NFR-044,TC-NFR-044,MVP,Test,Entegrasyon,Otomatik
+KHV-HMI-042,TC-HMI-042,MVP,Test,Widget,Otomatik
+KHV-ARC-007,TC-ARC-007,MVP,Test + İnceleme,Birim + Mimari inceleme,Otomatik
+KHV-FR-SCL-001,TC-SCL-001,MVP,İnceleme,Lisans ve kaynak incelemesi,Manuel
+KHV-FR-SCL-002,TC-SCL-002,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-003,TC-SCL-003,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-004,TC-SCL-004,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-FR-SCL-005,TC-SCL-005,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-006,TC-SCL-006,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-SCL-007,TC-SCL-007,MVP,Test + İnceleme,Cihaz + Manifest incelemesi,Yarı otomatik
+KHV-FR-SCL-008,TC-SCL-008,MVP,Test,Cihaz,Manuel
+KHV-FR-SCL-009,TC-SCL-009,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-SCL-010,TC-SCL-010,MVP,Test + İnceleme,Birim + Kod incelemesi + Cihaz,Yarı otomatik
+KHV-NFR-045,TC-NFR-045,S2,İnceleme,Hukuki inceleme + Sürüm geçidi,Manuel
+KHV-FR-PRO-001,TC-PRO-001,S2,Test,Widget + Entegrasyon,Otomatik
+KHV-FR-PRO-002,TC-PRO-002,S2,Test,Birim + Entegrasyon,Otomatik
+KHV-FR-PRO-003,TC-PRO-003,S2,Test,Sunucu,Otomatik
+KHV-FR-PRO-004,TC-PRO-004,S2,Test,Birim + Widget,Otomatik
+KHV-FR-PRO-005,TC-PRO-005,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-011,TC-SOC-011,S2,Test,Entegrasyon + Sunucu,Otomatik
+KHV-FR-SOC-012,TC-SOC-012,S2,Test,Sunucu,Otomatik
+KHV-FR-SOC-013,TC-SOC-013,S2,Test,Birim,Otomatik
+KHV-FR-SOC-014,TC-SOC-014,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-001,TC-EVT-001,S2,Test,Widget + Sunucu,Otomatik
+KHV-FR-EVT-002,TC-EVT-002,S2,Test,Sunucu + Widget,Otomatik
+KHV-FR-EVT-003,TC-EVT-003,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-004,TC-EVT-004,S2,Test,Sunucu + Entegrasyon,Otomatik
+KHV-FR-EVT-005,TC-EVT-005,S2,Test,Sunucu,Otomatik
+KHV-FR-EVT-006,TC-EVT-006,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-007,TC-EVT-007,S2,Test,Widget,Otomatik
+KHV-FR-EVT-008,TC-EVT-008,S2,Test,Sunucu + Entegrasyon,Otomatik
+KHV-FR-EVT-009,TC-EVT-009,S2,Test,Sunucu + Widget,Otomatik
+KHV-FR-EVT-010,TC-EVT-010,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-011,TC-EVT-011,S2,Test,Entegrasyon,Otomatik
+KHV-FR-EVT-012,TC-EVT-012,S2,İnceleme + Test,Hukuki inceleme + Widget,Yarı otomatik
+KHV-FR-EVT-013,TC-EVT-013,S2,Test,Entegrasyon + Panel,Otomatik
+KHV-FR-ADM-006,TC-ADM-006,S2,Test,Sunucu + Panel,Otomatik
+KHV-NFR-046,TC-NFR-046,S2,Test + İnceleme,Sunucu + Manifest incelemesi,Yarı otomatik

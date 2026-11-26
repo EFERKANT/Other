@@ -1,0 +1,316 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kahve_core/kahve_core.dart';
+import 'package:material_ui/material_ui.dart';
+
+import 'dart:async';
+
+import 'services/platform.dart';
+import 'state/engagement.dart';
+import 'state/maintenance_state.dart';
+import 'state/providers.dart';
+import 'state/settings.dart';
+import 'ui/feedback.dart';
+import 'ui/import_recipe.dart';
+import 'ui/maintenance.dart';
+import 'ui/calculator.dart';
+import 'ui/equipment.dart';
+import 'ui/guided_brew.dart';
+import 'ui/help.dart';
+import 'ui/home.dart';
+import 'ui/log.dart';
+import 'ui/onboarding.dart';
+import 'ui/recipe_detail.dart';
+import 'ui/scale_screen.dart';
+import 'ui/settings_screen.dart';
+import 'ui/taste.dart';
+import 'ui/theme.dart';
+
+final _rootKey = GlobalKey<NavigatorState>();
+
+/// Uygulama yönlendirmesi. Ana gezinme 4 hedefli alt çubuktur
+/// (KHV-HMI-027).
+GoRouter buildRouter(Ref ref) {
+  return GoRouter(
+    navigatorKey: _rootKey,
+    initialLocation: '/',
+    redirect: (context, state) {
+      final s = ref.read(settingsProvider);
+      if (s.isLoading) return null;
+      final done = s.value?.onboardingDone ?? false;
+      final onOnboarding = state.matchedLocation == '/onboarding';
+      if (!done && !onOnboarding) return '/onboarding';
+      return null;
+    },
+    refreshListenable: _SettingsListenable(ref),
+    routes: [
+      GoRoute(path: '/onboarding', builder: (c, s) => const OnboardingScreen()),
+      StatefulShellRoute.indexedStack(
+        builder: (c, s, shell) => _Shell(shell: shell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/',
+                builder: (c, s) => const HomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'recipe/:id',
+                    builder: (c, s) =>
+                        RecipeDetailScreen(recipeId: s.pathParameters['id']!),
+                  ),
+                  GoRoute(
+                    path: 'calculator',
+                    builder: (c, s) => const CalculatorScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/log',
+                builder: (c, s) => const LogScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'new',
+                    builder: (c, s) => const ManualBrewScreen(),
+                  ),
+                  GoRoute(
+                    path: ':id',
+                    builder: (c, s) =>
+                        BrewDetailScreen(brewId: s.pathParameters['id']!),
+                  ),
+                ],
+              ),
+              GoRoute(
+                path: '/beans/new',
+                builder: (c, s) => const BeanEditScreen(),
+              ),
+              GoRoute(
+                path: '/beans/:id',
+                builder: (c, s) =>
+                    BeanEditScreen(beanId: s.pathParameters['id']),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/equipment',
+                builder: (c, s) => const EquipmentScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/settings',
+                builder: (c, s) => const SettingsScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'equipment',
+                    builder: (c, s) => const EquipmentProfileScreen(),
+                  ),
+                  GoRoute(
+                    path: 'maintenance',
+                    builder: (c, s) => const MaintenanceScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scale',
+                    builder: (c, s) => const ScaleScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      // Rehber mod ve tat ekranı tam ekran açılır.
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/brew',
+        builder: (c, s) => GuidedBrewScreen(
+          launch: BrewLaunch(
+            recipe: s.extra is Recipe ? s.extra! as Recipe : null,
+            recipeId: s.uri.queryParameters['recipe'],
+            quick: s.uri.queryParameters['quick'] == '1',
+            longBrewId: s.uri.queryParameters['long'],
+          ),
+        ),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/taste/:id',
+        builder: (c, s) => TasteScreen(brewId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/help',
+        builder: (c, s) => const HelpScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/import/:payload',
+        builder: (c, s) =>
+            ImportRecipeScreen(payload: s.pathParameters['payload']!),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/feedback',
+        builder: (c, s) => const FeedbackScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: '/legal',
+        builder: (c, s) => const LegalScreen(),
+      ),
+    ],
+  );
+}
+
+class _SettingsListenable extends ChangeNotifier {
+  _SettingsListenable(Ref ref) {
+    ref.listen(settingsProvider, (_, _) => notifyListeners());
+  }
+}
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final r = buildRouter(ref);
+  ref.onDispose(r.dispose);
+  return r;
+});
+
+class _Shell extends StatelessWidget {
+  const _Shell({required this.shell});
+
+  final StatefulNavigationShell shell;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: shell,
+    bottomNavigationBar: NavigationBar(
+      selectedIndex: shell.currentIndex,
+      onDestinationSelected: (i) =>
+          shell.goBranch(i, initialLocation: i == shell.currentIndex),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.coffee_outlined),
+          selectedIcon: Icon(Icons.coffee),
+          label: 'Demle',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.menu_book_outlined),
+          selectedIcon: Icon(Icons.menu_book),
+          label: 'Günlük',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.devices_other_outlined),
+          selectedIcon: Icon(Icons.devices_other),
+          label: 'Ekipman',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.settings_outlined),
+          selectedIcon: Icon(Icons.settings),
+          label: 'Ayarlar',
+        ),
+      ],
+    ),
+  );
+}
+
+class EvKahvesiApp extends ConsumerStatefulWidget {
+  const EvKahvesiApp({super.key});
+
+  @override
+  ConsumerState<EvKahvesiApp> createState() => _EvKahvesiAppState();
+}
+
+class _EvKahvesiAppState extends ConsumerState<EvKahvesiApp>
+    with WidgetsBindingObserver {
+  StreamSubscription<Uri>? _links;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_listenLinks());
+    unawaited(_reminders());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(_links?.cancel());
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) unawaited(_reminders());
+  }
+
+  /// Paylaşılan tarif bağlantılarını içe aktarma ekranına yönlendirir
+  /// (KHV-ARC-003, KHV-FR-SOC-003).
+  Future<void> _listenLinks() async {
+    final links = ref.read(incomingLinksProvider);
+    void open(Uri uri) {
+      final payload = sharePayloadFromUri(uri);
+      if (payload != null) ref.read(routerProvider).push('/import/$payload');
+    }
+
+    try {
+      final first = await links.initial();
+      if (first != null) open(first);
+      _links = links.stream.listen(open);
+    } on Object {
+      // Bağlantı desteği olmayan ortamlarda yok sayılır.
+    }
+  }
+
+  /// Stok, tazelik ve bakım hatırlatıcıları (KHV-FR-ENG-001..008).
+  Future<void> _reminders() async {
+    try {
+      final settings = await ref.read(settingsProvider.future);
+      if (!settings.onboardingDone || !settings.notificationPermissionAsked) {
+        return;
+      }
+      final db = ref.read(databaseProvider);
+      final now = ref.read(clockProvider)();
+      final reminders = collectReminders(
+        beans: await db.watchBeans().first,
+        brews: await db.watchBrews().first,
+        tasks: await ref.read(maintenanceProvider.future),
+        settings: settings,
+        now: now,
+      );
+      await scheduleReminders(
+        db: db,
+        notifications: ref.read(notificationsProvider),
+        reminders: reminders,
+        prefs: settings.notifications,
+        now: now,
+      );
+    } on Object {
+      // Hatırlatıcı hatası uygulamayı etkilemez.
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode =
+        ref.watch(settingsProvider).value?.themeMode ?? ThemeMode.system;
+    return MaterialApp.router(
+      title: 'Ev Kahvesi',
+      debugShowCheckedModeBanner: false,
+      theme: buildTheme(Brightness.light),
+      darkTheme: buildTheme(Brightness.dark),
+      themeMode: themeMode,
+      locale: const Locale('tr', 'TR'),
+      supportedLocales: const [Locale('tr', 'TR')],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      routerConfig: ref.watch(routerProvider),
+    );
+  }
+}
