@@ -55,6 +55,13 @@ class SettingsScreen extends ConsumerWidget {
             ),
             onTap: () => context.push('/settings/equipment'),
           ),
+          // Bluetooth terazi eşleştirme (KB-028).
+          ListTile(
+            leading: const Icon(Icons.scale),
+            title: const Text('Terazi'),
+            subtitle: Text(s.pairedScale?.name ?? 'Elle giriş'),
+            onTap: () => context.push('/settings/scale'),
+          ),
           ListTile(
             leading: const Icon(Icons.person_outline),
             title: const Text('Profil seviyesi'),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
@@ -6,6 +7,8 @@ import 'package:kahve_core/kahve_core.dart';
 import 'package:uuid/uuid.dart';
 
 import '../data/database.dart';
+import '../services/ble.dart';
+import 'settings.dart';
 
 /// Yerel veritabanı; `main` içinde gerçek bağlantıyla, testlerde bellek içi
 /// veritabanıyla değiştirilir.
@@ -36,11 +39,36 @@ final monotonicMsProvider = Provider<int Function()>(
       () => _monotonic.elapsedMilliseconds,
 );
 
-/// Rehber modda kullanılacak terazi (KHV-ARC-007). MVP'de elle giriş;
-/// ikinci sürümde eşleştirilmiş Bluetooth terazi aynı arayüzle döner.
+/// Bluetooth tarama ve bağlantı servisi (KB-028); testte sahtesi verilir.
+final bleCentralProvider = Provider<BleCentral>((ref) => UniversalBleCentral());
+
+/// Rehber modda kullanılacak terazi (KHV-ARC-007). Eşleştirilmiş Bluetooth
+/// terazi varsa o (KHV-FR-SCL-002, SCL-003), yoksa elle giriş döner.
 final scaleFactoryProvider = Provider<Scale Function()>(
-  (ref) =>
-      () => ManualScale(clock: ref.read(clockProvider)),
+  (ref) => () {
+    final clock = ref.read(clockProvider);
+    final paired = ref.read(settingsProvider).value?.pairedScale;
+    final protocol = paired == null ? null : scaleProtocolById(paired.protocol);
+    if (paired == null || protocol == null) return ManualScale(clock: clock);
+    final supported = ref
+        .read(contentProvider)
+        .value
+        ?.scales
+        .where((s) => s.id == paired.supportedId)
+        .firstOrNull;
+    final scale = BleScale(
+      // Tanınan model yoksa dinleme modu: teraziye hiçbir şey yazılmaz
+      // (KHV-FR-SCL-010).
+      match: supported == null
+          ? UnknownDevice(paired.name)
+          : KnownScale(supported),
+      protocol: protocol,
+      link: ref.read(bleCentralProvider).link(paired.deviceId),
+      clock: clock,
+    );
+    unawaited(scale.start());
+    return scale;
+  },
 );
 
 /// Kimlik üretici.

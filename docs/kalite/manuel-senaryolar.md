@@ -7,7 +7,7 @@ sütunları). Kaliteci her sürüm adayında bu listeyi kopyalayıp sonuç
 sütununu doldurur ve [yayın kontrol listesine](yayin-kontrol-listesi.md)
 ekler. Otomatik kısmı olan senaryolarda ilgili test dosyası da verilir.
 
-MVP kapsamında 53 senaryo.
+MVP kapsamında 61 senaryo.
 
 Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.
 
@@ -44,6 +44,13 @@ Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.
 | TC-BRW-013 | KHV-FR-BRW-013 | Test | Cihaz | `platform_features_test.dart` |  |
 | TC-NFR-026 | KHV-NFR-026 | Test | Entegrasyon + Cihaz | `misc_test.dart` |  |
 | TC-NFR-030 | KHV-NFR-030 | Test | Cihaz | `database_test.dart`, `platform_features_test.dart`, `veri_stres_test.dart` |  |
+| TC-SCL-002 | KHV-FR-SCL-002 | Test | Birim + Cihaz | `scale_test.dart`, `ble_scale_test.dart`, `scale_test.dart` |  |
+| TC-SCL-003 | KHV-FR-SCL-003 | Test | Birim + Cihaz | `scale_test.dart`, `ble_scale_test.dart`, `scale_test.dart` |  |
+| TC-SCL-004 | KHV-FR-SCL-004 | Test | Entegrasyon + Cihaz | `scale_test.dart`, `ble_scale_test.dart`, `scale_test.dart` |  |
+| TC-SCL-005 | KHV-FR-SCL-005 | Test | Birim + Cihaz | `scale_test.dart`, `ble_scale_test.dart`, `scale_test.dart` |  |
+| TC-SCL-007 | KHV-FR-SCL-007 | Test + İnceleme | Cihaz + Manifest incelemesi | `scale_test.dart` |  |
+| TC-SCL-008 | KHV-FR-SCL-008 | Test | Cihaz | - |  |
+| TC-SCL-010 | KHV-FR-SCL-010 | Test + İnceleme | Birim + Kod incelemesi + Cihaz | `scale_test.dart`, `ble_scale_test.dart`, `scale_test.dart` |  |
 
 ## Kullanılabilirlik oturumu
 
@@ -83,3 +90,4 @@ Sonuç: Geçti / Kaldı (hata no) / Bloke (neden) / Uygulanamaz.
 | TC-NFR-035 | KHV-NFR-035 | İnceleme | Sürüm geçidi | - |  |
 | TC-NFR-037 | KHV-NFR-037 | Test + İnceleme | Widget + Hukuki inceleme | - |  |
 | TC-NFR-043 | KHV-NFR-043 | İnceleme | Sürüm geçidi | - |  |
+| TC-SCL-001 | KHV-FR-SCL-001 | İnceleme | Lisans ve kaynak incelemesi | `scale_test.dart` |  |

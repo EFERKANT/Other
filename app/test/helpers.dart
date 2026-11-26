@@ -6,6 +6,7 @@ import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:drift/native.dart';
 import 'package:ev_kahvesi/app.dart';
 import 'package:ev_kahvesi/data/database.dart';
+import 'package:ev_kahvesi/services/ble.dart';
 import 'package:ev_kahvesi/services/platform.dart';
 import 'package:ev_kahvesi/state/providers.dart';
 import 'package:ev_kahvesi/state/settings.dart';
@@ -112,6 +113,71 @@ class FakeLinks implements IncomingLinks {
   Stream<Uri> get stream => controller.stream;
 }
 
+/// Sahte Bluetooth bağlantısı (KB-028).
+class FakeBleLink implements BleLink {
+  final connectedCtrl = StreamController<bool>.broadcast();
+  final packets = StreamController<List<int>>.broadcast();
+  final writes = <List<int>>[];
+  var connects = 0;
+
+  @override
+  Stream<bool> get connected => connectedCtrl.stream;
+
+  @override
+  Future<void> connect() async => connects++;
+
+  @override
+  Stream<List<int>> notifications(String service, String characteristic) =>
+      packets.stream;
+
+  @override
+  Future<void> write(
+    String service,
+    String characteristic,
+    List<int> v,
+  ) async => writes.add(v);
+
+  @override
+  Future<void> disconnect() async {}
+}
+
+/// Sahte Bluetooth servisi: durum, izin, tarama ve bağlantılar.
+class FakeBleCentral implements BleCentral {
+  BleState current = BleState.unauthorized;
+  bool grant = true;
+  var permissionRequests = 0;
+  final scanCtrl = StreamController<FoundDevice>.broadcast();
+  final links = <String, FakeBleLink>{};
+
+  @override
+  Future<BleState> state() async => current;
+
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    if (grant) current = BleState.ready;
+    return grant;
+  }
+
+  @override
+  Stream<FoundDevice> scan() => scanCtrl.stream;
+
+  @override
+  BleLink link(String deviceId) => links.putIfAbsent(deviceId, FakeBleLink.new);
+}
+
+/// Belgedeki biçimde 20 baytlık BOOKOO ağırlık paketi (KB-028).
+List<int> bookooPacket(double grams) {
+  final hundredths = (grams.abs() * 100).round();
+  final p = [
+    0x03, 0x0B, 0x00, 0x10, 0x00, 0x01, //
+    if (grams < 0) 0x2D else 0x2B,
+    hundredths >> 16 & 0xFF, hundredths >> 8 & 0xFF, hundredths & 0xFF,
+    0x2B, 0x00, 0x00, 0x50, 0x00, 0x96, 0x02, 0x01, 0x00,
+  ];
+  return [...p, p.fold(0, (a, b) => a ^ b)];
+}
+
 class TestEnv {
   final clock = FakeClock();
   late final AppDatabase db = AppDatabase(
@@ -121,6 +187,7 @@ class TestEnv {
   final notifications = FakeNotifications();
   final speaker = FakeSpeaker();
   final sharer = FakeSharer();
+  final ble = FakeBleCentral();
   final filePick = FakeFilePick();
   final links = FakeLinks();
 
@@ -147,6 +214,7 @@ class TestEnv {
       notificationsProvider.overrideWithValue(notifications),
       speakerProvider.overrideWithValue(speaker),
       sharerProvider.overrideWithValue(sharer),
+      bleCentralProvider.overrideWithValue(ble),
       filePickProvider.overrideWithValue(filePick),
       deviceInfoProvider.overrideWithValue(FakeDeviceInfo()),
       incomingLinksProvider.overrideWithValue(links),

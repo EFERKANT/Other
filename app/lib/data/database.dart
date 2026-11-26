@@ -284,7 +284,21 @@ class AppDatabase extends _$AppDatabase {
     'format': backupFormat,
     'schema': schemaVersion,
     'exportedAt': at.toIso8601String(),
-    'kv': [for (final r in await select(kvEntries).get()) r.toJson()],
+    // Eşleştirilmiş terazinin cihaz kimliği yedeğe girmez; başka cihazda
+    // anlamsızdır ve telefonda kalmalıdır (KB-028).
+    'kv': [
+      for (final r in await select(kvEntries).get())
+        if (r.key == 'settings')
+          r
+              .copyWith(
+                value: jsonEncode(
+                  (jsonDecode(r.value) as Map)..remove('pairedScale'),
+                ),
+              )
+              .toJson()
+        else
+          r.toJson(),
+    ],
     'recipes': [for (final r in await select(userRecipes).get()) r.toJson()],
     'favorites': [for (final r in await select(favorites).get()) r.toJson()],
     'beans': [for (final r in await select(beans).get()) r.toJson()],

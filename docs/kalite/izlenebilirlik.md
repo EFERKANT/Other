@@ -22,7 +22,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | Ayarlar | 3 | 3 | 3 | 0 | 0 |
 | Yardım | 3 | 3 | 3 | 0 | 0 |
 | Yönetim paneli | 6 | 1 | 1 | 0 | 1 |
-| Terazi | 10 | 0 | 7 | 8 | 0 |
+| Terazi | 10 | 10 | 9 | 8 | 0 |
 | Profil | 5 | 0 | 4 | 0 | 0 |
 | Etkinlik | 13 | 0 | 13 | 1 | 0 |
 
@@ -232,17 +232,17 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-NFR-043 | MVP | Manuel | Manuel kontrol | Sürüm geçidi (test planı) |
 | KHV-NFR-044 | MVP | Otomatik | İstisna | Analitik servisi seçilmedi. Olay kaydı (KHV-ARC-004) ve rıza ayarı hazır; ölçütler servis seçilince bağlanır. |
 | KHV-HMI-042 | MVP | Otomatik | Testte | `app/test/helpers.dart`, `app/test/ui/crud_test.dart` |
-| KHV-ARC-007 | MVP | Otomatik | Testte | `app/test/helpers.dart`, `app/test/ui/scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-001 | S2 | Manuel | Testte | `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-002 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-003 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-004 | S2 | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-005 | S2 | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
-| KHV-FR-SCL-006 | S2 | Otomatik | Sonraki sürüm |  |
-| KHV-FR-SCL-007 | S2 | Yarı otomatik | Manuel kontrol | Cihaz + Manifest incelemesi (test planı) |
-| KHV-FR-SCL-008 | S2 | Manuel | Manuel kontrol | Cihaz (test planı) |
-| KHV-FR-SCL-009 | S2 | Otomatik | Testte | `app/test/ui/scale_test.dart` |
-| KHV-FR-SCL-010 | S2 | Yarı otomatik | Testte | `packages/kahve_core/test/scale_test.dart` |
+| KHV-ARC-007 | MVP | Otomatik | Testte | `app/test/helpers.dart`, `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-001 | MVP | Manuel | Testte | `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-002 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-003 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-004 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-005 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
+| KHV-FR-SCL-006 | MVP | Otomatik | Testte | `app/test/ui/scale_test.dart` |
+| KHV-FR-SCL-007 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart` |
+| KHV-FR-SCL-008 | MVP | Manuel | Manuel kontrol | Cihaz (test planı) |
+| KHV-FR-SCL-009 | MVP | Otomatik | Testte | `app/test/ui/scale_test.dart` |
+| KHV-FR-SCL-010 | MVP | Yarı otomatik | Testte | `app/test/ui/scale_test.dart`, `packages/kahve_core/test/ble_scale_test.dart`, `packages/kahve_core/test/scale_test.dart` |
 | KHV-NFR-045 | S2 | Manuel | Manuel kontrol | Hukuki inceleme + Sürüm geçidi (test planı) |
 | KHV-FR-PRO-001 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |
 | KHV-FR-PRO-002 | S2 | Otomatik | Testte | `packages/kahve_core/test/community_test.dart` |

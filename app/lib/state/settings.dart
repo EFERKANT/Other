@@ -7,6 +7,58 @@ import 'providers.dart';
 /// Uyarı kanalları (KHV-FR-BRW-003, KHV-HMI-005).
 enum AlertChannel { visual, sound, vibration }
 
+/// Eşleştirilmiş Bluetooth terazi (KHV-FR-SCL-002, SCL-003, KB-028).
+/// Yalnız cihazda saklanır; destek talebinde de cihaz kimliği gönderilmez.
+@immutable
+class PairedScale {
+  const PairedScale({
+    required this.deviceId,
+    required this.name,
+    required this.protocol,
+    this.supportedId,
+  });
+
+  factory PairedScale.fromJson(Map<String, Object?> j) => PairedScale(
+    deviceId: j['deviceId']! as String,
+    name: j['name']! as String,
+    protocol: j['protocol']! as String,
+    supportedId: j['supportedId'] as String?,
+  );
+
+  /// Platformun cihaz kimliği.
+  final String deviceId;
+
+  /// Cihazın yayınladığı ad.
+  final String name;
+
+  /// Ağırlığı çözen açık protokol.
+  final String protocol;
+
+  /// Desteklenen model kimliği; `null` ise dinleme modunda eşleşti.
+  final String? supportedId;
+
+  /// Dinleme modunda (tanınmayan cihaz) eşleştiyse `true`.
+  bool get listenOnly => supportedId == null;
+
+  Map<String, Object?> toJson() => {
+    'deviceId': deviceId,
+    'name': name,
+    'protocol': protocol,
+    if (supportedId != null) 'supportedId': supportedId,
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is PairedScale &&
+      other.deviceId == deviceId &&
+      other.name == name &&
+      other.protocol == protocol &&
+      other.supportedId == supportedId;
+
+  @override
+  int get hashCode => Object.hash(deviceId, name, protocol, supportedId);
+}
+
 /// Kullanıcı ayarları (KHV-FR-SET-001).
 @immutable
 class AppSettings {
@@ -31,6 +83,7 @@ class AppSettings {
     this.voiceGuidance = true,
     this.ttsHelpShown = false,
     this.notificationPermissionAsked = false,
+    this.pairedScale,
   });
 
   factory AppSettings.fromJson(Map<String, Object?> j) => AppSettings(
@@ -69,6 +122,11 @@ class AppSettings {
     ttsHelpShown: j['ttsHelpShown'] as bool? ?? false,
     notificationPermissionAsked:
         j['notificationPermissionAsked'] as bool? ?? false,
+    pairedScale: j['pairedScale'] == null
+        ? null
+        : PairedScale.fromJson(
+            (j['pairedScale']! as Map).cast<String, Object?>(),
+          ),
   );
 
   final bool onboardingDone;
@@ -104,6 +162,9 @@ class AppSettings {
   /// Bildirim ön izin ekranı gösterildi mi (KHV-HMI-037).
   final bool notificationPermissionAsked;
 
+  /// Eşleştirilmiş terazi; yoksa ağırlık elle girilir.
+  final PairedScale? pairedScale;
+
   /// Etkin profil.
   UserProfile get profile =>
       profileOverride ?? assignProfile(equipment, skipped: onboardingSkipped);
@@ -131,6 +192,8 @@ class AppSettings {
     bool? voiceGuidance,
     bool? ttsHelpShown,
     bool? notificationPermissionAsked,
+    PairedScale? pairedScale,
+    bool clearPairedScale = false,
   }) => AppSettings(
     onboardingDone: onboardingDone ?? this.onboardingDone,
     onboardingSkipped: onboardingSkipped ?? this.onboardingSkipped,
@@ -151,6 +214,7 @@ class AppSettings {
     ttsHelpShown: ttsHelpShown ?? this.ttsHelpShown,
     notificationPermissionAsked:
         notificationPermissionAsked ?? this.notificationPermissionAsked,
+    pairedScale: clearPairedScale ? null : pairedScale ?? this.pairedScale,
   );
 
   Map<String, Object?> toJson() => {
@@ -170,6 +234,7 @@ class AppSettings {
     'voiceGuidance': voiceGuidance,
     'ttsHelpShown': ttsHelpShown,
     'notificationPermissionAsked': notificationPermissionAsked,
+    if (pairedScale != null) 'pairedScale': pairedScale!.toJson(),
   };
 }
 

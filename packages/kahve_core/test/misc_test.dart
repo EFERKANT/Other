@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:kahve_core/kahve_core.dart';
@@ -457,10 +458,14 @@ void main() {
       expect(e.toJson(), isNot(contains('catalogModelId')));
     });
     test('içerikte marka ve model kataloğu yok (KB-017)', () {
-      final raw = File('../../app/assets/content/bundle.json')
-          .readAsStringSync();
-      expect(raw, isNot(contains('"brand"')));
-      expect(raw, isNot(contains('"catalog"')));
+      final json = jsonDecode(
+        File('../../app/assets/content/bundle.json').readAsStringSync(),
+      ) as Map<String, Object?>;
+      expect(json.containsKey('catalog'), isFalse);
+      // Marka adı yalnız Bluetooth terazi uyumluluk listesinde geçer; bu bir
+      // öneri değil, teknik tanımadır (KB-017, KB-028).
+      final withoutScales = Map.of(json)..remove('scales');
+      expect(jsonEncode(withoutScales), isNot(contains('"brand"')));
     });
     test('geçersiz paket reddedilir', () {
       expect(

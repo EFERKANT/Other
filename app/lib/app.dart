@@ -21,6 +21,7 @@ import 'ui/home.dart';
 import 'ui/log.dart';
 import 'ui/onboarding.dart';
 import 'ui/recipe_detail.dart';
+import 'ui/scale_screen.dart';
 import 'ui/settings_screen.dart';
 import 'ui/taste.dart';
 import 'ui/theme.dart';
@@ -115,6 +116,10 @@ GoRouter buildRouter(Ref ref) {
                   GoRoute(
                     path: 'maintenance',
                     builder: (c, s) => const MaintenanceScreen(),
+                  ),
+                  GoRoute(
+                    path: 'scale',
+                    builder: (c, s) => const ScaleScreen(),
                   ),
                 ],
               ),

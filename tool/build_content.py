@@ -7,7 +7,7 @@
 """
 import json, os
 
-VERSION = 2
+VERSION = 3
 SCA = "SCA Protocols & Best Practices; genel uygulama"
 GEN = "Genel uygulama"
 
@@ -237,8 +237,22 @@ maintenance = [
 
 flags = {"maintenance":True,"share":True,"backup":True,"tts":True}
 
+# Desteklenen Bluetooth teraziler (KHV-FR-SCL-001, KHV-NFR-045, KB-028).
+# Yalnız resmi SDK, açık yayımlanmış protokol veya üretici izniyle; lisans
+# referansı ve parmak izi zorunlu. Marka adı öneri değil, teknik uyumluluktur
+# (KB-017). Ultra, adı Mini önekini de içerdiği için önce gelir.
+_bookoo_ref = "MIT, github.com/BooKooCode/OpenSource (protocols.md, 2026-11-17)"
+scales = [
+ {"id":"bookoo-themis-ultra","brand":"BOOKOO","model":"Themis Ultra","source":"openProtocol",
+  "licenseRef":_bookoo_ref,"licenseReviewedAt":"2026-11-26","protocol":"bookoo",
+  "fingerprint":{"namePrefixes":["BOOKOO_SC U","OOKOO_SC U"]},"supportsTare":True,"supportsTimer":True},
+ {"id":"bookoo-themis-mini","brand":"BOOKOO","model":"Themis Mini","source":"openProtocol",
+  "licenseRef":_bookoo_ref,"licenseReviewedAt":"2026-11-26","protocol":"bookoo",
+  "fingerprint":{"namePrefixes":["BOOKOO_SC","OOKOO_SC"]},"supportsTare":True,"supportsTimer":True},
+]
+
 bundle = {"version":VERSION,"maintenance":maintenance,"flags":flags,"methods":methods,"recipes":recipes,"rules":rules,
-  "glossary":[{"term":t,"definition":d} for t,d in glossary],"guides":guides}
+  "glossary":[{"term":t,"definition":d} for t,d in glossary],"guides":guides,"scales":scales}
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 out = os.path.join(root,"app","assets","content","bundle.json")
 with open(out,"w",encoding="utf-8") as f:

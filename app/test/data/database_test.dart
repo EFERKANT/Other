@@ -191,6 +191,23 @@ void main() {
     expect(events.every((e) => e.at.year == DateTime.now().year), isTrue);
   });
 
+  test('yedekte eşleştirilmiş terazinin cihaz kimliği yok (KB-028)', () async {
+    await db.writeJson('settings', {
+      'onboardingDone': true,
+      'pairedScale': {
+        'deviceId': 'AA:BB:CC:DD',
+        'name': 'BOOKOO_SC 1A2B',
+        'protocol': 'bookoo',
+      },
+    });
+    final backup = jsonEncode(await db.exportAll(at: DateTime(2026, 11, 26)));
+    expect(backup, isNot(contains('AA:BB:CC:DD')));
+    expect(backup, isNot(contains('pairedScale')));
+    expect(backup, contains('onboardingDone'));
+    // Telefondaki eşleşme bozulmaz.
+    expect((await db.readJson('settings'))!['pairedScale'], isNotNull);
+  });
+
   test('kayıt zamanları enjekte edilen saatten gelir (KB-023, '
       'KHV-FR-BRW-011)', () async {
     final fixed = DateTime(2030, 1, 2, 3, 4);

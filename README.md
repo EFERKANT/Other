@@ -71,7 +71,7 @@ Effective Dart (Bölüm 8.1). CI şunları zorunlu tutar: `dart format`, statik 
 | HMI | Uygulandı | iOS Live Activity (HMI-022) hariç; Android'de kalıcı bildirim ve geri sayım |
 | ARC-007 Terazi arayüzü | Uygulandı (MVP) | Ortak `Scale` arayüzü; MVP gerçekleştirimi elle giriş (`ManualScale`). Tartılan doz ve ölçülen su demleme kaydına yalnız sonuç olarak yazılır (SCL-009, şema v2) |
 | Topluluk: PRO, SOC-011..014, EVT, ADM-006, NFR-046 (S2, Bölüm 16) | Çekirdek kurallar hazır | Profil ve Instagram görünürlüğü, gizli profil, etkinlik ilanı ve adres görünürlüğü (24 saat), adresin 30 günde silinmesi, 18 yaş beyanı, kontenjan ve yedek liste, engelleme, nötr ret bildirimi, anonim etkinlik tadımı, tarif oyları ve "yeni" etiketi, şikayet önceliği, bağlantı/telefon/e-posta tespiti. Sunucu, hesap ve arayüz sunucu altyapısı kararını bekliyor |
-| SCL Bluetooth terazi (S2) | Çekirdek kurallar hazır | SCL-001 destek listesi doğrulaması, SCL-002 parmak izi eşleme, SCL-003 dinleme modu teyidi, SCL-004 ağırlıkla ilerleme, SCL-005 tutarlılık koruması, SCL-010 yazma yasağı. Bluetooth sürücüsü, izin akışı (SCL-007/008) ve destek talebi (SCL-006) için desteklenecek terazinin seçilmesi ve lisansının doğrulanması (NFR-045) bekleniyor |
+| SCL Bluetooth terazi | Uygulandı (karar KB-028, S2'den MVP'ye) | Desteklenen: BOOKOO Themis Mini ve Ultra (üreticinin MIT lisanslı açık protokolü). Tanınmayan terazide dinleme modu: açık protokoller denenir, kullanıcı değeri onaylar, cihaza komut yazılmaz (SCL-003, SCL-010). İzin açıklaması (SCL-007), destek talebinde yalnız yayınlanan ad (SCL-006). Bluetooth: universal_ble (BSD-3). Gerçek cihazla deneme kalitecide (SCL-002/003/004/007/008) |
 
 ### Mac'te kurulum
 
@@ -94,5 +94,5 @@ Betik Xcode, Homebrew, CocoaPods ve Flutter'ı denetler, eksikleri kurar, `pod i
 1. **Tat girişi (DIA-001 / HMI-013):** İki boyutlu alan kullanılır. Alanda gösterilemeyen "hem ekşi hem acı" ve "düz/aromasız" ayrı onay kutularıyla alınır. Ekran okuyucu için alanın yanında seçim düğmeleri vardır.
 2. **Uyarı kanalları (BRW-003 / HMI-005):** Kanallar ayrı ayrı kapatılabilir, ancak açık kanal sayısı ikinin altına inemez.
 3. **Token (NFR-015):** MVP'de hesap olmadığından kimlik doğrulama S2'ye bırakıldı.
-4. **Terazi (Bölüm 15):** Desteklenen terazi listesi (`scales`) boş bırakıldı. SCL-001'e göre bir model ancak resmi SDK, açık yayımlanmış protokol veya üreticinin yazılı izniyle ve lisans referansı kaydedilerek eklenebilir; referansı veya parmak izi olmayan kayıt içerik doğrulamasından geçmez.
+4. **Terazi (Bölüm 15):** Desteklenen terazi listesinde (`scales`) BOOKOO Themis Mini ve Ultra var (KB-028). SCL-001'e göre bir model ancak resmi SDK, açık yayımlanmış protokol veya üreticinin yazılı izniyle ve lisans referansı kaydedilerek eklenebilir; referansı veya parmak izi olmayan kayıt içerik doğrulamasından geçmez.
 5. **Bölüm 6, kural 4:** Aynı yönde iki ardışık düzeltmeden sonra tat ters yöne dönerse uygulama bir önceki ayara dönmeyi önerir.

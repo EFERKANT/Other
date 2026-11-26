@@ -202,16 +202,16 @@ KHV-NFR-043,TC-NFR-043,MVP,İnceleme,Sürüm geçidi,Manuel
 KHV-NFR-044,TC-NFR-044,MVP,Test,Entegrasyon,Otomatik
 KHV-HMI-042,TC-HMI-042,MVP,Test,Widget,Otomatik
 KHV-ARC-007,TC-ARC-007,MVP,Test + İnceleme,Birim + Mimari inceleme,Otomatik
-KHV-FR-SCL-001,TC-SCL-001,S2,İnceleme,Lisans ve kaynak incelemesi,Manuel
-KHV-FR-SCL-002,TC-SCL-002,S2,Test,Birim + Cihaz,Yarı otomatik
-KHV-FR-SCL-003,TC-SCL-003,S2,Test,Birim + Cihaz,Yarı otomatik
-KHV-FR-SCL-004,TC-SCL-004,S2,Test,Entegrasyon + Cihaz,Yarı otomatik
-KHV-FR-SCL-005,TC-SCL-005,S2,Test,Birim + Cihaz,Yarı otomatik
-KHV-FR-SCL-006,TC-SCL-006,S2,Test,Entegrasyon,Otomatik
-KHV-FR-SCL-007,TC-SCL-007,S2,Test + İnceleme,Cihaz + Manifest incelemesi,Yarı otomatik
-KHV-FR-SCL-008,TC-SCL-008,S2,Test,Cihaz,Manuel
-KHV-FR-SCL-009,TC-SCL-009,S2,Test,Entegrasyon,Otomatik
-KHV-FR-SCL-010,TC-SCL-010,S2,Test + İnceleme,Birim + Kod incelemesi + Cihaz,Yarı otomatik
+KHV-FR-SCL-001,TC-SCL-001,MVP,İnceleme,Lisans ve kaynak incelemesi,Manuel
+KHV-FR-SCL-002,TC-SCL-002,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-003,TC-SCL-003,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-004,TC-SCL-004,MVP,Test,Entegrasyon + Cihaz,Yarı otomatik
+KHV-FR-SCL-005,TC-SCL-005,MVP,Test,Birim + Cihaz,Yarı otomatik
+KHV-FR-SCL-006,TC-SCL-006,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-SCL-007,TC-SCL-007,MVP,Test + İnceleme,Cihaz + Manifest incelemesi,Yarı otomatik
+KHV-FR-SCL-008,TC-SCL-008,MVP,Test,Cihaz,Manuel
+KHV-FR-SCL-009,TC-SCL-009,MVP,Test,Entegrasyon,Otomatik
+KHV-FR-SCL-010,TC-SCL-010,MVP,Test + İnceleme,Birim + Kod incelemesi + Cihaz,Yarı otomatik
 KHV-NFR-045,TC-NFR-045,S2,İnceleme,Hukuki inceleme + Sürüm geçidi,Manuel
 KHV-FR-PRO-001,TC-PRO-001,S2,Test,Widget + Entegrasyon,Otomatik
 KHV-FR-PRO-002,TC-PRO-002,S2,Test,Birim + Entegrasyon,Otomatik

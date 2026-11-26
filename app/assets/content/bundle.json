@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 3,
  "maintenance": [
   {
    "id": "descale-espresso",
@@ -1230,6 +1230,42 @@
    "methods": [
     "turkish"
    ]
+  }
+ ],
+ "scales": [
+  {
+   "id": "bookoo-themis-ultra",
+   "brand": "BOOKOO",
+   "model": "Themis Ultra",
+   "source": "openProtocol",
+   "licenseRef": "MIT, github.com/BooKooCode/OpenSource (protocols.md, 2026-11-17)",
+   "licenseReviewedAt": "2026-11-26",
+   "protocol": "bookoo",
+   "fingerprint": {
+    "namePrefixes": [
+     "BOOKOO_SC U",
+     "OOKOO_SC U"
+    ]
+   },
+   "supportsTare": true,
+   "supportsTimer": true
+  },
+  {
+   "id": "bookoo-themis-mini",
+   "brand": "BOOKOO",
+   "model": "Themis Mini",
+   "source": "openProtocol",
+   "licenseRef": "MIT, github.com/BooKooCode/OpenSource (protocols.md, 2026-11-17)",
+   "licenseReviewedAt": "2026-11-26",
+   "protocol": "bookoo",
+   "fingerprint": {
+    "namePrefixes": [
+     "BOOKOO_SC",
+     "OOKOO_SC"
+    ]
+   },
+   "supportsTare": true,
+   "supportsTimer": true
   }
  ]
 }

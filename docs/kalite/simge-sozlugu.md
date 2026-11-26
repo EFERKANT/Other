@@ -82,7 +82,7 @@ Simge, bir durumu gösteriyorsa bu durum kalıcı kaynaktan (veritabanı/ayar) o
 | `receipt_long_outlined` | Tarif bulunamadı | Tarif | Gösterge | KHV-HMI-042 |
 | `record_voice_over_outlined`, `volume_up_outlined`, `vibration` | Ayarlar | Sesli rehber, ses, titreşim uyarı kanalları | Anahtar | KHV-HMI-005 |
 | `replay` | Demleme kaydı | Aynı parametrelerle demle | Düğme | KHV-FR-LOG-003 |
-| `scale` | Demleme, paylaşım kartı | Terazi değeri / kahve ağırlığı | Düğme, gösterge | KHV-FR-SCL-0xx |
+| `scale` | Demleme, paylaşım kartı, Ayarlar > Terazi, terazi eşleştirme | Terazi: terazi değeri, kahve ağırlığı, eşleştirilmiş terazi | Düğme, gösterge | KHV-FR-SCL-002, SCL-004 |
 | `schedule` | Rehberli demleme | Arka planda takip et (uzun demleme) | Düğme | KHV-FR-BRW-0xx |
 | `search`, `search_off` | Ana ekran, yardım | Ara / sonuç yok | Alan, gösterge | KHV-FR-HLP-001 |
 | `skip_next` | Rehberli demleme | Adımı atla | Düğme | KHV-HMI-009 |

@@ -17,6 +17,8 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Bluetooth terazinizden ağırlığı okumak için kullanılır. Konumunuz kullanılmaz.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Ev Kahvesi</string>
 	<key>CFBundleExecutable</key>
