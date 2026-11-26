@@ -16,6 +16,8 @@ import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
 import 'log.dart' show BeanEditScreen;
+import 'scene.dart';
+import 'theme.dart';
 
 /// Rehber modun nasıl açıldığı.
 @immutable
@@ -669,6 +671,15 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // Yöntemin yakın plan çizimi ("Sohbet" görünümü, KB-026).
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: ColoredBox(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              child: MethodArt(method: r.method),
+            ),
+          ),
+          const SizedBox(height: 16),
           Text(
             '${formatNumber(r.coffeeG)} g kahve · '
             '${formatNumber(r.waterG)} g ${r.method.isEspresso ? 'çıktı' : 'su'}',
@@ -797,6 +808,28 @@ class _GuidedBrewScreenState extends ConsumerState<GuidedBrewScreen>
         final info = Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Yöntemin canlı çizimi; adım bilgisinden küçük, yatayda yok
+            // (KB-027, KHV-HMI-001, HMI-019).
+            if (!landscape)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  // Su ve buhar açık renkli; iki temada da koyu "pencere".
+                  child: ColoredBox(
+                    color: Theme.of(context).extension<SceneColors>()!.sea,
+                    child: BrewAnimation(
+                      method: _recipe!.method,
+                      motion: step.targetWaterG != null
+                          ? BrewMotion.pour
+                          : step.trigger == StepTrigger.confirm
+                          ? BrewMotion.watch
+                          : BrewMotion.wait,
+                      animate: !paused && !reduceMotion,
+                    ),
+                  ),
+                ),
+              ),
             Text(
               'Adım ${v.stepIndex + 1}/${v.stepCount}',
               style: text.titleMedium,

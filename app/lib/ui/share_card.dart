@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../services/platform.dart';
 import 'labels.dart';
+import 'scene.dart';
 
 /// Paylaşım kartı biçimi (KHV-FR-SOC-002).
 enum ShareFormat {
@@ -57,7 +58,7 @@ class ShareCard extends StatelessWidget {
       if (r.temperatureC != null)
         (Icons.thermostat, 'Sıcaklık', '${formatNumber(r.temperatureC!)} °C'),
       if (time != null) (Icons.timer_outlined, 'Süre', formatDuration(time)),
-      (Icons.grain, 'Öğütme', r.grind.label),
+      (Icons.tune, 'Öğütme', r.grind.label),
       if (beanName != null) (Icons.eco_outlined, 'Çekirdek', beanName!),
     ];
     return AspectRatio(
@@ -79,11 +80,7 @@ class ShareCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
-                      methodIcon(r.method),
-                      size: 32,
-                      color: scheme.onPrimaryContainer,
-                    ),
+                    MethodGlyph(r.method, size: 32),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(

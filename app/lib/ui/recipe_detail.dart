@@ -71,7 +71,8 @@ class _RecipeDetailScreenState extends ConsumerState<RecipeDetailScreen> {
           // KHV-FR-RCP-011).
           IconButton(
             tooltip: base.favorite ? 'Favorilerden çıkar' : 'Favorilere ekle',
-            icon: Icon(base.favorite ? Icons.star : Icons.star_border),
+            // Yıldız yalnız puan içindir; favori yer imidir (KB-018).
+            icon: Icon(base.favorite ? Icons.bookmark : Icons.bookmark_border),
             onPressed: () => ref
                 .read(databaseProvider)
                 .setFavorite(base.id, favorite: !base.favorite),

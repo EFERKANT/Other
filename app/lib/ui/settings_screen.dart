@@ -12,6 +12,7 @@ import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
+import 'scene.dart';
 
 const appVersion = '0.1.0';
 
@@ -483,7 +484,7 @@ class EquipmentProfileScreen extends ConsumerWidget {
           const SectionTitle('Demleme araçları'),
           for (final m in BrewMethod.values)
             CheckboxListTile(
-              secondary: Icon(methodIcon(m)),
+              secondary: MethodGlyph(m),
               title: Text(methodName(m)),
               subtitle: eq.brewers.contains(m)
                   ? Text(

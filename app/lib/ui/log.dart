@@ -14,6 +14,7 @@ import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
 import 'share_card.dart';
+import 'scene.dart';
 
 final _date = DateFormat('d MMM y, HH:mm', 'tr_TR');
 final _day = DateFormat('d MMM y', 'tr_TR');
@@ -131,7 +132,7 @@ class _BrewListState extends ConsumerState<_BrewList> {
                   ),
                 for (final b in filtered)
                   ListTile(
-                    leading: Icon(methodIcon(BrewMethod.parse(b.methodId))),
+                    leading: MethodGlyph(BrewMethod.parse(b.methodId)),
                     title: Text(brewRecipe(b).name),
                     subtitle: Text(
                       [

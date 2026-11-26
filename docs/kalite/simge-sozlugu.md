@@ -6,18 +6,22 @@ Yeni simge eklerken veya bir simgeyi yeni bir yerde kullanırken bu tablo günce
 
 Sütunlar: **Dokunma**: "Düğme" dokunulabilir, "Gösterge" yalnız bilgi verir. **Gereksinim**: "Yok" olanlar ürün sahibinin gereksinim dokümanına eklemesi gereken davranışlardır.
 
-## Çift anlamlı simgeler (düzeltilmeli)
+## Çift anlamlı simgeler
 
-| Simge | Anlam 1 | Anlam 2 | Risk | Öneri |
-| --- | --- | --- | --- | --- |
-| `star` / `star_border` | Favori: tarif ekranı üst çubuğu, düğme | Puan 1-5: tat ekranı ve paylaşım kartı | Kullanıcı tarifteki yıldızı puan sanar (KB-016 geri bildirimi) | Favori için `bookmark` / `bookmark_border`; yıldız yalnız puan |
-| `water_drop_outlined` | Ekşi tat notu (`tasteNoteIcon`) | Su miktarı (paylaşım kartı) | Ekşi tadın damlayla gösterilmesi sulu tatla karışır (sulu: `opacity`, o da damla) | Ekşi için ayrı simge (ör. `science_outlined` veya limon görseli); damla yalnız su |
-| `local_fire_department_outlined` | Moka pot yöntemi (`methodIcon`) | Acı tat notu (`tasteNoteIcon`) | Yöntem ile tat aynı simge | Moka pot için yöntem görseli; alev yalnız acı veya sıcaklık |
-| `coffee` / `coffee_outlined` | Espresso yöntemi | "Demle" sekmesi | Sekme yalnız espressoyu çağrıştırır | Sekme için genel bir simge veya espresso için ayrı simge |
-| `grain` | Çekirdek (çekirdek listesi, tarif) | Öğütme (paylaşım kartı) | Paylaşım kartında "Öğütme" satırı çekirdek simgesiyle | Öğütme için ayrı simge (ör. `tune`) |
-| `check` | "Dikkat edin" maddesi (ekipman rehberi) | Seçildi (kurulum) / şüphe yok (tat sonucu) | Üç ayrı anlam | Rehber maddesi için `arrow_right` veya madde imi; `check` yalnız "seçildi" |
-| `coffee_maker_outlined` | French press yöntemi | Ayarlar "Demleme araçları" | Yöntem ile ayar bölümü aynı simge | Ayar bölümü için ayrı simge |
-| `stop` | Bitir (basılı tut): demlemeyi **kaydetmeden** bırakır | - | "Bitir" kaydedip bitirmeyi çağrıştırır; davranış "vazgeç" | Ürün sahibi kararı: etiket "Demlemeyi bırak" mı, yoksa kayıt mı tutulmalı (KB-025) |
+| Simge | Eski çift anlam | Durum |
+| --- | --- | --- |
+| `star` / `star_border` | Favori ve puan | **Çözüldü (KB-026):** favori `bookmark` / `bookmark_border`; yıldız yalnız puan |
+| `water_drop_outlined` | Ekşi tat ve su miktarı | **Çözüldü:** ekşi `science_outlined` (asidite), sulu `waves`; damla yalnız su |
+| `local_fire_department_outlined` | Moka pot ve acı tat | **Çözüldü:** yöntemler artık kendi çizimleriyle (`MethodGlyph`); alev yalnız acı |
+| `coffee` / `coffee_outlined` | Espresso ve "Demle" sekmesi | **Çözüldü:** espresso çizimle; fincan yalnız sekme |
+| `grain` | Çekirdek ve öğütme | **Çözüldü:** öğütme `tune`; tane yalnız çekirdek |
+| `check` | Rehber maddesi, seçildi, şüphe yok | **Kısmen:** rehber maddesi `thumb_up_alt_outlined`; "seçildi" ve "şüphe yok" (ikisi de olumlu onay) kaldı |
+| `coffee_maker_outlined` | French press ve "Demleme araçları" | **Çözüldü:** French press çizimle; simge yalnız ayar bölümü |
+| `stop` | Bitir (basılı tut) demlemeyi **kaydetmeden** bırakır | **Karar bekliyor (KB-025):** etiket "Demlemeyi bırak" mı, yoksa kayıt mı tutulmalı |
+
+## Yöntem çizimleri
+
+Yöntemler Material simgesiyle değil, "Sohbet" sahnesindeki kahve takımının küçük çizimiyle gösterilir (`lib/ui/scene.dart`, `MethodGlyph`): cezve, V60 damlatıcı, Chemex, espresso fincanı, French press, AeroPress, filtre makinesi, moka pot, cold brew kavanozu. Her yöntemin kendi çizimi vardır ve başka anlamda kullanılmaz. Aynı çizim ana ekranın sahnesinde (`CoffeeScene`, seçilen yönteme göre değişir) ve hazırlık ekranında (`MethodArt`) büyük olarak yer alır (KHV-HMI-016, KB-026).
 
 ## Durum gösteren simgeler
 
@@ -25,7 +29,7 @@ Simge, bir durumu gösteriyorsa bu durum kalıcı kaynaktan (veritabanı/ayar) o
 
 | Simge | Yer | Durum kaynağı | Dokununca | Gereksinim | Etkisi testte |
 | --- | --- | --- | --- | --- | --- |
-| `star` ↔ `star_border` | Tarif ekranı üst çubuğu | Veritabanı `favorites` (kayıtlı tarif) | Favoriye ekler/çıkarır; simge ve ipucu değişir | KHV-FR-RCP-011 | Evet (KB-016) |
+| `bookmark` ↔ `bookmark_border` | Tarif ekranı üst çubuğu | Veritabanı `favorites` (kayıtlı tarif) | Favoriye ekler/çıkarır; simge ve ipucu değişir | KHV-FR-RCP-011 | Evet (KB-016) |
 | `star` ↔ `star_border` (5 adet) | Tat ekranı puanı | Ekran durumu `_score` | Puanı seçer; seçilene kadar dolu | Yok (puan ölçeği tanımsız) | Kısmen |
 | `pause` ↔ `play_arrow` | Rehberli demleme | Zamanlayıcı | Duraklatır / devam ettirir; "DURAKLATILDI" bandı | KHV-HMI-009 | Evet |
 | `notification_important_outlined` ↔ `build_outlined` | Bakım kartı | Görev vadesi | Gösterge | KHV-FR-ENG-001 | Hayır |
@@ -39,14 +43,17 @@ Simge, bir durumu gösteriyorsa bu durum kalıcı kaynaktan (veritabanı/ayar) o
 
 | Simge | Yer | Anlam | Dokunma | Gereksinim |
 | --- | --- | --- | --- | --- |
-| `filter_alt_outlined`, `hourglass_bottom`, `coffee_maker_outlined`, `compress`, `coffee_maker`, `local_fire_department_outlined`, `coffee`, `emoji_food_beverage_outlined`, `ac_unit` | Kurulum, ayarlar | Demleme yöntemleri (V60, Chemex, French press, AeroPress, filtre makinesi, moka pot, espresso, Türk kahvesi, cold brew) | Seçim kutusu | KHV-HMI-016 |
-| `water_drop_outlined`, `local_fire_department_outlined`, `opacity`, `fitness_center`, `crop_square`, `check_circle_outline` | Tat notları | Ekşi, acı, sulu, yoğun, düz, dengeli | Gösterge (renk yanında) | KHV-HMI-024 |
+| `coffee_maker_outlined` | Ayarlar | "Demleme araçları" bölümü | Düğme | KHV-FR-ONB-003 |
+| `science_outlined`, `local_fire_department_outlined`, `waves`, `fitness_center`, `crop_square`, `check_circle_outline` | Tat notları | Ekşi, acı, sulu, yoğun, düz, dengeli | Gösterge (renk yanında) | KHV-HMI-024 |
+| `water_drop_outlined` | Paylaşım kartı | Su miktarı | Gösterge | KHV-FR-SOC-001 |
+| `tune` | Paylaşım kartı | Öğütme | Gösterge | KHV-FR-SOC-001 |
 | `coffee` / `coffee_outlined`, `menu_book` / `menu_book_outlined`, `devices_other` / `devices_other_outlined`, `settings` / `settings_outlined` | Alt gezinme (dolu: seçili sekme) | Demle, Günlük, Ekipman, Ayarlar sekmeleri | Düğme | Yok |
 | `add` | Sayı adımlayıcı, çekirdek, bakım, demleme | Artır / yeni ekle | Düğme | Bağlama göre (KHV-HMI-025) |
 | `remove` | Sayı adımlayıcı | Azalt | Düğme | KHV-HMI-025 |
 | `arrow_forward` | Kurulum "Devam" | Sonraki adım | Düğme | KHV-FR-ONB-001 |
+| `thumb_up_alt_outlined` | Ekipman rehberi | "Dikkat edin" maddesi | Gösterge | KHV-FR-EQP-002 |
 | `block` | Ekipman rehberi | "Kaçının" maddesi | Gösterge | KHV-FR-EQP-002 |
-| `check` | Ekipman rehberi, kurulum, tat sonucu | Bkz. çift anlamlılar | Gösterge | Bağlama göre |
+| `check` | Kurulum, tat sonucu | Seçildi / şüphe yok | Gösterge | Bağlama göre |
 | `build_outlined` | Bakım, ayarlar | Bakım | Düğme (ayarlar), gösterge | KHV-FR-ENG-001 |
 | `calculate_outlined` | Ana ekran | Hesaplayıcıyı aç | Düğme | KHV-FR-RCP-002 |
 | `chevron_right` | Tarif satırı | Ayrıntıya git | Gösterge | Yok |

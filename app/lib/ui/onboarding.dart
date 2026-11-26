@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import '../state/providers.dart';
 import '../state/settings.dart';
 import 'labels.dart';
+import 'scene.dart';
 
 /// İlk açılış (UC-01). Yalnız demleme aracı sorulur; öğütücü, terazi ve
 /// kettle ilgili özellik ilk kullanıldığında istenir (KHV-HMI-016).
@@ -148,12 +149,10 @@ class _MethodTile extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  methodIcon(method),
-                  size: 36,
-                  color: selected
-                      ? scheme.onPrimaryContainer
-                      : scheme.onSurfaceVariant,
+                // Yer yetmezse (iki satır ad, büyük yazı) çizim küçülür,
+                // yazı kesilmez (KHV-HMI-028).
+                Flexible(
+                  child: FittedBox(child: MethodGlyph(method, size: 48)),
                 ),
                 const SizedBox(height: 8),
                 Text(

@@ -1,4 +1,5 @@
 import 'package:ev_kahvesi/state/settings.dart';
+import 'package:ev_kahvesi/ui/scene.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
@@ -102,6 +103,28 @@ void main() {
     final s = AppSettings.fromJson((await env.db.readJson('settings'))!);
     expect(s.alerts, {AlertChannel.visual, AlertChannel.vibration});
     expect(s.analyticsConsent, isFalse, reason: 'KHV-NFR-017');
+  });
+
+  testWidgets('ne demliyoruz: yöntem seçimi listeyi süzer, sahnedeki takımı '
+      'değiştirir (KHV-FR-RCP-012, KB-026)', (tester) async {
+    await setUpEnv(tester, settings: v60User);
+    Finder scene(BrewMethod m) =>
+        find.byWidgetPredicate((w) => w is CoffeeScene && w.method == m);
+    // Seçim yokken sahne ilk aracı (V60) gösterir, tüm tarifler listelenir.
+    expect(scene(BrewMethod.v60), findsOneWidget);
+    expect(find.text('V60 başlangıç'), findsOneWidget);
+    await tester.ensureVisible(find.widgetWithText(ChoiceChip, 'Espresso'));
+    await settle(tester);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Espresso'));
+    await settle(tester);
+    expect(scene(BrewMethod.espresso), findsOneWidget);
+    expect(find.text('V60 başlangıç'), findsNothing);
+    expect(find.textContaining('Espresso'), findsWidgets);
+    await tester.ensureVisible(find.widgetWithText(ChoiceChip, 'Tümü'));
+    await settle(tester);
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Tümü'));
+    await settle(tester);
+    expect(find.text('V60 başlangıç'), findsOneWidget);
   });
 
   testWidgets('ekipman rehberi: öneri ve kriterler, marka yok '

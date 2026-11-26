@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ev_kahvesi/state/brew_state.dart';
 import 'package:ev_kahvesi/state/providers.dart';
+import 'package:ev_kahvesi/ui/scene.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kahve_core/kahve_core.dart';
 import 'package:material_ui/material_ui.dart';
@@ -185,10 +186,40 @@ void main() {
     expect(await env.db.readJson(activeBrewKey), isNotNull);
   });
 
+  testWidgets('demlemede yöntemin canlı çizimi: dökmede oynar, duraklatınca '
+      've hareketi azaltta durur (KB-027, KHV-HMI-024)', (tester) async {
+    BrewAnimation anim() =>
+        tester.widget<BrewAnimation>(find.byType(BrewAnimation));
+    await setUpEnv(tester, settings: v60User);
+    await openV60(tester);
+    await tester.tap(find.text('Demlemeyi başlat'));
+    await settle(tester, 4);
+    // V60 ilk adım: 30 g'a kadar dök.
+    expect(anim().method, BrewMethod.v60);
+    expect(anim().motion, BrewMotion.pour);
+    expect(anim().animate, isTrue);
+    await tester.tap(find.byTooltip('Duraklat'));
+    await settle(tester, 2);
+    expect(anim().animate, isFalse);
+    await tester.tap(find.byTooltip('Devam et'));
+    await settle(tester, 2);
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+    await settle(tester, 2);
+    expect(anim().animate, isFalse);
+  });
+
   testWidgets('kayıtlı çekirdek yoksa hazırlıktan eklenir ve seçilebilir '
       '(KB-014, KHV-FR-LOG-004)', (tester) async {
     await setUpEnv(tester, settings: v60User);
     await openV60(tester);
+    // Hazırlık ekranının üstünde yöntem çizimi var; çekirdek alanına kaydır.
+    await tester.scrollUntilVisible(
+      find.text('Kayıtlı çekirdek yok.'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Kayıtlı çekirdek yok.'), findsOneWidget);
     await tester.ensureVisible(find.text('Çekirdek ekle'));
     await tester.tap(find.text('Çekirdek ekle'));

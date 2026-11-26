@@ -109,7 +109,7 @@ void main() {
     await tester.tap(find.byTooltip('Favorilere ekle'));
     await settle(tester);
     expect(find.byTooltip('Favorilerden çıkar'), findsOneWidget);
-    expect(find.byIcon(Icons.star), findsOneWidget);
+    expect(find.byIcon(Icons.bookmark), findsOneWidget);
     await tester.tap(find.byTooltip('Favorilerden çıkar'));
     await settle(tester);
     expect(find.byTooltip('Favorilere ekle'), findsOneWidget);
@@ -311,6 +311,7 @@ void main() {
     await settle(tester);
     await tester.tap(find.text('Rehberle demle'));
     await settle(tester);
+    await scrollTo(tester, find.byType(DropdownButtonFormField<String?>));
     await tester.tap(find.byType(DropdownButtonFormField<String?>));
     await settle(tester);
     expect(find.text('Kenya'), findsNothing);

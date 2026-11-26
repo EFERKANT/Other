@@ -101,7 +101,8 @@ class _GuideCard extends StatelessWidget {
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Dikkat edin', style: t.labelLarge),
-          for (final l in guide.lookFor) _bullet(Icons.check, l),
+          for (final l in guide.lookFor)
+            _bullet(Icons.thumb_up_alt_outlined, l),
           const SizedBox(height: 8),
           Text('Kaçının', style: t.labelLarge),
           for (final a in guide.avoid) _bullet(Icons.block, a),

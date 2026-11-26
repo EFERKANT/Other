@@ -83,6 +83,24 @@ flutter:
   uses-material-design: true
   assets:
     - assets/content/
+    - assets/fonts/Figtree-OFL.txt
+    - assets/fonts/Caveat-OFL.txt
+  # Gömülü yazı tipleri (SIL Open Font License 1.1, KB-026).
+  fonts:
+    - family: Figtree
+      fonts:
+        - asset: assets/fonts/Figtree-400.ttf
+          weight: 400
+        - asset: assets/fonts/Figtree-500.ttf
+          weight: 500
+        - asset: assets/fonts/Figtree-600.ttf
+          weight: 600
+        - asset: assets/fonts/Figtree-800.ttf
+          weight: 800
+    - family: Caveat
+      fonts:
+        - asset: assets/fonts/Caveat-700.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:

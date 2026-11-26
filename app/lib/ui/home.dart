@@ -9,6 +9,8 @@ import '../state/providers.dart';
 import '../state/settings.dart';
 import 'common.dart';
 import 'labels.dart';
+import 'scene.dart';
+import 'theme.dart';
 
 class _Flag {
   bool done = false;
@@ -17,8 +19,9 @@ class _Flag {
 /// Uygulama oturumu başına bir kez aktif demleme kontrolü.
 final _resumeCheckProvider = Provider((ref) => _Flag());
 
-/// Ana ekran: favoriler, ekipmana uygun tarifler, arama, aktif uzun
-/// demlemeler (UC-01, UC-07, KHV-FR-RCP-011, RCP-012, BRW-010).
+/// Ana ekran: gün batımı sahnesi, yöntem seçimi, favoriler, ekipmana uygun
+/// tarifler, arama, aktif uzun demlemeler (UC-01, UC-07, KHV-FR-RCP-011,
+/// RCP-012, BRW-010; "Sohbet" görünümü KB-026).
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -28,6 +31,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   String _query = '';
+
+  /// "Ne demliyoruz?" seçimi; `null` tüm yöntemler.
+  BrewMethod? _method;
 
   @override
   void initState() {
@@ -51,8 +57,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final owned = settings.equipment.brewers;
     final filtered = [
       for (final r in recipes)
-        if (matchesQuery(_query, [r.name, methodName(r.method)])) r,
+        if ((_method == null || r.method == _method) &&
+            matchesQuery(_query, [r.name, methodName(r.method)]))
+          r,
     ];
+    // Sahnedeki takım: seçilen yöntem, yoksa ilk favori, yoksa ilk araç.
+    final sceneMethod =
+        _method ??
+        recipes.where((r) => r.favorite).firstOrNull?.method ??
+        (owned.isEmpty ? BrewMethod.v60 : owned.first);
+    final methods = [
+      ...BrewMethod.values.where(owned.contains),
+      ...BrewMethod.values.where((m) => !owned.contains(m)),
+    ];
+    final sceneText = Theme.of(context).extension<SceneColors>()!.text;
     final favorites = filtered.where((r) => r.favorite).toList();
     final mine = filtered
         .where((r) => !r.favorite && owned.contains(r.method))
@@ -81,6 +99,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         builder: (context, content) => ListView(
           padding: const EdgeInsets.only(bottom: 24),
           children: [
+            Stack(
+              children: [
+                CoffeeScene(method: sceneMethod),
+                Positioned(
+                  left: 20,
+                  top: 18,
+                  right: 20,
+                  child: ExcludeSemantics(
+                    child: Text(
+                      'Bir fincan kahvenin\nkırk yıl hatırı vardır.',
+                      style: handwriting(context, size: 28, color: sceneText),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+              child: Text(
+                'Ne demliyoruz?',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  for (final m in [null, ...methods])
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ChoiceChip(
+                        label: Text(m == null ? 'Tümü' : methodName(m)),
+                        selected: _method == m,
+                        onSelected: (_) => setState(() => _method = m),
+                      ),
+                    ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: SearchBar(
@@ -131,7 +189,7 @@ class _RecipeTile extends ConsumerWidget {
         : '${formatNumber(r.coffeeG)} g · ${formatNumber(r.waterG)} g su · '
               '${formatRatio(r.ratio)}';
     return ListTile(
-      leading: Icon(methodIcon(r.method)),
+      leading: MethodGlyph(r.method),
       title: Text(r.name),
       subtitle: Text(
         '${methodName(r.method)}${r.owner == RecipeOwner.user ? ' · Benim' : ''}'
@@ -164,7 +222,7 @@ class _LongBrewCard extends ConsumerWidget {
     return Card(
       margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: ListTile(
-        leading: Icon(methodIcon(brew.recipe.method)),
+        leading: MethodGlyph(brew.recipe.method),
         title: Text(brew.recipe.name),
         subtitle: Text(done ? 'Hazır' : 'Bitiş: ${fmt.format(brew.endsAt)}'),
         trailing: FilledButton.tonal(

@@ -14,19 +14,6 @@ String methodName(BrewMethod m) => switch (m) {
   BrewMethod.coldBrew => 'Cold brew',
 };
 
-/// Kurulumdaki ekipman görselleri yerine kullanılan simgeler (KHV-HMI-016).
-IconData methodIcon(BrewMethod m) => switch (m) {
-  BrewMethod.v60 => Icons.filter_alt_outlined,
-  BrewMethod.chemex => Icons.hourglass_bottom,
-  BrewMethod.frenchPress => Icons.coffee_maker_outlined,
-  BrewMethod.aeropress => Icons.compress,
-  BrewMethod.dripMachine => Icons.coffee_maker,
-  BrewMethod.mokaPot => Icons.local_fire_department_outlined,
-  BrewMethod.espresso => Icons.coffee,
-  BrewMethod.turkish => Icons.emoji_food_beverage_outlined,
-  BrewMethod.coldBrew => Icons.ac_unit,
-};
-
 String grinderName(GrinderType g) => switch (g) {
   GrinderType.none => 'Yok, hazır öğütülmüş',
   GrinderType.blade => 'Bıçaklı (blade)',
@@ -69,9 +56,9 @@ String tasteNoteExample(TasteNote n) => switch (n) {
 
 /// Renk yanında simge (KHV-HMI-024).
 IconData tasteNoteIcon(TasteNote n) => switch (n) {
-  TasteNote.sour => Icons.water_drop_outlined,
+  TasteNote.sour => Icons.science_outlined,
   TasteNote.bitter => Icons.local_fire_department_outlined,
-  TasteNote.watery => Icons.opacity,
+  TasteNote.watery => Icons.waves,
   TasteNote.strong => Icons.fitness_center,
   TasteNote.flat => Icons.crop_square,
   TasteNote.balanced => Icons.check_circle_outline,

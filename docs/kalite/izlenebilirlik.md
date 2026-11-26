@@ -138,7 +138,7 @@ anlık görüntüsü) ve test dosyalarındaki gereksinim kimlikleri.
 | KHV-HMI-021 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
 | KHV-HMI-022 | MVP | Manuel | Testte | `app/test/ui/platform_features_test.dart`, `packages/kahve_core/test/brew_timer_test.dart` |
 | KHV-HMI-023 | MVP | Otomatik | Testte | `app/test/ui/brew_flow_test.dart` |
-| KHV-HMI-024 | MVP | Otomatik | Testte | `app/test/ui/accessibility_test.dart` |
+| KHV-HMI-024 | MVP | Otomatik | Testte | `app/test/ui/accessibility_test.dart`, `app/test/ui/brew_flow_test.dart` |
 | KHV-HMI-025 | MVP | Otomatik | Testte | `app/test/ui/accessibility_test.dart` |
 | KHV-HMI-026 | MVP | Yarı otomatik | Manuel kontrol | Golden + Cihaz (test planı) |
 | KHV-HMI-027 | MVP | Yarı otomatik | Manuel kontrol | Widget + Cihaz (test planı) |
